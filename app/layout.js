@@ -1,4 +1,5 @@
-import { Box } from '@mui/material'
+import { Box
+ } from '@mui/material'
 import './globals.css'
 // import '../dist/output.css'
 
