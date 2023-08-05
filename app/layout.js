@@ -1,4 +1,7 @@
+import { Box } from '@mui/material'
 import './globals.css'
+// import '../dist/output.css'
+
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -11,7 +14,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body id='root' className={inter.className}>
+        {/* <StyledEngineProvider injectFirst> */}
+          <Box className="bg-white pb-8">
+            <Box className="p-4 pb-0 bg-third-bg sm:max-w-7xl mx-auto ">
+              {children}
+            </Box>
+          </Box>
+        {/* </StyledEngineProvider> */}
+      </body>
     </html>
   )
 }
