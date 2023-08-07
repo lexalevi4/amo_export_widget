@@ -21,44 +21,64 @@ import Commercial from "./form/object-forms/Commercial";
 import Description from "./form/object-forms/Description";
 import MyDivider from "./form/MyDivider";
 import Images from "./form/Images";
+import { useObjectFormState } from "@/app/objects/create/store";
+import { shallow } from 'zustand/shallow'
 
-function ObjectForm({ form_data, flat_for_update = null }) {
+function ObjectFormZustand({ form_data, flat_for_update = null }) {
 
-    const flat = JSON.parse(JSON.stringify(flat_for_update));
 
-    const [deal_type, setDeal_type] = useState(flat.deal_type);
-    const [category, setCategory] = useState(flat.category);
-    const [flat_object, setObject] = useState(flat.flat_object);
+    const loading = useObjectFormState((state) => state.loading);
+    const setFlat = useObjectFormState((state) => state.setFlat);
+    const updateFlat = useObjectFormState((state) => state.updateFlat);
+    const formData = useObjectFormState((state) => state.formData);
+    const setFormData = useObjectFormState((state) => state.setFormData);
+    const flat = useObjectFormState((state) => Object.keys(state.flat))
+    const category = useObjectFormState((state) => state.flat.category)
+    const object = useObjectFormState((state) => state.flat.object);
 
-    const [address, setAddress] = useState(flat.address);
-    const [lat, setLat] = useState(flat.lat);
-    const [lng, setLng] = useState(flat.address);
-    const [dadata_response, setDadata_respone] = useState(flat.dadata_response);
-    const [kpName, setKpName] = useState(flat.kpName)
-    const [buildingName, setBuildingName] = useState(flat.buildingName)
+    useEffect(() => {
+        setFlat(flat_for_update);
+        setFormData(form_data);
+    }, [])
 
+    useEffect(() => {
+        console.log(formData)
+    }, [formData])
 
 
 
     const [object_menu_items, setObject_menu_items] = useState([]);
 
+    // useEffect(() => {
+    //     console.log(object_menu_items)
 
-
-    useEffect(() => {
-        setObject_menu_items(
-            form_data.object.filter((item) => {
-                return Number(item.category) === Number(category)
-            })
-
-        )
-        setObject('')
-
-    }, [category])
+    // }, [flat])
 
     // useEffect(() => {
-    //     console.log(rooms)
+    //     console.log(object_menu_items)
 
-    // }, [rooms])
+    // }, [object_menu_items])
+
+    useEffect(() => {
+        updateFlat('object', '');
+        if (Number(category) > 0) {
+
+            setObject_menu_items(
+                form_data.object.filter((item) => {
+                    return Number(item.category) === Number(category)
+                })
+            )
+
+        }
+    }, [category])
+
+    if (loading) {
+        return <></>
+    }
+    // const { id, text, done } = todo
+    // const setter = (name, value) => {
+    //     updateFlat(name, value);
+    // }
 
     const getter = (name) => {
         return useObjectFormState((state) => state.flat[name])
@@ -68,37 +88,37 @@ function ObjectForm({ form_data, flat_for_update = null }) {
         <Stack spacing={2}>
 
             <MyRadioGroup
-                flat={flat}
-                items={form_data.deal_type}
+
+                items={formData.deal_type}
                 title={"Тип сделки"}
                 name={"deal_type"}
-                value={deal_type}
-                setter={setDeal_type}
-             
+                value={flat.deal_type}
+                // getter={getter}
+                setter={updateFlat}
 
             />
 
-            {deal_type !== null && (
+            {flat.deal_type !== null && (
                 <>
                     <MyRadioGroup
-                        flat={flat}
-                        items={form_data.category}
+
+                        items={formData.category}
                         title={"Категория"}
                         name={"category"}
-                        // value={category}
-                        getter={getter}
-                        setter={setCategory}
+                        value={flat.category}
+                        // getter={getter}
+                        setter={updateFlat}
 
                     />
-                    {category !== null && (
+                    {flat.category !== null && (
+
                         <MySelect
-                            flat={flat}
                             items={object_menu_items}
-                            // value={flat_object}
-                            getter={getter}
+                            // value={object}
                             title={"Объект"}
                             name={'object'}
-                            setter={setObject}
+                            setter={updateFlat}
+                            getter={getter}
                         />
                     )}
                 </>
@@ -116,15 +136,8 @@ function ObjectForm({ form_data, flat_for_update = null }) {
 
 
                 <Address
-
-                    address={address}
-                    setAddress={setAddress}
-                    lat={lat}
-                    setLat={setLat}
-                    lng={lng}
-                    setLng={setLng}
-                    dadata_response={dadata_response}
-                    setDadata_respone={setDadata_respone}
+                    setter={updateFlat}
+                    flat={flat}
                 />
             </YMaps >
 
@@ -132,13 +145,10 @@ function ObjectForm({ form_data, flat_for_update = null }) {
             {Number(category) === 2 && (
                 <MyTextInput
                     name={'kpName'}
-                    value={kpName}
-                    setter={setKpName}
-                    flat={flat}
+                    value={flat.kpName}
+                    setter={updateFlat}
                     title={'Название коттеджного посёлка'}
                     width={500}
-
-
                 />
             )}
 
@@ -146,60 +156,62 @@ function ObjectForm({ form_data, flat_for_update = null }) {
             {Number(category) === 3 && (
                 <MyTextInput
                     name={'buildingName'}
-                    value={buildingName}
-                    setter={setBuildingName}
-                    flat={flat}
+                    value={flat.buildingName}
+                    setter={updateFlat}
                     title={'Название здания'}
                     width={500}
-
-
                 />
             )}
 
 
             {Number(category) === 1 && (
                 <FlatSale
-                    flat_object={flat_object}
                     flat={flat}
-                    form_data={form_data}
-                    deal_type={deal_type}
                     getter={getter}
+                    setter={updateFlat}
+                    form_data={formData}
+                    object={object}
+                // deal_type={deal_type}
+
                 />
             )}
 
             {Number(category) === 2 && (
                 <Suburban
-                    flat_object={flat_object}
+                    flat_object={object}
                     flat={flat}
-                    form_data={form_data}
-                    deal_type={deal_type}
+                    form_data={formData}
+                    getter={getter}
+                    setter={updateFlat}
                 />
             )}
 
             {Number(category) === 3 && (
                 <Commercial
-                    flat_object={flat_object}
+                    flat_object={object}
                     flat={flat}
-                    form_data={form_data}
-                    deal_type={deal_type}
+                    form_data={formData}
+                    getter={getter}
+                    setter={updateFlat}
+                    // deal_type={deal_type}
                 />
             )}
 
-            <Price
+            {/* <Price
                 flat={flat}
                 deal_type={deal_type}
                 form_data={form_data}
-            />
+            /> */}
 
 
             <MyDivider
                 title={"Описание"}
 
             />
-
+{/* 
             <Description
                 flat={flat}
-            />
+            /> */}
 
 
             <MyDivider
@@ -207,9 +219,9 @@ function ObjectForm({ form_data, flat_for_update = null }) {
 
             />
 
-            <Images
+            {/* <Images
                 flat={flat}
-            />
+            /> */}
 
 
 
@@ -218,4 +230,4 @@ function ObjectForm({ form_data, flat_for_update = null }) {
     </>);
 }
 
-export default ObjectForm;
+export default ObjectFormZustand;

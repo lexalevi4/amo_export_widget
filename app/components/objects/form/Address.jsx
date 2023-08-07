@@ -7,21 +7,29 @@ import { dadata_key } from "@/app/params/params";
 import MyTextInput from "./MyTextInput";
 import { Stack, Typography } from "@mui/material";
 import '../../../../dist/style.css'
+import { useObjectFormState } from "@/app/objects/create/store";
 
 
-function Address({ address, setAddress, lat, setLat, lng, setLng, dadata_response, setDadata_respone }) {
+function Address({
+    setter
+}) {
+
     const ymaps = useYMaps();
     const [placemark, setPlacemark] = useState(null);
     const [map, setMap] = useState(null);
 
+    const lat = useObjectFormState((state) => state.flat.lat);
+    const lng = useObjectFormState((state) => state.flat.lng);
+    const address = useObjectFormState((state) => state.flat.address);
+    const dadata_response = useObjectFormState((state) => state.flat.dadata_response);
 
     const mapRef = useRef(null);
 
 
     const dragEnd = (e) => {
         let coords = e.originalEvent.target.geometry.getCoordinates()
-        setLat(coords[0]);
-        setLng(coords[1]);
+        setter('lat', coords[0])
+        setter('lng', coords[1])
 
     }
 
@@ -47,12 +55,11 @@ function Address({ address, setAddress, lat, setLat, lng, setLng, dadata_respons
         })
         newMap.events.add('click', async function (e) {
             let coords = e.get('coords');
-            setLat(coords[0])
-            setLng(coords[1])
+            setter('lat', coords[0])
+            setter('lng', coords[1])
             let dadata = await geocode(coords[0], coords[1]);
-            // console.log(dadata);
-            setAddress(dadata.value);
-            setDadata_respone(dadata);
+            setter('address', dadata.value)
+            setter('dadata_response', dadata)
             let addr_field = document.querySelector('.react-dadata__input');
             addr_field.value = dadata.value;
 
@@ -73,28 +80,20 @@ function Address({ address, setAddress, lat, setLat, lng, setLng, dadata_respons
     }, [ymaps])
 
     const onAddrChange = (suggestion) => {
-        setDadata_respone(suggestion);
-        setAddress(suggestion.value)
-        // console.log(suggestion);
+        setter('address', suggestion.value)
+        setter('dadata_response', suggestion)
     }
     useEffect(() => {
-        // console.log(dadata_response);
         if (dadata_response?.value) {
-            setAddress(dadata_response?.value)
-            // setDadata(dadata_response);
-            setLat(dadata_response?.data?.geo_lat)
-            setLng(dadata_response?.data?.geo_lon)
+            setter('address', dadata_response?.value)
+            setter('lat', dadata_response?.data?.geo_lat)
+            setter('lng', dadata_response?.data?.geo_lon)
+
         }
 
     }, [dadata_response])
 
     useEffect(() => {
-        // if (lat > 0 && lng > 0) {
-
-        // map.
-        // }
-
-
 
         if (lat > 0 && lng > 0) {
             if (placemark === null) {
@@ -104,33 +103,29 @@ function Address({ address, setAddress, lat, setLat, lng, setLng, dadata_respons
                         draggable: true
                     })
                 setPlacemark(new_placemark);
-
                 map.geoObjects.add(new_placemark);
                 new_placemark.events.add(['dragend'], dragEnd)
                 map.setCenter([lat, lng])
                 map.setZoom(17)
-
-
-
             } else {
                 placemark.geometry.setCoordinates([lat, lng]);
                 map.setCenter([lat, lng])
                 map.setZoom(17)
             }
-            
+
         }
 
 
     }, [lat, lng])
 
 
-
     return (<>
-
         <Typography
-        variant="h6"
-        color='GrayText'
-        >Адрес</Typography>
+            variant="h6"
+            color='GrayText'
+        >
+            Адрес
+        </Typography>
 
         <Stack direction={'row'} spacing={2}>
             <div
@@ -143,11 +138,7 @@ function Address({ address, setAddress, lat, setLat, lng, setLng, dadata_respons
                     style={{
                         height: 56
                     }}
-
-
-
                     defaultQuery={address}
-                    // value={address}
                     onChange={onAddrChange}
                     delay={300}
                     minChars={3}
@@ -156,24 +147,18 @@ function Address({ address, setAddress, lat, setLat, lng, setLng, dadata_respons
             <MyTextInput
                 type='number'
                 value={lat}
-                setter={setLat}
+                setter={setter}
                 title='Широта'
                 name={'lat'}
-
             />
             <MyTextInput
                 type='number'
                 value={lng}
-                setter={setLng}
+                setter={setter}
                 title='Долгота'
                 name={'lng'}
-
             />
         </Stack>
-
-
-
-
 
         <div style={
             {

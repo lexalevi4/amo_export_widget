@@ -1,12 +1,20 @@
 'use client'
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 
-function MyRadioGroup({ name, title, items, value, setter, flat }) {
+function MyRadioGroup({ name, title, items, value, setter }) {
 
+    // const updateFlat = 
+    // const handleChange = (e)=>{
+
+    // }
+    // const handleChange = (event) => {
+    //     setter(event.target.value);
+    //     // flat['name'] = event.target.value;
+    // };
     const handleChange = (event) => {
-        setter(event.target.value);
-        flat['name'] = event.target.value;
-    };
+        setter(name, event.target.value)
+
+    }
 
     return (
 

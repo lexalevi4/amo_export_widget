@@ -1,60 +1,25 @@
 
-import { useState } from "react";
-import MyButtonsGroup from "../MyButtonsGroup";
-import { Box, FormLabel, Stack } from "@mui/material";
+import {  Stack } from "@mui/material";
 import MyTextInput from "../MyTextInput";
 import MySwitch from "../MySwitch";
 import MySelect from "../MySelect";
 import MyDivider from "../MyDivider";
+import FurnitureTechnics from "./FurnitureTechnics";
 
 function Suburban({
     flat,
     form_data,
-    deal_type,
+    setter,
+    getter,
+    // deal_type,
     flat_object
 
 }) {
 
 
-
-    const [bedroomsCount, setBedroomsCount] = useState(flat.bedroomsCount)
-    const [totalArea, setTotalArea] = useState(flat.totalArea)
-    const [landArea, setLandArea] = useState(flat.landArea)
-    const [floorsCount, setFloorsCount] = useState(flat.floorsCount)
-    const [buildYear, setBuildYear] = useState(flat.buildYear)
-    const [material, setMaterial] = useState(flat.material)
-    const [repair, setRepair] = useState(flat.repair)
-    const [hasFridge, setHasFridge] = useState(flat.hasFridge);
-    const [hasFurniture, setHasFurniture] = useState(flat.hasFurniture);
-    const [hasKitchenFurniture, setHasKitchenFurniture] = useState(flat.hasKitchenFurniture);
-    const [hasTv, setHasTv] = useState(flat.hasTv);
-    const [hasConditioner, setHasConditioner] = useState(flat.hasConditioner);
-    const [hasDishwasher, setHasDishwasher] = useState(flat.hasDishwasher);
-    const [hasWasher, setHasWasher] = useState(flat.hasWasher);
-    const [landType, setLandType] = useState(flat.landType);
-    const [landCategory, setLandCategory] = useState(flat.landCategory);
-    const [shareAmount, setShareAmount] = useState(flat.shareAmount);
-    const [cadNumber, setCadNumber] = useState(flat.cadNumber);
-    const [buildingCadNumber, setBuildingCadNumber] = useState(flat.buildingCadNumber);
-    const [isLandWithContract, setIsLandWithContract] = useState(flat.isLandWithContract);
-    const [condition, setCondition] = useState(flat.condition);
-    const [wcLocationType, setWcLocationType] = useState(flat.wcLocationType);
-    const [wcsCount, setWcsCount] = useState(flat.wcsCount);
-    const [hasTerrace, setHasTerrace] = useState(flat.hasTerrace);
-    const [hasCellar, setHasCellar] = useState(flat.hasCellar);
-    const [heatingType, setHeatingType] = useState(flat.heatingType);
-    const [hasSecurity, setHasSecurity] = useState(flat.hasSecurity);
-    const [hasBathhouse, setHasBathhouse] = useState(flat.hasBathhouse);
-    const [hasGarage, setHasGarage] = useState(flat.hasGarage);
-    const [hasPool, setHasPool] = useState(flat.hasPool);
-    const [hasElectricity, setHasElectricity] = useState(flat.hasElectricity);
-    const [hasGas, setHasGas] = useState(flat.hasGas);
-    const [gasType, setGasType] = useState(flat.gasType);
-    const [hasWater, setHasWater] = useState(flat.hasWater);
-    const [waterType, setWaterType] = useState(flat.waterType);
-    const [hasDrainage, setHasDrainage] = useState(flat.hasDrainage);
-    const [drainageType, setDrainageType] = useState(flat.drainageType);
-
+    const hasWater = getter('hasWater');
+    const hasGas = getter('hasGas');
+    const hasDrainage = getter('hasDrainage');
 
 
 
@@ -81,10 +46,8 @@ function Suburban({
         return true;
 
     })
-
     const drainage_types = form_data.communication_drainage_type.filter((item) => {
         return item.suburban === 1
-        // return true;
 
     })
 
@@ -97,49 +60,46 @@ function Suburban({
         />
         <Stack spacing={2} direction={"row"}>
             <MyTextInput
-                flat={flat}
                 type='number'
                 name={'landArea'}
-                setter={setLandArea}
-                value={landArea}
+                setter={setter}
+                value={flat.landArea}
                 title={'Площадь участка (сот.)'}
             />
 
             <MyTextInput
-                flat={flat}
+
                 width={300}
                 // type='number'
                 name={'cadNumber'}
-                setter={setCadNumber}
-                value={cadNumber}
+                setter={setter}
+                value={flat.cadNumber}
                 title={'Кадастровый номер участка'}
             />
         </Stack>
         <Stack spacing={2} direction={"row"}>
             <MySelect
                 title={'Разрешенное использование'}
-                flat={flat}
+
                 name={'landType'}
                 items={landTypes}
-                value={landType}
-                setter={setLandType}
+                getter={getter}
+                setter={setter}
             />
-
             <MySelect
                 title={'Категория земель'}
-                flat={flat}
                 name={'landCategory'}
                 items={form_data.land_category}
-                value={landCategory}
-                setter={setLandCategory}
+                getter={getter}
+                setter={setter}
             />
         </Stack>
         <Stack spacing={2} direction={"row"}>
             <MySwitch
-                flat={flat}
+
                 name={'isLandWithContract'}
-                value={isLandWithContract}
-                setter={setIsLandWithContract}
+                getter={getter}
+                setter={setter}
                 title={"Участок с подрядом"}
             />
         </Stack >
@@ -155,12 +115,12 @@ function Suburban({
                 <Stack spacing={2} direction={"row"}>
 
                     <MyTextInput
-                        flat={flat}
+
                         width={300}
                         // type='number'
                         name={'buildingCadNumber'}
-                        setter={setBuildingCadNumber}
-                        value={buildingCadNumber}
+                        setter={setter}
+                        value={flat.buildingCadNumber}
                         title={'Кадастровый номер дома'}
                     />
                 </Stack>
@@ -170,27 +130,25 @@ function Suburban({
                     direction="row" spacing={2}
                 >
                     <MyTextInput
-                        flat={flat}
                         type='number'
                         name={'totalArea'}
-                        setter={setTotalArea}
-                        value={totalArea}
+                        setter={setter}
+                        value={flat.totalArea}
                         title={'Площадь дома'}
                     />
                     <MyTextInput
-                        flat={flat}
                         type='number'
                         name={'rooms'}
-                        setter={setBedroomsCount}
-                        value={bedroomsCount}
+                        setter={setter}
+                        value={flat.bedroomsCount}
                         title={'Количество спален'}
                     />
                     <MyTextInput
-                        flat={flat}
+
                         type='number'
                         name={'floorsCount'}
-                        setter={setFloorsCount}
-                        value={floorsCount}
+                        setter={setter}
+                        value={flat.floorsCount}
                         title={'Этажность'}
                     />
                 </Stack>
@@ -198,11 +156,11 @@ function Suburban({
                 {
                     (Number(flat_object) === 6) && (
                         <MyTextInput
-                            flat={flat}
+                            // flat={flat}
                             type='number'
                             name={'shareAmount'}
-                            setter={setShareAmount}
-                            value={shareAmount}
+                            setter={setter}
+                            value={flat.shareAmount}
                             title={'Размер доли'}
                         />
                     )
@@ -213,21 +171,19 @@ function Suburban({
                 >
 
                     <MySelect
-                        flat={flat}
                         items={conditions}
                         name={'condition'}
-                        setter={setCondition}
                         title={"Состояние"}
-                        value={condition}
+                        getter={getter}
+                        setter={setter}
                     />
 
                     <MySelect
-                        flat={flat}
                         items={form_data.repair}
                         name={'repair'}
-                        setter={setRepair}
+                        getter={getter}
+                        setter={setter}
                         title={"Ремонт"}
-                        value={repair}
                     />
 
                 </Stack>
@@ -236,21 +192,19 @@ function Suburban({
                     direction="row" spacing={2}
                 >
                     <MyTextInput
-                        flat={flat}
                         type='number'
                         name={'buildYear'}
-                        setter={setBuildYear}
-                        value={buildYear}
+                        setter={setter}
+                        value={flat.buildYear}
                         title={'Год постройки'}
                     />
 
                     <MySelect
-                        flat={flat}
                         items={materials}
                         name={'material'}
-                        setter={setMaterial}
+                        setter={setter}
                         title={"Материал"}
-                        value={material}
+                        getter={getter}
                     />
                 </Stack>
 
@@ -258,30 +212,28 @@ function Suburban({
                     direction="row" spacing={2}
                 >
                     <MySelect
-                        flat={flat}
                         items={form_data.wc_location_type}
                         name={'wcLocationType'}
-                        setter={setWcLocationType}
-                        value={wcLocationType}
+                        setter={setter}
+                        getter={getter}
                         title={'Расположение санузла'}
                     />
 
                     <MyTextInput
-                        flat={flat}
+
                         type='number'
                         name={'wcsCount'}
-                        setter={setWcsCount}
-                        value={wcsCount}
+                        setter={setter}
+                        value={flat.wcsCount}
                         title={'Количество санузлов'}
                     />
 
                 </Stack>
                 <MySelect
-                    flat={flat}
                     items={heating_types}
                     name={'heatingType'}
-                    setter={setHeatingType}
-                    value={heatingType}
+                    setter={setter}
+                    getter={getter}
                     title={'Отопление'}
                 />
 
@@ -290,33 +242,33 @@ function Suburban({
                     direction="row" spacing={2}
                 >
                     <MySwitch
-                        flat={flat}
+
                         name={'hasGarage'}
-                        value={hasGarage}
-                        setter={setHasGarage}
+                        getter={getter}
+                        setter={setter}
                         title={"Гараж"}
                     />
 
                     <MySwitch
-                        flat={flat}
+
                         name={'hasBathhouse'}
-                        value={hasBathhouse}
-                        setter={setHasBathhouse}
+                        getter={getter}
+                        setter={setter}
                         title={"Баня"}
                     />
                     <MySwitch
-                        flat={flat}
+
                         name={'hasPool'}
-                        value={hasPool}
-                        setter={setHasPool}
+                        getter={getter}
+                        setter={setter}
                         title={"Бассейн"}
                     />
 
                     <MySwitch
-                        flat={flat}
+
                         name={'hasSecurity'}
-                        value={hasSecurity}
-                        setter={setHasSecurity}
+                        getter={getter}
+                        setter={setter}
                         title={"Охрана"}
                     />
 
@@ -326,18 +278,17 @@ function Suburban({
                     direction="row" spacing={2}
                 >
                     <MySwitch
-                        flat={flat}
                         name={'hasTerrace'}
-                        value={hasTerrace}
-                        setter={setHasTerrace}
+                        getter={getter}
+                        setter={setter}
                         title={"Терраса"}
                     />
 
                     <MySwitch
-                        flat={flat}
+
                         name={'hasCellar'}
-                        value={hasCellar}
-                        setter={setHasCellar}
+                        getter={getter}
+                        setter={setter}
                         title={"Погреб"}
                     />
 
@@ -353,10 +304,10 @@ function Suburban({
 
         <Stack direction={'row'} spacing={2}>
             <MySwitch
-                flat={flat}
+
                 name={'hasElectricity'}
-                value={hasElectricity}
-                setter={setHasElectricity}
+                getter={getter}
+                setter={setter}
                 title={"Электричество"}
             />
 
@@ -365,10 +316,10 @@ function Suburban({
 
         <Stack direction={'row'} spacing={2}>
             <MySwitch
-                flat={flat}
+
                 name={'hasWater'}
-                value={hasWater}
-                setter={setHasWater}
+                getter={getter}
+                setter={setter}
                 title={"Вода"}
             />
             {hasWater && (
@@ -377,8 +328,8 @@ function Suburban({
                     items={water_types}
                     flat={flat}
                     name={'waterType'}
-                    value={waterType}
-                    setter={setWaterType}
+                    getter={getter}
+                    setter={setter}
                 />
             )}
 
@@ -386,10 +337,10 @@ function Suburban({
 
         <Stack direction={'row'} spacing={2}>
             <MySwitch
-                flat={flat}
+
                 name={'hasGas'}
-                value={hasGas}
-                setter={setHasGas}
+                getter={getter}
+                setter={setter}
                 title={"Газ"}
             />
             {hasGas && (
@@ -398,8 +349,8 @@ function Suburban({
                     items={gas_types}
                     flat={flat}
                     name={'gasType'}
-                    value={gasType}
-                    setter={setGasType}
+                    getter={getter}
+                    setter={setter}
                 />
             )}
 
@@ -409,91 +360,29 @@ function Suburban({
 
         <Stack direction={'row'} spacing={2}>
             <MySwitch
-                flat={flat}
+
                 name={'hasDrainage'}
-                value={hasDrainage}
-                setter={setHasDrainage}
+                getter={getter}
+                setter={setter}
                 title={"Канализация"}
             />
             {hasDrainage && (
                 <MySelect
                     title={"Тип"}
                     items={drainage_types}
-                    flat={flat}
-                    name={'gasType'}
-                    value={drainageType}
-                    setter={setDrainageType}
+
+                    name={'drainageType'}
+                    getter={getter}
+                    setter={setter}
                 />
             )}
 
         </Stack>
 
-        <MyDivider
-            title={"Мебель/техника"}
+        <FurnitureTechnics
+            setter={setter}
+            getter={getter}
         />
-
-
-        <Stack
-            direction="row" spacing={2}
-        >
-
-            <MySwitch
-                flat={flat}
-                name={'hasFurniture'}
-                value={hasFurniture}
-                setter={setHasFurniture}
-                title={"Мебель в комнатах"}
-            />
-            <MySwitch
-                flat={flat}
-                name={'hasKitchenFurniture'}
-                value={hasKitchenFurniture}
-                setter={setHasKitchenFurniture}
-                title={"Мебель на кухне"}
-            />
-
-        </Stack>
-        <Stack
-            direction="row" spacing={2}
-        >
-
-            <MySwitch
-                flat={flat}
-                name={'hasFridge'}
-                value={hasFridge}
-                setter={setHasFridge}
-                title={"Холодильник"}
-            />
-            <MySwitch
-                flat={flat}
-                name={'hasWasher'}
-                value={hasWasher}
-                setter={setHasWasher}
-                title={"Стиралка"}
-            />
-            <MySwitch
-                flat={flat}
-                name={'hasTv'}
-                value={hasTv}
-                setter={setHasTv}
-                title={"Телевизор"}
-            />
-            <MySwitch
-                flat={flat}
-                name={'hasConditioner'}
-                value={hasConditioner}
-                setter={setHasConditioner}
-                title={"Кондиционер"}
-            />
-            <MySwitch
-                flat={flat}
-                name={'hasDishwasher'}
-                value={hasDishwasher}
-                setter={setHasDishwasher}
-                title={"Посудомойка"}
-            />
-
-        </Stack>
 
 
 

@@ -15,7 +15,7 @@ export const new_object = () => {
     return {
         deal_type: null,
         category: null,
-        flat_object: '',
+        object: '',
         address: '',
         lat: '',
         lng: '',
@@ -106,18 +106,28 @@ export const new_object = () => {
         windowsSunny: false,
         placementType: '',
         condition: '',
-        description: '',
+        description: "<p>asdfasdf</p>\
+        <p>asdf</p>\
+        <p>asdf</p>\
+        <p></p>",
         inputType: '',
         contractType: '',
         inputType: '',
-        description: '',
+
         businessShoppingCenter_id: '',
         cadNumber: '',
         buildingCadNumber: '',
-        images: [],
+        images: [
+            { filename: 'https://tb-widget-images.storage.yandexcloud.net/full/1adbb4fe-ef21-4389-b055-9da7068f8787.jpg', order: 0 },
+            { filename: 'https://tb-widget-images.storage.yandexcloud.net/full/b64656b1-e722-4da5-bfcc-a4249ede1f95.jpg', order: 1 },
+            { filename: 'https://tb-widget-images.storage.yandexcloud.net/full/5cf7309a-1f8b-4c26-ab53-28d5fb0ef407.jpg', order: 2 },
+            
+            
+    ],
+        // images: ['1adbb4fe-ef21-4389-b055-9da7068f8787.jpg'],
         video: '',
         isNewBuilding: '',
-        deadlineMonth: '',
+        deadlineQuarter: '',
         deadlineYear: '',
         mortgageAllowed: false,
         currency: 1,

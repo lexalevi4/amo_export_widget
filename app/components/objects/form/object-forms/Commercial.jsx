@@ -1,5 +1,5 @@
 
-import { use, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import MyButtonsGroup from "../MyButtonsGroup";
 import { Box, FormControlLabel, FormLabel, Grid, Stack, Switch, TextField, Typography } from "@mui/material";
 import MyTextInput from "../MyTextInput";
@@ -9,85 +9,37 @@ import MyDivider from "../MyDivider";
 // import compare from '../../../../heplers/heplers.js'
 import { sortByName, chunkArray } from "@/app/heplers/heplers";
 import MultipleSwitch from "../MultipleSwitch";
+import { useObjectFormState } from "@/app/objects/create/store";
 
 function Commercial({
     flat,
     form_data,
-    deal_type,
-    flat_object
+    flat_object,
+    setter,
+    getter
 
 }) {
 
 
+    const parkingIsFree = getter('parkingIsFree');
+    const isOccupied = getter('isOccupied');
+    const speciality = getter('speciality');
+    const infrastructure = getter('infrastructure');
+    const liftTypes = getter('liftTypes');
+    const liftsCount = getter('liftsCount');
 
-    const [totalArea, setTotalArea] = useState(flat.totalArea)
-    const [floor, setFloor] = useState(flat.floor)
-    const [floorsCount, setFloorsCount] = useState(flat.floorsCount)
-    const [buildYear, setBuildYear] = useState(flat.buildYear)
-    const [material, setMaterial] = useState(flat.material)
-    const [repair, setRepair] = useState(flat.repair)
-    const [isNewBuilding, setIsNewBuilding] = useState(flat.isNewBuilding);
-    const [deadlineMonth, setDeadlineMonth] = useState(flat.deadlineMonth)
-    const [deadlineYear, setDeadlineYear] = useState(flat.deadlineYear)
-    const [isComplete, setIsComplete] = useState(flat.isComplete)
-    const [isApartments, setIsApartments] = useState(flat.isApartments);
-    const [hasFridge, setHasFridge] = useState(flat.hasFridge);
-    const [hasFurniture, setHasFurniture] = useState(flat.hasFurniture);
-    const [mortgageAllowed, setMortgageAllowed] = useState(flat.mortgageAllowed);
-    const [price, setPrice] = useState(flat.price);
-    const [currency, setCurrency] = useState(flat.currency);
-    const [deposit, setDeposit] = useState(flat.deposit);
-    const [fee, setFee] = useState(flat.fee);
-    const [parking, setParking] = useState(flat.parking);
-    const [saleType, setSaleType] = useState(flat.saleType);
-    const [roomsForSale, setRoomsForSale] = useState(flat.roomsForSale);
-    const [shareAmount, setShareAmount] = useState(flat.shareAmount);
-    const [cadNumber, setCadNumber] = useState(flat.cadNumber);
-    const [buildingType, setBuildingType] = useState(flat.buildingType);
-    const [buildingClass, setBuildingClass] = useState(flat.buildingClass);
-    const [buildingTotalArea, setBuildingTotalArea] = useState(flat.buildingTotalArea);
-    const [parkingPlacesCount, setParkingPlacesCount] = useState(flat.parkingPlacesCount);
-    const [parkingPlacesPrice, setParkingPlacesPrice] = useState(flat.parkingPlacesPrice);
-    const [parkingIsFree, setParkingIsFree] = useState(flat.parkingIsFree);
-    const [ceilingHeight, setCeilingHeight] = useState(flat.ceilingHeight);
-    const [accessType, setAccessType] = useState(flat.accessType);
-    const [houseLineType, setHouseLineType] = useState(flat.houseLineType);
-    const [heatingType, setHeatingType] = useState(flat.heatingType);
-    const [ventilationType, setVentilationType] = useState(flat.ventilationType);
-    const [conditioningType, setConditioningType] = useState(flat.conditioningType);
-    const [extinguishingSystemTypes, setExtinguishingSystemTypes] = useState(flat.extinguishingSystemTypes);
-    const [liftTypes, setLiftTypes] = useState(flat.liftTypes);
-    const [liftsCount, setLiftsCount] = useState(flat.liftsCount);
-    const [buildingStatusType, setBuildingStatusType] = useState(flat.buildingStatusType);
-    const [infrastructure, setInfrastructure] = useState(flat.infrastructure)
-    const [taxNumber, setTaxNumber] = useState(flat.taxNumber);
-    const [isLegalAddressProvided, setIsLegalAddressProvided] = useState(flat.isLegalAddressProvided);
-    const [isOccupied, setIsOccupied] = useState(flat.isOccupied);
-    const [freeMonth, setFreeMonth] = useState(flat.freeMonth);
-    const [freeYear, setFreeYear] = useState(flat.freeYear);
-    const [layout, setLayout] = useState(flat.layout);
-    const [waterPipesCount, setWaterPipesCount] = useState(flat.waterPipesCount)
-    const [power, setPower] = useState(flat.power);
-    const [condition, setCondition] = useState(flat.condition)
-    const [speciality, setSpeciality] = useState(flat.speciality)
+
+    const updateMultyField = useObjectFormState((state) => state.updateMultyField)
+
+    const multiHandler = (name, e) => {
+        updateMultyField(name, Number(e.target.value))
+    }
 
     useEffect(() => {
         console.log(speciality)
+
     }, [speciality])
 
-
-
-    const specialitiesHandler = (e) => {
-        // let value = Number(e.target.value)
-        console.log(e);
-
-        if (speciality.includes(Number(e.target.value))) {
-            setSpeciality(speciality.filter(item => item !== Number(e.target.value)));
-        } else {
-            setSpeciality(speciality => [...speciality, Number(e.target.value)])
-        }
-
-    }
 
     useEffect(() => {
 
@@ -111,14 +63,10 @@ function Commercial({
             }
         }
 
-        setLiftsCount(new_array);
-        flat.liftsCount = new_array;
+        setter('liftsCount', new_array)
     }, [liftTypes])
 
-    // useEffect(() => {
-    // console.log(liftsCount)
-    // }, [liftsCount])
-
+ 
     const updateLiftsCount = (id, count) => {
 
         let new_array = [];
@@ -135,19 +83,14 @@ function Commercial({
                 )
             }
         }
-        setLiftsCount(new_array);
-        flat.liftsCount = new_array;
-
-
-
+        setter('liftsCount', new_array)
     }
 
     const materials = form_data.material.filter((item) => {
         return item.commercial === 1
     })
 
-    // objs.sort(compare);
-
+   
     const heating_types = form_data.heating_type.filter((item) => {
         return item.commercial === 1
     })
@@ -168,36 +111,31 @@ function Commercial({
         }
 
     })
-    var max_specialities = 0;
-    // max_specialities
-    // const max_specialities = 5
-    if (flat_object === 19) {
-        max_specialities = 5
-        // console.log(5);
-    } else if (flat_object === 20) {
-        max_specialities = 1
-        // console.log(1);
-    } else {
-        max_specialities = 0
-        // console.log(0);
-    }
-    // console.log(max_specialities)
+
 
     const getLiftName = (item) => {
         let currentLift = form_data.lift_type.filter((lift) => {
-            // console.log(lift);
-            // console.log(item);
             return Number(lift.id) === Number(item);
-
         })
         return currentLift[0].name;
 
     }
 
     const chunkedInfrastructure = chunkArray(form_data.infrastructure.sort(sortByName), Math.ceil(form_data.infrastructure.length / 4))
-    // console.log(chunkedInfrastructure)
     const chunkedSpecialities = chunkArray(specialities.sort(sortByName), Math.ceil(specialities.length / 4));
-    // console.log(chunkedSpecialities);
+
+    if (flat_object === 19) {
+        var max_specialities = 5;
+    } else if (flat_object === 20) {
+        var max_specialities = 1;
+    } else {
+        var max_specialities = 0;
+    }
+
+   
+
+
+
 
     return (<>
 
@@ -206,10 +144,10 @@ function Commercial({
             title={'Объект'}
         />
         <MyTextInput
-            flat={flat}
+
             name={'cadNumber'}
-            value={cadNumber}
-            setter={setCadNumber}
+            value={flat.cadNumber}
+            setter={setter}
             title={"Кадастровый номер"}
 
         />
@@ -220,18 +158,18 @@ function Commercial({
         >
             <MyTextInput
                 type="number"
-                flat={flat}
+
                 name={'taxNumber'}
-                value={taxNumber}
-                setter={setTaxNumber}
+                value={flat.taxNumber}
+                setter={setter}
                 title={"Номер налоговой"}
 
             />
             <MySwitch
                 flat={flat}
-                value={isLegalAddressProvided}
+                getter={getter}
                 name={'isLegalAddressProvided'}
-                setter={setIsLegalAddressProvided}
+                setter={setter}
                 title={"Юридический адрес предоставляется"}
 
             />
@@ -239,10 +177,10 @@ function Commercial({
 
         <MyTextInput
             type="number"
-            flat={flat}
+
             name={'totalArea'}
-            value={totalArea}
-            setter={setTotalArea}
+            value={flat.totalArea}
+            setter={setter}
             title={"Общая площадь"}
 
         />
@@ -254,20 +192,19 @@ function Commercial({
             spacing={2}
         >
             <MyTextInput
-                flat={flat}
+
                 type='number'
                 name={'floor'}
-                setter={setFloor}
-                value={floor}
+                setter={setter}
+                value={flat.floor}
                 title={'Этаж'}
             />
 
             <MyTextInput
-                flat={flat}
                 type='number'
                 name={'floorsCount'}
-                setter={setFloorsCount}
-                value={floorsCount}
+                setter={setter}
+                value={flat.floorsCount}
                 title={'Этажность'}
             />
 
@@ -283,19 +220,19 @@ function Commercial({
                 // width={100}
                 title={'Планировка'}
                 items={form_data.layout}
-                flat={flat}
+
                 name={'layout'}
-                value={layout}
-                setter={setLayout}
+                getter={getter}
+                setter={setter}
             />
 
             <MyTextInput
                 type="number"
                 title={'Высота потолков'}
-                flat={flat}
+
                 name={'ceilingHeight'}
-                value={ceilingHeight}
-                setter={setCeilingHeight}
+                value={flat.ceilingHeight}
+                setter={setter}
             />
 
         </Stack>
@@ -309,20 +246,20 @@ function Commercial({
         >
             <MyTextInput
                 // width={350}
-                value={waterPipesCount}
-                flat={flat}
+                value={flat.waterPipesCount}
+
                 name={'waterPipesCount'}
-                setter={setWaterPipesCount}
+                setter={setter}
                 title={"Мокрых точек"}
                 type="number"
 
             />
             <MyTextInput
                 // width={350}
-                value={power}
-                flat={flat}
+                value={flat.power}
+
                 name={'power'}
-                setter={setPower}
+                setter={setter}
                 title={"Мощность (кВт)"}
                 type="number"
 
@@ -335,71 +272,69 @@ function Commercial({
             spacing={2}
         >
             <MySelect
-                flat={flat}
+
                 items={conditions}
                 name={'condition'}
-                value={condition}
-                setter={setCondition}
+                getter={getter}
+                setter={setter}
                 title={"Состояние"}
 
             />
             <MySwitch
-                flat={flat}
-                value={hasFurniture}
+
                 name={'hasFurniture'}
-                setter={setHasFurniture}
+                getter={getter}
+                setter={setter}
                 title={"Мебель"}
 
             />
         </Stack>
-        <MySelect
 
-            flat={flat}
+        <MySelect
             items={form_data.access_type}
             name={'accessType'}
-            setter={setAccessType}
+            getter={getter}
+            setter={setter}
             title={"Вход"}
-            value={accessType}
-        // width={200}
         />
+
         <Stack
             direction={"row"}
             spacing={2}
         >
 
             <MySelect
-                flat={flat}
                 items={form_data.parking}
                 name={'parking'}
-                setter={setParking}
                 title={"Парковка"}
-                value={parking}
+                getter={getter}
+                setter={setter}
                 width={200}
             />
             <MyTextInput
-                flat={flat}
+
                 name={'parkingPlacesCount'}
-                setter={setParkingPlacesCount}
+                setter={setter}
                 title={'Количество мест'}
-                value={parkingPlacesCount}
+                value={flat.parkingPlacesCount}
                 type="number"
 
             />
 
             <MySwitch
-                flat={flat}
+
                 name={'parkingIsFree'}
-                setter={setParkingIsFree}
-                title={'Бесплатная'}
-                value={parkingIsFree}
+
+                getter={getter}
+                setter={setter}
             />
             {!parkingIsFree && (
                 <MyTextInput
-                    flat={flat}
+
                     name={'parkingPlacesPrice'}
-                    setter={setParkingPlacesPrice}
+                    setter={setter}
                     title={'Стоимость место/месяц'}
-                    value={parkingPlacesPrice}
+                    value={flat.parkingPlacesPrice}
                     type="number"
                     width={350}
                 />
@@ -412,10 +347,11 @@ function Commercial({
             spacing={2}
         >
             <MySwitch
-                flat={flat}
-                value={isOccupied}
+
+
                 name={'isOccupied'}
-                setter={setIsOccupied}
+                getter={getter}
+                setter={setter}
                 title={isOccupied ? "Помещение занято до " : "Помещение занято"}
 
             />
@@ -426,20 +362,20 @@ function Commercial({
                         width={150}
                         title={'Месяц'}
                         items={form_data.month}
-                        flat={flat}
+
                         name={'freeMonth'}
-                        value={freeMonth}
-                        setter={setFreeMonth}
+                        getter={getter}
+                        setter={setter}
                     />
 
                     <MySelect
                         width={100}
                         title={'Год'}
                         items={form_data.year}
-                        flat={flat}
+
                         name={'freeYear'}
-                        value={freeYear}
-                        setter={setFreeYear}
+                        getter={getter}
+                        setter={setter}
                     />
                 </>
 
@@ -476,8 +412,10 @@ function Commercial({
                                             key={'speciality_switch_' + item.id}
                                             state={speciality}
                                             item={item}
-                                            handler={specialitiesHandler}
-                                            setter={setSpeciality}
+                                            handler={multiHandler}
+                                            // flat={flat}
+                                            name='speciality'
+                                            setter={setter}
                                         // getState={() => speciality}
                                         />
                                     )
@@ -512,11 +450,17 @@ function Commercial({
 
                                     return (
                                         <MultipleSwitch
+
+                                            disabled={false}
                                             checked={infrastructure.includes(item.id)}
                                             key={'infrastructure_switch_' + item.id}
                                             state={infrastructure}
                                             item={item}
-                                            setter={setInfrastructure}
+                                            name='infrastructure'
+                                            handler={multiHandler}
+
+                                            setter={setter}
+
                                         />
                                     )
 
@@ -544,56 +488,57 @@ function Commercial({
             <MySelect
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
-                flat={flat}
                 name={'buildingType'}
-                value={buildingType}
-                setter={setBuildingType}
+                getter={getter}
+                setter={setter}
             />
 
             <MySelect
                 title={'Класс здания'}
                 items={form_data.building_class_type}
-                flat={flat}
+
                 name={'buildingClass'}
-                value={buildingClass}
-                setter={setBuildingClass}
+                getter={getter}
+                setter={setter}
                 width={150}
             />
             <MySelect
                 title={'Статус здания'}
                 items={form_data.building_status_type}
-                flat={flat}
+
                 name={'buildingStatusType'}
-                value={buildingStatusType}
-                setter={setBuildingStatusType}
+                getter={getter}
+                setter={setter}
                 width={200}
             />
 
             <MyTextInput
                 type="number"
                 title={'Площадь здания'}
-                flat={flat}
+
                 name={'buildingTotalArea'}
-                value={buildingTotalArea}
-                setter={setBuildingTotalArea}
+                value={flat.buildingTotalArea}
+                setter={setter}
             />
 
         </Stack>
+
         <Stack
             direction={"row"}
             spacing={2}
         >
             <MySelect
-                flat={flat}
+
                 items={form_data.house_line_type}
                 name={'houseLineType'}
-                setter={setHouseLineType}
                 title={"Линия домов"}
-                value={houseLineType}
+                getter={getter}
+                setter={setter}
                 width={200}
             />
 
         </Stack>
+
         <Stack
             direction={"row"}
             spacing={2}
@@ -601,43 +546,33 @@ function Commercial({
             <MyTextInput
                 type="number"
                 title={'Этажность'}
-                flat={flat}
+
                 name={'floorsCount'}
-                value={floorsCount}
-                setter={setFloorsCount}
+                value={flat.floorsCount}
+                setter={setter}
             />
             <MySelect
-                flat={flat}
+
                 items={materials}
                 name={'material'}
-                value={material}
-                setter={setMaterial}
+                getter={getter}
+                setter={setter}
                 title={'Материал'}
             />
 
             <MyTextInput
                 type="number"
                 title={'Год постройки'}
-                flat={flat}
+
                 name={'buildYear'}
-                value={buildYear}
-                setter={setBuildYear}
+                value={flat.buildYear}
+                setter={setter}
             />
 
 
         </Stack>
 
 
-        <MySelect
-            flat={flat}
-            items={form_data.infrastructure}
-            name={'infrastructure'}
-            setter={setInfrastructure}
-            title={"Инфраструктура"}
-            multiple={true}
-            value={infrastructure}
-        // width={200}
-        />
 
         <Stack
             direction={"row"}
@@ -645,42 +580,42 @@ function Commercial({
         >
 
             <MySelect
-                flat={flat}
+
                 items={heating_types}
                 name={'heatingType'}
-                setter={setHeatingType}
+                setter={setter}
                 title={"Отопление"}
-                value={heatingType}
+                getter={getter}
                 width={200}
             />
 
             <MySelect
-                flat={flat}
+
                 items={form_data.communication_ventilation_type}
                 name={'ventilationType'}
-                setter={setVentilationType}
+                setter={setter}
                 title={"Вентиляция"}
-                value={ventilationType}
+                getter={getter}
                 width={200}
             />
             <MySelect
-                flat={flat}
+
                 items={form_data.communication_conditioning_type}
                 name={'conditioningType'}
-                setter={setConditioningType}
+                setter={setter}
                 title={"Кондиционирование"}
-                value={conditioningType}
+                getter={getter}
                 width={200}
             />
 
             <MySelect
-                flat={flat}
+
                 items={form_data.extinguishing_system_type}
-                name={'conditioningType'}
-                setter={setExtinguishingSystemTypes}
+                name={'extinguishingSystemTypes'}
+                setter={setter}
                 title={"Пожаротушение"}
                 multiple={true}
-                value={extinguishingSystemTypes}
+                getter={getter}
             // width={200}
             />
 
@@ -688,13 +623,13 @@ function Commercial({
         </Stack>
 
         <MySelect
-            flat={flat}
+
             items={form_data.lift_type}
             name={'liftTypes'}
-            setter={setLiftTypes}
+            setter={setter}
             title={"Лифты"}
             multiple={true}
-            value={liftTypes}
+            getter={getter}
         // width={200}
         />
 
@@ -739,9 +674,9 @@ function Commercial({
             )
         }
 
-        <MyDivider
+        {/* <MyDivider
             title={'Коммуникации'}
-        />
+        /> */}
 
 
 

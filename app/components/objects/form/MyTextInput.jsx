@@ -2,21 +2,12 @@
 import { Box, FormControl, InputLabel, TextField } from "@mui/material";
 import { useEffect } from "react";
 
-function MyTextInput({ title, name, value, setter, type = 'text', flat,width=null }) {
+function MyTextInput({ title, name, value, setter, type = 'text', flat, width = null }) {
 
     const handler = (e) => {
 
-        setter(e.target.value)
-        // flat[name] = value;
-
+        setter(name, e.target.value)
     }
-    // useEffect(() => {
-    //     try {
-
-    //     } catch (e) {
-
-    //     }
-    // }, [value])
 
     return (<>
         <Box>

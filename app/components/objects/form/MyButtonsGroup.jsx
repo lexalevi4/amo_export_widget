@@ -1,18 +1,22 @@
 "use client"
+import { useObjectFormState } from "@/app/objects/create/store";
 import { Button, ButtonGroup, FormControl, FormLabel } from "@mui/material";
 
-function MyButtonsGroup({ title, name, items, setter, value, multipe = false, flat }) {
+function MyButtonsGroup({ title, name, items, setter, getter,
+    // value,
+    multipe = false, flat }) {
 
 
+    const value = getter(name);
 
     const handler = (e) => {
         // console.log(e);
         if (value === e.target.dataset.onclickparam) {
-            setter('');
-            flat[name] = '';
+            setter(name, '');
+            // flat[name] = '';
         } else {
-            setter(e.target.dataset.onclickparam);
-            flat[name] = e.target.dataset.onclickparam;
+            setter(name, e.target.dataset.onclickparam);
+            // flat[name] = e.target.dataset.onclickparam;
         }
 
     }

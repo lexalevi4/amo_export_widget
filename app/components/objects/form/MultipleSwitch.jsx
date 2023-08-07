@@ -1,61 +1,52 @@
 import { FormControlLabel, Switch } from "@mui/material";
-import { useMemo } from "react";
-import { multiSwitchHandler } from "@/app/heplers/heplers";
-
-function MultipleSwitch({ item, checked, disabled = false, setter, getState, handler }) {
-
-    // const checked = useMemo(() => {
-    //     let id = Number(item.id)
-    //     return state.includes(id)
-    // }, [item.id, state])
+import React, { useCallback, useMemo } from "react";
 
 
+function MultipleSwitch({ item,
+    // checked, 
+    disabled = false, setter, getState,
+    name,
+    state, flat,
 
-    // const handler = (value)=>{
-    //     multiSwitchHandler(value,setter,state);
-    // }
+    getter
+    , handler
+}) {
 
-    // const handler = (e) => {
-    //     let value = Number(e.target.value)
-    //     let arr = [];
-    //     let state = getState();
-    //     console.log(state)
-    //     state.map(function (item, index) {
-    //         arr.push(item);
-    //         return true;
-    //     })
-    //     if (arr.includes(value)) {
-    //         arr.splice(arr.indexOf(value), 1)
-    //     } else {
-    //         arr.push(value)
-    //     }
-    //     setter(arr)
-    // }
-    // return (
-    //     useMemo(() => {
-    console.log('sdfsdf')
-    return (<>
+    const handleClick = (e) => {
 
-        <FormControlLabel
-            className="m-0"
-            labelPlacement="end"
-            control={
-                <Switch
-                    disabled={disabled}
-                    name="name"
-                    // id={'infrastructure_' + "switch_" + value}
-                    checked={checked}
-                    onClick={handler}
-                    inputProps={{
-                        value: item.id
-                    }}
+        // handler(name, Number(e.target.value))
+        handler(name, e)
+    }
 
-                // onChange={handler}f
-                />
-            } label={item.name} />
-    </>)
-    //     }, [checked, item.id, disabled, item.name])
-    // )
+    const checked = useMemo(() => {
+        let id = Number(item.id)
+        return state.includes(id)
+    }, [item.id, state])
+
+
+
+    return (
+
+        useMemo(() => {
+            // console.log('sdfsdf');
+            return (
+                <>
+                    <FormControlLabel
+                        className="m-0"
+                        labelPlacement="end"
+                        control={
+                            <Switch
+                                disabled={disabled}
+                                checked={checked}
+                                onClick={handleClick}
+                                inputProps={{
+                                    value: item.id
+                                }}
+                            />
+                        } label={item.name} />
+                </>)
+        }, [checked, disabled])
+    )
 }
 
 export default MultipleSwitch;

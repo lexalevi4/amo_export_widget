@@ -20,7 +20,7 @@ export async function GET(request, response) {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": "Token " + dadata_key
+            "Authorization": "Token " + process.env.DADATA_TOKEN
         },
         body: JSON.stringify(query)
     });

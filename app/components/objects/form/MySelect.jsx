@@ -1,15 +1,21 @@
+import { useObjectFormState } from "@/app/objects/create/store";
 import { FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
 
-function MySelect({ value, items, title, name, setter, width = 300, flat, multiple = false }) {
+function MySelect({ items, title, name, setter, width = 300, multiple = false }) {
 
-    const handleChange = (e) => {
-        let new_value = e.target.value;
-        setter(new_value);
-        flat[name] = new_value;
-        // console.log(flat)
-    }
+    // const handleChange = (e) => {
+    //     let new_value = e.target.value;
+    //     setter(new_value);
+    //     // flat[name] = new_value;
+    //     // console.log(flat)
+    // }
     // console.log(width);
+    const value = useObjectFormState((state) => state.flat[name]);
+    const handleChange = (event) => {
+        setter(name, event.target.value)
 
+    }
+    // console.log(value)
     return (
         <FormControl
             style={

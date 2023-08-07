@@ -1,14 +1,17 @@
 "use client"
+import { useObjectFormState } from "@/app/objects/create/store";
 import { FormControlLabel, Switch } from "@mui/material";
 import { useEffect } from "react";
 
 
-function MySwitch({ title, name, value, setter, flat }) {
+function MySwitch({ title, name, setter, flat, getter }) {
+
+    const value = getter(name);
 
     const handler = () => {
         let new_value = !value;
-        setter(new_value);
-        flat[name] = new_value;
+        setter(name, new_value);
+        // flat[name] = new_value;
     }
     // useEffect(() => {
     //     flat[name] = value;
