@@ -1,79 +1,66 @@
 import { Box, Grid, LinearProgress } from "@mui/material";
 import { MuiFileInput } from "mui-file-input";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { DndContext } from '@dnd-kit/core';
+import ImagesContainer from "../ImagesContainer";
+import { arrayMove } from "@dnd-kit/sortable";
+import { useObjectFormState } from "@/app/objects/create/store";
+import MyDivider from "./MyDivider";
 
-function Images({ flat }) {
-
+function Images({ setter, getter }) {
+    const sortImages = useObjectFormState((state) => state.sortImages);
+    const activeImages = useObjectFormState((state) => state.flat.images.active);
+    const inactiveImages = useObjectFormState((state) => state.flat.images.inactive);
+    // const images = getter('images');
     const [files, setFiles] = useState(null);
     const [images_disabled, setImages_disabled] = useState(false);
-    const [images, setImages] = useState(flat.images);
-    // const [images, setImages] = useState(flat.images);
+    // const items = 
+    function ids(origin) {
+        const res = [];
+        origin.forEach(item => res.push(item.filename));
+        return res;
+    }
 
-
-    useEffect(() => {
-        flat.images = images;
-    }, images)
     const handleUpload = async (value) => {
         setImages_disabled(true)
-        // console.log(value)
-        // console.log(images_disabled)
 
         let data = new FormData();
         for (const file of value) {
             data.append('files[]', file, file.name);
         }
-        // data.append('activity', activity.id)
         try {
             await fetch('/api/object/images', {
                 method: 'POST',
                 body: data,
-                // headers: {
-                //     // 'Accept': 'application/json',
-                //     'Content-Type': 'multipart/form-data; boundary=MyBoundary'
-                //   },
-                // contentType: 'multipart/form-data'
             }).then(res => res.json())
-                .then(data => setImages(data))
+                .then(data => setter(data))
             setImages_disabled(false);
         } catch (e) {
             // console
         }
     }
 
+    const HandleDragEnd = (event) => {
+        const { active, over } = event;
+        // console.log(over?.id)
+        if (active.id !== over?.id && over?.id !== undefined) {
+            const activeIndex = activeImages.map(e => e).indexOf(active.id);
+            const overIndex = activeImages.map(e => e).indexOf(over.id);
+            const new_arr = arrayMove(activeImages, activeIndex, overIndex)
+            sortImages(new_arr);
+        }
+    }
+
     return (<>
+        <DndContext
+            onDragEnd={HandleDragEnd}
 
-        <Grid container spacing={2}>
-            {images.map((image, index) => {
-                return (
-
-                    <Grid
-                        key={'image' + index}
-                        item>
-                        <div
-                            style={{
-                                maxWidth: 300,
-                                maxHeight: 300
-                            }}
-                        >
-                            <Image
-                                src={image.filename}
-                                alt={image.order + "asfasdf"}
-                                width="0"
-                                height="0"
-                                sizes="100vw"
-                                style={{ width: '100%', height: 'auto', maxHeight: 300, maxWidth: 300 }}
-                            // onl
-                            // width={300}
-                            // height={300}
-                            />
-                        </div>
-                    </Grid>
-
-                )
-
-            })}
-        </Grid>
+        >
+            <ImagesContainer
+                images={activeImages}
+            />
+        </DndContext>
 
         {
             images_disabled && (
@@ -84,10 +71,23 @@ function Images({ flat }) {
         }
         <MuiFileInput
             multiple
+            
             disabled={images_disabled}
             value={files}
             onChange={handleUpload}
         />
+        <MyDivider
+            title={"Неактивные"}
+
+        />
+        <DndContext
+            onDragEnd={HandleDragEnd}
+
+        >
+            <ImagesContainer
+                images={inactiveImages}
+            />
+        </DndContext >
     </>);
 }
 
