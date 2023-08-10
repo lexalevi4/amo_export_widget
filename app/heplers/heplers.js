@@ -117,13 +117,22 @@ export const new_object = () => {
         businessShoppingCenter_id: '',
         cadNumber: '',
         buildingCadNumber: '',
-        images: [
-            { filename: 'https://tb-widget-images.storage.yandexcloud.net/full/1adbb4fe-ef21-4389-b055-9da7068f8787.jpg', order: 0 },
-            { filename: 'https://tb-widget-images.storage.yandexcloud.net/full/b64656b1-e722-4da5-bfcc-a4249ede1f95.jpg', order: 1 },
-            { filename: 'https://tb-widget-images.storage.yandexcloud.net/full/5cf7309a-1f8b-4c26-ab53-28d5fb0ef407.jpg', order: 2 },
-            
-            
-    ],
+        images: {
+            active: [
+                '2cc0dac1-8750-40b4-b4fb-ec2c5758976c.jpg',
+                '8918f587-cd65-4b83-9a63-01963bcca693.jpg',
+                'a0c68c8f-2959-49a6-96b3-8203aa6576da.jpg',
+                'f91cf54b-8f2f-4deb-befe-9a7447e8bd7f.jpg',
+                '7a37b507-c609-483b-8f4d-3016fe45c710.jpg',
+                '42a56582-5026-4564-89ab-0d909ae1d3cd.png'
+
+            ],
+            inactive: [
+
+            ]
+
+
+        },
         // images: ['1adbb4fe-ef21-4389-b055-9da7068f8787.jpg'],
         video: '',
         isNewBuilding: '',

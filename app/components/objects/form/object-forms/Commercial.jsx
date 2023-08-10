@@ -27,6 +27,7 @@ function Commercial({
     const infrastructure = getter('infrastructure');
     const liftTypes = getter('liftTypes');
     const liftsCount = getter('liftsCount');
+    const floorsCount = getter('floorsCount');
 
 
     const updateMultyField = useObjectFormState((state) => state.updateMultyField)
@@ -204,7 +205,7 @@ function Commercial({
                 type='number'
                 name={'floorsCount'}
                 setter={setter}
-                value={flat.floorsCount}
+                value={floorsCount}
                 title={'Этажность'}
             />
 
@@ -548,7 +549,7 @@ function Commercial({
                 title={'Этажность'}
 
                 name={'floorsCount'}
-                value={flat.floorsCount}
+                value={floorsCount}
                 setter={setter}
             />
             <MySelect

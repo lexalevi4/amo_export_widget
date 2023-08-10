@@ -8,6 +8,18 @@ const nextConfig = {
                 port: '',
                 pathname: '/full/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'tb-widget-images.storage.yandexcloud.net',
+                port: '',
+                pathname: '/mid/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'tb-widget-images.storage.yandexcloud.net',
+                port: '',
+                pathname: '/thumb/**',
+            },
         ],
     },
 }

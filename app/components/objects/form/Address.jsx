@@ -132,8 +132,9 @@ function Address({
                 style={{
                     width: 500
                 }}>
-                <AddressSuggestions token={dadata_key}
+                <AddressSuggestions token={"asdfasdfasdf"}
                     uid='dadata-input-qq'
+                    url="/api/dadata/suggest"
                     // height={56}
                     style={{
                         height: 56

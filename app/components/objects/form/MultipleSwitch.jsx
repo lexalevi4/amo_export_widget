@@ -1,20 +1,16 @@
 import { FormControlLabel, Switch } from "@mui/material";
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 
 
-function MultipleSwitch({ item,
-    // checked, 
-    disabled = false, setter, getState,
+function MultipleSwitch({
+    item,
+    disabled = false,
     name,
-    state, flat,
-
-    getter
-    , handler
+    state,
+    handler
 }) {
 
     const handleClick = (e) => {
-
-        // handler(name, Number(e.target.value))
         handler(name, e)
     }
 
@@ -22,8 +18,6 @@ function MultipleSwitch({ item,
         let id = Number(item.id)
         return state.includes(id)
     }, [item.id, state])
-
-
 
     return (
 

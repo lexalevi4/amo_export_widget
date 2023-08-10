@@ -30,6 +30,7 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
     const loading = useObjectFormState((state) => state.loading);
     const setFlat = useObjectFormState((state) => state.setFlat);
     const updateFlat = useObjectFormState((state) => state.updateFlat);
+    const addImages = useObjectFormState((state) => state.addImages);
     const formData = useObjectFormState((state) => state.formData);
     const setFormData = useObjectFormState((state) => state.setFormData);
     const flat = useObjectFormState((state) => Object.keys(state.flat))
@@ -193,7 +194,7 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                     form_data={formData}
                     getter={getter}
                     setter={updateFlat}
-                    // deal_type={deal_type}
+                // deal_type={deal_type}
                 />
             )}
 
@@ -208,10 +209,12 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                 title={"Описание"}
 
             />
-{/* 
+
             <Description
                 flat={flat}
-            /> */}
+                setter={updateFlat}
+                getter={getter}
+            />
 
 
             <MyDivider
@@ -219,9 +222,10 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
 
             />
 
-            {/* <Images
-                flat={flat}
-            /> */}
+            <Images
+                setter={addImages}
+                getter={getter}
+            />
 
 
 
