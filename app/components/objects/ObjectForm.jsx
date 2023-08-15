@@ -34,8 +34,8 @@ function ObjectForm({ form_data, flat_for_update = null }) {
     const [lat, setLat] = useState(flat.lat);
     const [lng, setLng] = useState(flat.address);
     const [dadata_response, setDadata_respone] = useState(flat.dadata_response);
-    const [kpName, setKpName] = useState(flat.kpName)
-    const [buildingName, setBuildingName] = useState(flat.buildingName)
+    // const [kpName, setKpName] = useState(flat.kpName)
+    // const [buildingName, setBuildingName] = useState(flat.buildingName)
 
 
 
@@ -129,7 +129,7 @@ function ObjectForm({ form_data, flat_for_update = null }) {
             </YMaps >
 
 
-            {Number(category) === 2 && (
+            {/* {Number(category) === 2 && (
                 <MyTextInput
                     name={'kpName'}
                     value={kpName}
@@ -140,10 +140,10 @@ function ObjectForm({ form_data, flat_for_update = null }) {
 
 
                 />
-            )}
+            )} */}
 
 
-            {Number(category) === 3 && (
+            {/* {Number(category) === 3 && (
                 <MyTextInput
                     name={'buildingName'}
                     value={buildingName}
@@ -154,7 +154,7 @@ function ObjectForm({ form_data, flat_for_update = null }) {
 
 
                 />
-            )}
+            )} */}
 
 
             {Number(category) === 1 && (

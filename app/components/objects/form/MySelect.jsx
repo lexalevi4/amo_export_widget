@@ -1,7 +1,7 @@
 import { useObjectFormState } from "@/app/objects/create/store";
 import { FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
 
-function MySelect({ items, title, name, setter, width = 300, multiple = false }) {
+function MySelect({ items, title, name, setter, width = 300, multiple = false, required = false }) {
 
     // const handleChange = (e) => {
     //     let new_value = e.target.value;
@@ -27,6 +27,7 @@ function MySelect({ items, title, name, setter, width = 300, multiple = false })
         >
             <InputLabel id={name + "-name-label"}>{title}</InputLabel>
             <Select
+                required={required}
                 multiple={multiple}
                 // displayEmpty={true}
                 labelId={name + "-name-label"}

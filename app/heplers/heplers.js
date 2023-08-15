@@ -112,7 +112,7 @@ export const new_object = () => {
         <p></p>",
         inputType: '',
         contractType: '',
-        inputType: '',
+
 
         businessShoppingCenter_id: '',
         cadNumber: '',
@@ -174,8 +174,18 @@ export const new_object = () => {
         waterPipesCount: '',
         power: '',
         speciality: [],
-
-
+        garage_type: '',
+        garage_status: '',
+        garage_garage_type: '',
+        hasLight: false,
+        monthlyIncome: '',
+        estateType: '',
+        availableFrom: '',
+        landAreaUnitType: 1,
+        landUseType: '',
+        possibleToChangeStatus: false,
+        possibleToChangePermitedUseType: false,
+        communications: [],
 
     }
 
