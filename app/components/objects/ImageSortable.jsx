@@ -32,8 +32,8 @@ function ImageSortable({ image }) {
             item>
             <div
                 style={{
-                    maxWidth: 300,
-                    maxHeight: 300
+                    maxWidth: 150,
+                    maxHeight: 150
                 }}
             >
 
@@ -65,7 +65,7 @@ function ImageSortable({ image }) {
                         height="0"
                         sizes="200"
                         // sizes='(max-width: 512px) 100%, (max-width: 768px) 50%, (max-width: 1200px) 20%, 33%'
-                        style={{ width: '100%', height: 'auto', maxHeight: 200, maxWidth: 200 }}
+                        style={{ width: '100%', height: 'auto', maxHeight: 150, maxWidth: 150 }}
 
                     />
 

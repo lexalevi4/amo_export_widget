@@ -36,13 +36,44 @@ export const useObjectFormState = create((set, get) => ({
         const flat = get().flat
         if (active) {
             flat.images.active = new_arr;
-        }else{
+        } else {
             flat.images.inactive = new_arr;
         }
         return ({
             flat: flat
         })
 
+    }),
+    updateArrayField: (name, id, field, value, default_value) => set((state) => {
+        const flat = get().flat
+        let currentFieldValue = get().flat[name];
+        let new_arr = [];
+        let currentElement = currentFieldValue.filter((item) => item.id === id)
+        if (currentElement.length === 0) {
+            new_arr.push(
+                Object.assign({
+                    id: id,
+                    [field]: value,
+
+                }, default_value)
+            )
+        } else {
+            new_arr.push(
+                {
+                    ...currentElement[0],
+                    [field]: value,
+                }
+            )
+        }
+        let filtered = currentFieldValue.filter((item) => item.id !== id)
+        filtered.map((item) => {
+            new_arr.push(item);
+            return true;
+        })
+        flat[name] = new_arr;
+        return ({
+            flat: flat
+        })
     }),
     setLoading: (value) => set((state) => ({ loading: value })),
     updateMultyField: (name, value) => set((state) => {
