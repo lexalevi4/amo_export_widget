@@ -60,34 +60,14 @@ function ImageSortable({ image }) {
                     <Image
                         src={'https://tb-widget-images.storage.yandexcloud.net/thumb/' + image}
                         alt={image}
-                        // onError={() => setSrc('/assets/image-error.png')}
                         width="0"
                         height="0"
                         sizes="200"
-                        // sizes='(max-width: 512px) 100%, (max-width: 768px) 50%, (max-width: 1200px) 20%, 33%'
                         style={{ width: '100%', height: 'auto', maxHeight: 150, maxWidth: 150 }}
 
                     />
 
                 </ImageListItem>
-                {/* <CancelIcon
-                    style={{
-                        position: 'relative',
-                        top: 30,
-                        right: 0,
-                        zIndex: 999
-
-                    }}
-                /> */}
-                {/* <Image
-                    src={image.filename}
-                    alt={image.order + "asfasdf"}
-                    width="0"
-                    height="0"
-                    sizes="100vw"
-                    style={{ width: '100%', height: 'auto', maxHeight: 300, maxWidth: 300 }}
-
-                /> */}
             </div>
         </Grid>
     </>);
