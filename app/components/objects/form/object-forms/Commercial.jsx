@@ -14,6 +14,12 @@ import Garage from "./commercial/Garage";
 import Business from "./commercial/Business";
 import Building from "./commercial/Building";
 import CommercialLand from "./commercial/CommercialLand";
+import Office from "./commercial/Office";
+import FreeAppointment from "./commercial/FreeAppointment";
+import Industry from "./commercial/Industry";
+import Warehouse from "./commercial/Warehouse";
+import ShoppingArea from "./commercial/ShoppingArea";
+import MultiAds from "./commercial/MultiAds";
 
 function Commercial({
     flat,
@@ -46,30 +52,30 @@ function Commercial({
     }, [speciality])
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        let new_array = [];
-        for (let i = 0; i < liftTypes.length; i++) {
-            // console.log(liftTypes[i]);
-            let filtered = liftsCount.filter((item) => {
-                // console.log(item.id);
-                return Number(item.id) === Number(liftTypes[i]);
-            })
-            if (filtered.length === 0) {
-                new_array.push({
-                    id: liftTypes[i],
-                    count: '',
-                    name: getLiftName(liftTypes[i])
-                })
-            } else {
-                new_array.push(
-                    filtered[0]
-                )
-            }
-        }
+    //     let new_array = [];
+    //     for (let i = 0; i < liftTypes.length; i++) {
+    //         // console.log(liftTypes[i]);
+    //         let filtered = liftsCount.filter((item) => {
+    //             // console.log(item.id);
+    //             return Number(item.id) === Number(liftTypes[i]);
+    //         })
+    //         if (filtered.length === 0) {
+    //             new_array.push({
+    //                 id: liftTypes[i],
+    //                 count: '',
+    //                 name: getLiftName(liftTypes[i])
+    //             })
+    //         } else {
+    //             new_array.push(
+    //                 filtered[0]
+    //             )
+    //         }
+    //     }
 
-        setter('liftsCount', new_array)
-    }, [liftTypes])
+    //     setter('liftsCount', new_array)
+    // }, [liftTypes])
 
 
     const updateLiftsCount = (id, count) => {
@@ -118,13 +124,13 @@ function Commercial({
     })
 
 
-    const getLiftName = (item) => {
-        let currentLift = form_data.lift_type.filter((lift) => {
-            return Number(lift.id) === Number(item);
-        })
-        return currentLift[0].name;
+    // const getLiftName = (item) => {
+    //     let currentLift = form_data.lift_type.filter((lift) => {
+    //         return Number(lift.id) === Number(item);
+    //     })
+    //     return currentLift[0].name;
 
-    }
+    // }
 
     const chunkedInfrastructure = chunkArray(form_data.infrastructure.sort(sortByName), Math.ceil(form_data.infrastructure.length / 4))
     const chunkedSpecialities = chunkArray(specialities.sort(sortByName), Math.ceil(specialities.length / 4));
@@ -189,9 +195,67 @@ function Commercial({
             />
 
         )}
+        {(flat_object === 10) && (
+            <Office
+                flat={flat}
+                setter={setter}
+                getter={getter}
+                form_data={form_data}
 
+            />
 
+        )}
+        {(flat_object === 13) && (
+            <FreeAppointment
+                flat={flat}
+                setter={setter}
+                getter={getter}
+                form_data={form_data}
 
+            />
+
+        )}
+
+        {(flat_object === 15) && (
+            <Industry
+                flat={flat}
+                setter={setter}
+                getter={getter}
+                form_data={form_data}
+
+            />
+
+        )}
+        {(flat_object === 12) && (
+            <Warehouse
+                flat={flat}
+                setter={setter}
+                getter={getter}
+                form_data={form_data}
+
+            />
+
+        )}
+        {(flat_object === 11) && (
+            <ShoppingArea
+                flat={flat}
+                setter={setter}
+                getter={getter}
+                form_data={form_data}
+
+            />
+
+        )}
+
+        <MyDivider
+            title={"МультиОбъявление"}
+
+        />
+        <MultiAds
+            flat={flat}
+            setter={setter}
+            getter={getter}
+        />
 
     </>);
 }

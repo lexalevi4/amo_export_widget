@@ -2,52 +2,50 @@ import { Stack, TextField, Typography } from "@mui/material";
 import MySelect from "../../MySelect";
 import { useEffect } from "react";
 
-function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_capacity = false }) {
+function Cranage({ setter, getter, form_data, items = form_data.cranage_type, show_capacity = true }) {
 
-    const liftsCount = getter('liftsCount');
-    const liftTypes = getter('liftTypes');
+    const cranCount = getter('cranCount');
+    const cranTypes = getter('cranTypes')
 
-    
-    const getLiftName = (item) => {
-        let currentLift = form_data.lift_type.filter((lift) => {
-            return Number(lift.id) === Number(item);
-        })
-        return currentLift[0].name;
-
-    }
-    const updateLiftsCount = (id, field, value) => {
+    const update = (id, field, value) => {
 
         let new_array = [];
-        for (let i = 0; i < liftsCount.length; i++) {
-            if (liftsCount[i].id === id) {
+        for (let i = 0; i < cranCount.length; i++) {
+            if (cranCount[i].id === id) {
                 new_array.push({
-                    ...liftsCount[i],
+                    ...cranCount[i],
                     [field]: value
                 })
             } else {
                 new_array.push(
-                    liftsCount[i]
+                    cranCount[i]
                 )
             }
         }
-        setter('liftsCount', new_array)
+        setter('cranCount', new_array)
+    }
+    const getName = (item) => {
+        let current = items.filter((lift) => {
+            return Number(lift.id) === Number(item);
+        })
+        return current[0].name;
     }
 
 
     useEffect(() => {
 
         let new_array = [];
-        for (let i = 0; i < liftTypes.length; i++) {
+        for (let i = 0; i < cranTypes.length; i++) {
             // console.log(liftTypes[i]);
-            let filtered = liftsCount.filter((item) => {
+            let filtered = cranTypes.filter((item) => {
                 // console.log(item.id);
-                return Number(item.id) === Number(liftTypes[i]);
+                return Number(item.id) === Number(cranTypes[i]);
             })
             if (filtered.length === 0) {
                 new_array.push({
-                    id: liftTypes[i],
+                    id: cranTypes[i],
                     count: '',
-                    name: getLiftName(liftTypes[i])
+                    name: getName(cranTypes[i])
                 })
             } else {
                 new_array.push(
@@ -56,21 +54,20 @@ function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_ca
             }
         }
 
-        setter('liftsCount', new_array)
-    }, [liftTypes])
-
+        setter('cranCount', new_array)
+    }, [cranTypes])
     return (<>
         <>
             <MySelect
                 items={items}
-                name={'liftTypes'}
+                name={'cranTypes'}
                 setter={setter}
-                title={"Лифты"}
+                title={"Крановое оборудование"}
                 multiple={true}
                 getter={getter}
             // width={200}
             />
-            {liftsCount.length > 0 && (
+            {cranCount.length > 0 && (
                 <>
                     <Typography
                         variant="body2"
@@ -79,13 +76,13 @@ function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_ca
                         Количество:
                     </Typography>
                     {
-                        liftsCount.map((item) => {
+                        cranCount.map((item) => {
                             return (
                                 <Stack
                                     direction={"row"}
                                     spacing={2}
                                     alignItems={'center'}
-                                    key={'lift_count_' + item.id}
+                                    key={'cran_count_' + item.id}
                                 >
                                     <Typography
                                         width={150}
@@ -101,7 +98,7 @@ function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_ca
                                         // placeholder="Количество"
                                         type="number"
                                         defaultValue={item.count}
-                                        onChange={(e) => { updateLiftsCount(item.id, 'count', e.target.value) }}
+                                        onChange={(e) => { update(item.id, 'count', e.target.value) }}
 
                                     ></TextField>
                                     {show_capacity && (
@@ -112,7 +109,7 @@ function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_ca
                                             // placeholder="Количество"
                                             type="number"
                                             defaultValue={item.capacity}
-                                            onChange={(e) => { updateLiftsCount(item.id, 'capacity', e.target.value) }}
+                                            onChange={(e) => { update(item.id, 'capacity', e.target.value) }}
 
                                         ></TextField>
                                     )}
@@ -127,4 +124,4 @@ function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_ca
     </>);
 }
 
-export default Lifts;
+export default Cranage;

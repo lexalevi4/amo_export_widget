@@ -246,7 +246,13 @@ function CommercialLand({ flat, setter, getter, form_data }) {
         }
 
 
-
+        <MySelect
+            title={'Подъездные пути'}
+            name={'drivewayType'}
+            items={form_data.driveway_type}
+            getter={getter}
+            setter={setter}
+        />
 
 
     </>);

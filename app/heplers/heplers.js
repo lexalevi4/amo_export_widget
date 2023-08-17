@@ -134,7 +134,7 @@ export const new_object = () => {
 
         },
         // images: ['1adbb4fe-ef21-4389-b055-9da7068f8787.jpg'],
-        video: '',
+        video: [],
         isNewBuilding: '',
         deadlineQuarter: '',
         deadlineYear: '',
@@ -186,6 +186,26 @@ export const new_object = () => {
         possibleToChangeStatus: false,
         possibleToChangePermitedUseType: false,
         communications: [],
+        drivewayType: '',
+        minArea: ',',
+        managementCompany: '',
+        developer: '',
+        hasTransportServices: false,
+        floorMaterialType: '',
+        cranTypes: [],
+        cranCount: [],
+        columnGrid: '',
+        tenants: '',
+        shoppingCenterScaleType: '',
+        workingDaysType: '',
+        work_hours_from: '',
+        work_hours_to: '',
+        work_hours_24: false,
+        multiAds: [],
+        metro: [],
+        highways: []
+
+
 
     }
 
