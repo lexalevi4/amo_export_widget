@@ -1,10 +1,10 @@
 
 
-export const sortByName = (a, b) => {
-    if (a.name < b.name) {
+export const sortByName = (a, b, field = 'name') => {
+    if (a[field] < b[field]) {
         return -1;
     }
-    if (a.name > b.name) {
+    if (a[field] > b[field]) {
         return 1;
     }
     return 0;

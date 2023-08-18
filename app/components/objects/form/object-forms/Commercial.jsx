@@ -30,6 +30,7 @@ function Commercial({
 
 }) {
 
+    console.log(form_data);
 
     const parkingIsFree = getter('parkingIsFree');
     const isOccupied = getter('isOccupied');

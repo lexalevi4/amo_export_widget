@@ -23,6 +23,8 @@ import MyDivider from "./form/MyDivider";
 import Images from "./form/Images";
 import { useObjectFormState } from "@/app/objects/create/store";
 import { shallow } from 'zustand/shallow'
+import Metro from "./form/object-forms/Metro";
+import Highways from "./form/object-forms/Highways";
 
 function ObjectFormZustand({ form_data, flat_for_update = null }) {
 
@@ -143,6 +145,7 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
             </YMaps >
 
 
+
             {Number(category) === 2 && (
                 <MyTextInput
                     name={'kpName'}
@@ -163,7 +166,22 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                     width={500}
                 />
             )}
+            <Divider />
 
+            <Metro
+                flat={flat}
+                form_data={form_data}
+                getter={getter}
+                setter={updateFlat}
+            />
+
+            <Divider />
+            <Highways
+                flat={flat}
+                form_data={form_data}
+                getter={getter}
+                setter={updateFlat}
+            />
 
             {Number(category) === 1 && (
                 <FlatSale

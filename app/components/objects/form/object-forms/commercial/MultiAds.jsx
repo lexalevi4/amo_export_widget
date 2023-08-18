@@ -1,17 +1,30 @@
-import { Button, Stack } from "@mui/material";
+import { Button, FormControlLabel, Stack, Switch } from "@mui/material";
 import MySwitch from "../../MySwitch";
 import MultiAdItem from "./MultiAdItem";
 import { useEffect } from "react";
 
 function MultiAds({ flat, setter, getter }) {
 
-    
+
+    // const 
+
     const isMulti = getter('isMulti');
     const multiAds = getter('multiAds');
 
+    const handleIsMulti = () => {
+        if (isMulti) {
+            if (window.confirm('Все площади будут удалены')) {
+                setter('isMulti', false)
+            }
+
+        } else {
+            setter('isMulti', true)
+        }
+    }
+
     const defaultItems = [
-        {  id: null, area: '', floorFrom: '', floorTo: '', images: [] },
-        {  id: null, area: '', floorFrom: '', floorTo: '', images: [] },
+        { id: null, area: '', floorFrom: '', floorTo: '', images: [], price: '', price_for: 1 },
+        { id: null, area: '', floorFrom: '', floorTo: '', images: [], price: '', price_for: 1 },
     ];
     useEffect(() => {
         if (isMulti) {
@@ -28,25 +41,38 @@ function MultiAds({ flat, setter, getter }) {
     const addMulti = () => {
         setter('multiAds', [...multiAds, {
             //  num: (multiAds.length + 1), 
-             id: null, area: '', floorFrom: '', floorTo: '', images: [] }])
+            id: null, area: '', floorFrom: '', floorTo: '', images: [], price: '', price_for: 1
+        }])
 
     }
     // const deleteItem = (index) => {
-        // setter('multiAds', multiAds.splice(index, 1))
+    // setter('multiAds', multiAds.splice(index, 1))
 
-        // console.log(id);
+    // console.log(id);
     // }
 
     return (<>
         <Stack
             direction={"row"}
         >
-            <MySwitch
+            <FormControlLabel
+                labelPlacement="start"
+                control={
+                    <Switch
+
+                        name="name"
+                        // id={name + "switch"}
+                        checked={isMulti}
+                        onClick={handleIsMulti}
+                    // onChange={handler}
+                    />
+                } label={'МультиОбъявление'} />
+            {/* <MySwitch
                 getter={getter}
                 setter={setter}
                 name={"isMulti"}
                 title={'МультиОбъявление'}
-            />
+            /> */}
         </Stack>
 
         {isMulti && (
@@ -55,14 +81,14 @@ function MultiAds({ flat, setter, getter }) {
                     multiAds.map((item, index) => {
                         return (
                             <MultiAdItem
-                                key={'multiItem' +index}
+                                key={'multiItem' + index}
                                 item={item}
                                 flat={flat}
                                 setter={setter}
                                 getter={getter}
                                 index={index}
                                 del_disabled={multiAds.length < 3}
-                                // deleteItem={deleteItem}
+                            // deleteItem={deleteItem}
                             />
                         )
                     })

@@ -1,13 +1,13 @@
-import { Box, Divider, Grid, IconButton, ImageListItem, ImageListItemBar, LinearProgress, Stack, TextField, Typography } from "@mui/material";
+import { Box, Divider, Grid, IconButton, ImageListItem, ImageListItemBar, InputLabel, LinearProgress, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
 import { MuiFileInput } from "mui-file-input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useObjectFormState } from "@/app/objects/create/store";
 import MyDivider from "../../MyDivider";
 import Image from "next/image";
-import { SortableContext, arrayMove } from '@dnd-kit/sortable';
+import { SortableContext, arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import ImageSortable from "../../../ImageSortable";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 function MultiAdItem({ item, flat, setter, getter, index, deleteItem, del_disabled = false }) {
 
 
@@ -17,11 +17,17 @@ function MultiAdItem({ item, flat, setter, getter, index, deleteItem, del_disabl
     const [files, setFiles] = useState(null);
     const [imagesDisabled, setImagesDisabled] = useState(false);
     const [fileError, setFileError] = useState('');
+    const [priceFor, setPriceFor] = useState(1);
     const delMultiAdItem = useObjectFormState((state) => state.delMultiAdItem);
     const updateMultiAdItem = useObjectFormState((state) => state.updateMultiAdItem);
     const addMultiAdPhoto = useObjectFormState((state) => state.addMultiAdPhoto);
     const delMultiAdPhoto = useObjectFormState((state) => state.delMultiAdPhoto);
     const sortMultiAdImages = useObjectFormState((state) => state.sortMultiAdImages);
+
+
+    useEffect(() => {
+        updateMultiAdItem(index, 'price_for', priceFor)
+    }, [priceFor])
 
     const handleUpload = async (value) => {
         setImagesDisabled(true)
@@ -63,6 +69,25 @@ function MultiAdItem({ item, flat, setter, getter, index, deleteItem, del_disabl
             sortMultiAdImages(index, new_arr);
         }
     }
+
+
+    const delImage = (image) => {
+        delMultiAdPhoto(index, image)
+        // console.log(id);
+    }
+
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 5,
+            },
+        }),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        }),
+    );
+
     return (<>
 
 
@@ -110,7 +135,77 @@ function MultiAdItem({ item, flat, setter, getter, index, deleteItem, del_disabl
 
 
         </Stack>
+        <Stack
+            spacing={2}
+            direction={'row'}
+        >
+            <TextField
+                label='Цена'
+                type="number"
+                defaultValue={item?.price}
+                onChange={(e) => { updateMultiAdItem(index, 'price', e.target.value) }}
 
+            />
+
+            <Select
+                // required={required}
+                // multiple={multiple}
+                // displayEmpty={true}
+                labelId={index + "-multiad-label"}
+                id={index + "-multiadselect"}
+                // name={name}
+                value={priceFor}
+                onChange={(e) => setPriceFor(e.target.value)}
+            // onChange={(e) => { updateMultiAdItem(index, 'price_for', e.target.value) }}
+            // input={<OutlinedInput label={'Цена за'} />}
+            >
+                <MenuItem
+                    value={1}
+                    // instanceId={'object-item-' + item.id}
+                    id={index + '-multiad-item-' + 1}
+                >
+                    За всё
+                </MenuItem>
+                <MenuItem
+                    value={2}
+                    // instanceId={'object-item-' + item.id}
+                    id={index + '-multiad-item-' + 2}
+                >
+                    За квадрат
+                </MenuItem>
+            </Select>
+            {(item.price > 0 && item.area > 0) && (<Typography
+                style={{
+                    display: 'flex',
+                    alignItems: 'center'
+                }}
+            >
+                {item.price_for === 1 && (
+                    <>
+                        {
+                            Intl.NumberFormat('ru-RU', {
+                                style: 'currency',
+                                currency: 'RUB',
+                                currencyDisplay: 'symbol', maximumFractionDigits: 0
+                            }).format(
+                                Math.ceil(item.price / item.area))
+                        } / м<sup>2</sup>
+                    </>
+                )}
+                {item.price_for === 2 && (
+                    <>
+                        {
+                            Intl.NumberFormat('ru-RU', {
+                                style: 'currency',
+                                currency: 'RUB',
+                                currencyDisplay: 'symbol', maximumFractionDigits: 0
+                            }).format(
+                                Math.ceil(item.price * item.area))
+                        }  за всё
+                    </>
+                )}
+            </Typography>)}
+        </Stack>
         <Typography
             variant="h6"
             color={"GrayText"}
@@ -122,6 +217,7 @@ function MultiAdItem({ item, flat, setter, getter, index, deleteItem, del_disabl
 
         {item.images.length > 0 && (<>
             <DndContext
+                sensors={sensors}
                 onDragEnd={HandleDragEnd}
 
             >
@@ -138,6 +234,7 @@ function MultiAdItem({ item, flat, setter, getter, index, deleteItem, del_disabl
 
                             return (
                                 <ImageSortable
+                                    delImage={delImage}
                                     key={'multy' + index + "_" + image_index}
                                     image={image}
                                 />

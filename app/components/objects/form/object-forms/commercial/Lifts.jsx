@@ -68,7 +68,6 @@ function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_ca
                 title={"Лифты"}
                 multiple={true}
                 getter={getter}
-            // width={200}
             />
             {liftsCount.length > 0 && (
                 <>
@@ -95,10 +94,8 @@ function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_ca
                                         }
                                     </Typography>
                                     <TextField
-                                        // width={150}
                                         style={{ width: 80 }}
                                         label='кол-во'
-                                        // placeholder="Количество"
                                         type="number"
                                         defaultValue={item.count}
                                         onChange={(e) => { updateLiftsCount(item.id, 'count', e.target.value) }}
@@ -106,10 +103,7 @@ function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_ca
                                     ></TextField>
                                     {show_capacity && (
                                         <TextField
-                                            // width={150}
-                                            // style={{ width: 80 }}
                                             label='грузоподъёмность'
-                                            // placeholder="Количество"
                                             type="number"
                                             defaultValue={item.capacity}
                                             onChange={(e) => { updateLiftsCount(item.id, 'capacity', e.target.value) }}

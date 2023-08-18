@@ -5,8 +5,8 @@ import { Grid, IconButton, ImageListItem, ImageListItemBar } from '@mui/material
 import Image from 'next/image';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
-function ImageSortable({ image }) {
+
+function ImageSortable({ image, icon = <DeleteIcon />, delImage, color = 'red' }) {
 
     const {
         attributes,
@@ -14,10 +14,14 @@ function ImageSortable({ image }) {
         setNodeRef,
         transform,
         transition,
-    } = useSortable({ id: image});
+    } = useSortable({ id: image });
 
 
-
+    const handleDel = () => {
+        delImage(image)
+        // console.log('asdf');
+        // console.log(image);
+    }
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -48,11 +52,14 @@ function ImageSortable({ image }) {
                         position="top"
                         actionIcon={
                             <IconButton
-                                // onClick={() => delImage(item.id)}
-                                sx={{ color: 'green' }}
+                                aria-label="delete image"
+                                // onC
+                                onClick={handleDel}
+                                // onClick={handleDel}
+                                sx={{ color: { color } }}
                             // aria-label={`del ${item.title}`}
                             >
-                                <RestoreFromTrashIcon />
+                                {icon}
                             </IconButton>
                         }
                         actionPosition="right"

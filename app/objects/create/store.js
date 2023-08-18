@@ -42,6 +42,30 @@ export const useObjectFormState = create((set, get) => ({
         })
 
     }),
+    moveImages: (image, direction) => set((state) => {
+        const flat = get().flat
+        const active = get().flat.images.active.slice(0);
+        const inactive = get().flat.images.inactive.slice(0);
+        const new_value = { active: [], inactive: [] }
+        if (direction === 'del') {
+            new_value.active = active.filter((item) => { return item !== image });
+            new_value.inactive = [...inactive, image];
+        }
+        if (direction === 'restore') {
+            new_value.inactive = inactive.filter((item) => { return item !== image });
+            new_value.active = [...active, image];
+        }
+        // if (active) {
+        //     flat.images.active = new_arr;
+        // } else {
+        //     flat.images.inactive = new_arr;
+        // }
+        flat.images = new_value;
+        return ({
+            flat: flat
+        })
+
+    }),
     updateArrayField: (name, id, field, value, default_value) => set((state) => {
         const flat = get().flat
         let currentFieldValue = get().flat[name];
@@ -135,21 +159,23 @@ export const useObjectFormState = create((set, get) => ({
         })
 
     }),
-    delMultiAdPhoto: (index, imageIndex) => set((state) => {
+    delMultiAdPhoto: (index, image) => set((state) => {
         const flat = get().flat;
         const multiAds = get().flat.multiAds;
         // console.log(imageIndex);
         const new_arr = [];
         for (let i = 0; i < multiAds.length; i++) {
             if (i === index) {
-                let images = [];
-                multiAds[i].images.map((image, current_image_index) => {
-                    if (imageIndex !== current_image_index) {
-                        images.push(image)
-                    }
-                    return true;
-                })
-                new_arr.push({ ...multiAds[i], images: images })
+                let images = multiAds[i].images.slice(0);
+
+                // let images = [];
+                // multiAds[i].images.map((image, current_image_index) => {
+                //     if (imageIndex !== current_image_index) {
+                //         images.push(image)
+                //     }
+                //     return true;
+                // })
+                new_arr.push({ ...multiAds[i], images: images.filter((item) => { return item !== image }) })
             } else {
                 new_arr.push(multiAds[i])
             }
@@ -175,5 +201,55 @@ export const useObjectFormState = create((set, get) => ({
             flat: flat
         })
 
+    }),
+    updateMultiItemField: (field, index, name, value) => set((state) => {
+        const flat = get().flat;
+        const current = get().flat[field];
+        const new_arr = [];
+        for (let i = 0; i < current.length; i++) {
+            if (i === index) {
+                new_arr.push({ ...current[i], [name]: value })
+            } else {
+                new_arr.push(current[i])
+            }
+        }
+        flat[field] = new_arr;
+        return ({
+            flat: flat
+        })
+    }),
+    multiItemFieldSetDefault: (field, index) => set((state) => {
+        const flat = get().flat;
+        const current = get().flat[field];
+        const new_arr = [];
+        for (let i = 0; i < current.length; i++) {
+            if (i === index) {
+                new_arr.push({ ...current[i], default: true })
+            } else {
+                new_arr.push({ ...current[i], default: false })
+            }
+        }
+        flat[field] = new_arr;
+        return ({
+            flat: flat
+        })
+    }),
+    delMultiItemFieldItem: (name, index) => set((state) => {
+        // console.log(index);
+        const flat = get().flat
+        const current = get().flat[name];
+        // const multiAds = get().flat.multiAds
+        const new_arr = current.slice(0);
+        // const new_arr = [];
+        // for (let i = 0; i < current.length; i++) {
+        //     if (i !== index) {
+        //         new_arr.push(current[i])
+        //     }
+        // }
+        new_arr.splice(index, 1);
+        flat[name] = new_arr;
+        return ({
+            flat: flat
+        })
     }),
 }))
