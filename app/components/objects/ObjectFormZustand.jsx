@@ -1,28 +1,20 @@
 "use client"
 
-import { Box, Divider, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
+import { Divider , Stack  } from "@mui/material";
 import { useEffect, useState } from "react";
 import MyRadioGroup from "./form/RadioGroup";
 import MySelect from "./form/MySelect";
-import Autocomplete from '@mui/material/Autocomplete';
-import CircularProgress from '@mui/material/CircularProgress';
-
-import { AddressSuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
 import Address from "./form/Address";
 import { YMaps } from "@pbe/react-yandex-maps";
-import MyButtonsGroup from "./form/MyButtonsGroup";
 import MyTextInput from "./form/MyTextInput";
-import MySwitch from "./form/MySwitch";
 import FlatSale from "./form/object-forms/FlatSale";
-import Price from "./form/object-forms/Price";
 import Suburban from "./form/object-forms/Suburban";
 import Commercial from "./form/object-forms/Commercial";
 import Description from "./form/object-forms/Description";
 import MyDivider from "./form/MyDivider";
 import Images from "./form/Images";
 import { useObjectFormState } from "@/app/objects/create/store";
-import { shallow } from 'zustand/shallow'
 import Metro from "./form/object-forms/Metro";
 import Highways from "./form/object-forms/Highways";
 
@@ -51,16 +43,7 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
 
 
     const [object_menu_items, setObject_menu_items] = useState([]);
-
-    // useEffect(() => {
-    //     console.log(object_menu_items)
-
-    // }, [flat])
-
-    // useEffect(() => {
-    //     console.log(object_menu_items)
-
-    // }, [object_menu_items])
+ 
 
     useEffect(() => {
         updateFlat('object', '');
@@ -78,10 +61,7 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
     if (loading) {
         return <></>
     }
-    // const { id, text, done } = todo
-    // const setter = (name, value) => {
-    //     updateFlat(name, value);
-    // }
+    
 
     const getter = (name) => {
         return useObjectFormState((state) => state.flat[name])
@@ -134,7 +114,7 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
             <YMaps query={{
                 load: "package.full",
                 lang: "ru_RU",
-                // apikey: "e105999a-b1c1-4234-963f-21e492dca418"
+
             }}>
 
 

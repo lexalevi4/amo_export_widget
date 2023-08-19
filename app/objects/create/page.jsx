@@ -9,7 +9,11 @@ async function getFormData() {
         { next: { revalidate: 0 } })
     return form_data.json()
 }
-
+// export const getServerSideProps = async () => {
+//     const form_data = await fetch('https://turbobroker.ru/api/get-form-params?asdfaasdf=asd')
+//     const repo = await res.json()
+//     return { props: { repo } }
+//   }
 async function CreateObject() {
 
 
@@ -18,7 +22,7 @@ async function CreateObject() {
     const form_data = await getFormData();
     // console.log(form_data);
 
-    const flat = new_object();
+    const flat = {...new_object() , };
 
 
 
