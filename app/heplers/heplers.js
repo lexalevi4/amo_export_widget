@@ -241,3 +241,26 @@ export const multiSwitchHandler = (value, setter, state) => {
     }
     setter(arr)
 }
+
+export const checkSession = async (searchParams) => {
+    // let data = new FormData();
+    // Object.keys(searchParams).forEach((key) => data.append(key, searchParams[key]));
+
+    // try {
+    //     await fetch('/api/common/session/', {
+    //         method: 'POST',
+    //         body: data,
+    //     }).then(res => res.json())
+    //         .then(data => { console.log(data) })
+    //     // setImages_disabled(false);
+    // } catch (e) {
+    //     console.log(e);
+    //     // setSaveError(true);
+    //     // setSaveErrorMessage('Что-то пошло не так');
+
+    //     // console
+    // }
+
+    return true;
+
+}

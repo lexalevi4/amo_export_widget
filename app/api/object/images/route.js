@@ -7,11 +7,11 @@ const { randomUUID } = require('crypto');
 // import { v4 as uuidv4, v6 as uuidv6 } from 'uuid';
 const gm = require('gm')
 
-export const config = {
-    api: {
-        bodyParser: false,
-    }
-};
+// export const config = {
+//     api: {
+//         bodyParser: false,
+//     }
+// };
 
 const s3 = new EasyYandexS3({
     auth: {

@@ -1,6 +1,6 @@
 "use client"
 
-import { Divider , Stack  } from "@mui/material";
+import { Button, Divider, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import MyRadioGroup from "./form/RadioGroup";
 import MySelect from "./form/MySelect";
@@ -17,9 +17,12 @@ import Images from "./form/Images";
 import { useObjectFormState } from "@/app/objects/create/store";
 import Metro from "./form/object-forms/Metro";
 import Highways from "./form/object-forms/Highways";
+import { useRouter } from "next/navigation";
+// import { headers } from "next/server";
+
 
 function ObjectFormZustand({ form_data, flat_for_update = null }) {
-
+    const router = useRouter();
 
     const loading = useObjectFormState((state) => state.loading);
     const setFlat = useObjectFormState((state) => state.setFlat);
@@ -30,6 +33,9 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
     const flat = useObjectFormState((state) => Object.keys(state.flat))
     const category = useObjectFormState((state) => state.flat.category)
     const object = useObjectFormState((state) => state.flat.object);
+    const flat_data = useObjectFormState((state) => state.flat)
+
+
 
     useEffect(() => {
         setFlat(flat_for_update);
@@ -43,7 +49,9 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
 
 
     const [object_menu_items, setObject_menu_items] = useState([]);
- 
+    const [saveError, setSaveError] = useState(false);
+    const [saveErrorMessage, setSaveErrorMessage] = useState('');
+
 
     useEffect(() => {
         updateFlat('object', '');
@@ -61,10 +69,39 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
     if (loading) {
         return <></>
     }
-    
+
 
     const getter = (name) => {
         return useObjectFormState((state) => state.flat[name])
+    }
+
+    const save = async () => {
+        setSaveError(false);
+        // console.log(headers());
+
+        // console.log(flat_data);
+        let data = new FormData();
+        // Object.keys(flat_data).forEach((key) => data.append('flat[' + key + ']', flat_data[key]));
+        // for (var key in flat) {
+        //     data.append('flat[' + key + ']', flat[key]);
+        // }
+        data.append('flat', JSON.stringify(flat_data));
+        // const result = await fetch('/api/object/save');
+
+        try {
+            await fetch('/api/object/save', {
+                method: 'POST',
+                body: data,
+            }).then(res => res.json())
+                .then(data => { console.log(data) })
+            // setImages_disabled(false);
+        } catch (e) {
+            setSaveError(true);
+            setSaveErrorMessage('Что-то пошло не так');
+
+            // console
+        }
+
     }
 
     return (<>
@@ -221,12 +258,35 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
             />
 
             <Images
+                // className="mb-10"
                 setter={addImages}
                 getter={getter}
             />
 
 
+            <Stack
+                className="mt-10"
+                direction={'row'}
+                spacing={3}
+            >
+                <Button
+                    onClick={save}
+                    variant="contained"
+                // color="success"
+                >
+                    Сохранить
 
+                </Button>
+
+                <Button
+                    onClick={() => router.back()}
+                    variant="contained"
+                    color="error"
+                >
+                    Отмена
+
+                </Button>
+            </Stack>
 
         </Stack >
     </>);

@@ -1,5 +1,5 @@
 import ObjectForm from "@/app/components/objects/ObjectForm";
-import { new_object } from "@/app/heplers/heplers";
+import { checkSession, new_object } from "@/app/heplers/heplers";
 // import { StyledEngineProvider } from "@mui/material";
 import { useObjectFormState } from "./store";
 import ObjectFormZustand from "@/app/components/objects/ObjectFormZustand";
@@ -14,15 +14,17 @@ async function getFormData() {
 //     const repo = await res.json()
 //     return { props: { repo } }
 //   }
-async function CreateObject() {
+async function CreateObject({ searchParams }) {
+    const leadId = Number(searchParams?.lead_id) || 0;
 
+    const session_checked = await checkSession(searchParams);
 
-
+    // lead_id
 
     const form_data = await getFormData();
     // console.log(form_data);
 
-    const flat = {...new_object() , };
+    const flat = { ...new_object(), leadId: leadId, id: 0 };
 
 
 
