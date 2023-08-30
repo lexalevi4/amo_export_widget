@@ -1,6 +1,6 @@
 function Ad() {
     return ( <h1>
-        ads page
+        Тут будет реклама
     </h1> );
 }
 

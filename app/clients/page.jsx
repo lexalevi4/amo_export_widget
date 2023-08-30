@@ -1,6 +1,6 @@
 function Clients() {
     return ( <h1>
-        Clients
+        Тут будут заявки
     </h1> );
 }
 

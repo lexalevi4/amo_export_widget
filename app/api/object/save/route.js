@@ -16,7 +16,7 @@ export async function POST(request, response) {
     // formData.get("flat");
     // console.log(formData.get("flat"));
 
-    const res = sendPostRequest('https://turbobroker.ru/api/save-object', { flat: formData.get("user") })
+    const res = sendPostRequest('https://turbobroker.ru/api/save-object', { flat: JSON.parse(formData.get("flat")) })
 
 
     // const dadata = await fetch(dadata_geocode_url, {

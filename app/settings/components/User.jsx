@@ -1,11 +1,19 @@
 import { Box, Button, FormControl, Grid, Stack, TableCell, TableRow, TextField } from "@mui/material";
 import { useState } from "react";
 import UserSettings from "./UserSettings";
+import AccessRights from "./AccessRights";
 
 function User({ user }) {
     const [showSettings, setShowSettings] = useState(false);
     const handleShow = () => {
         setShowSettings(!showSettings)
+    }
+    const rights = {
+        create: user.access_create,
+        read: user.access_read,
+        update: user.access_update,
+        publish: user.access_publish,
+        delete: user.access_delete
     }
     return (<>
         <TableRow
@@ -14,6 +22,7 @@ function User({ user }) {
             <TableCell>
                 <Button
                     style={{
+                        minWidth: 0,
                         textTransform: 'none'
                     }}
                     id={"showuserinfo" + user.id}
@@ -23,9 +32,12 @@ function User({ user }) {
                 </Button>
             </TableCell>
 
-            <TableCell>
-                Права
-            </TableCell>
+            {/* <TableCell> */}
+            <AccessRights
+                id={user.id}
+                value={rights}
+            />
+            {/* </TableCell> */}
         </TableRow>
         <TableRow
             style={{
@@ -37,7 +49,8 @@ function User({ user }) {
         >
             <TableCell
 
-                colSpan={2}
+                colSpan={6}
+                className="p-10"
             >
                 <UserSettings
                     handleShow={handleShow}

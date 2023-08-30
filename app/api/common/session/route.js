@@ -1,7 +1,14 @@
-import { set, get, getAll, destroy, setAll, getSessionId } from "@/app/heplers/session";
+import { set, get, getAll, destroy, setAll, getSessionId, getSessionIdAndCreateIfMissing } from "@/app/heplers/session";
 import { NextResponse } from "next/server";
-import { headers } from 'next/headers'
+import { cookies, headers } from 'next/headers'
+import NextCors from "nextjs-cors";
 var crypto = require('crypto');
+
+
+// const getUser = async () => {
+
+
+// }
 
 const check_token = async (token, acc_id) => {
 
@@ -17,34 +24,120 @@ const check_token = async (token, acc_id) => {
     const result = await request.json();
     return result;
 }
+export async function OPTIONS(req, res) {
+    return new Response('', {
+        status: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': '*',
+        },
+    })
+}
 
-export async function GET(req, response) {
-    destroy();
-    const acc_id = 31165334;
-    // const token = headers().get('x-auth-token');
-    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcmVhbHR5d2lkZ2V0LmFtb2NybS5ydSIsImF1ZCI6Imh0dHBzOlwvXC90dXJib2Jyb2tlci5ydSIsImp0aSI6ImNjYTUxODk3LTY1YmMtNGI5YS05ZTc1LTU5ZmYwNGRjNjA2ZSIsImlhdCI6MTY5Mjc5MzAxNCwibmJmIjoxNjkyNzkzMDE0LCJleHAiOjE2OTI3OTQ4MTQsImFjY291bnRfaWQiOjMxMTY1MzM0LCJzdWJkb21haW4iOiJyZWFsdHl3aWRnZXQiLCJjbGllbnRfdXVpZCI6IjE2MzBlMTcyLTg3ZDAtNGRlOS1iY2M5LWY0NjBiMjY1NjM2MSIsInVzZXJfaWQiOjE0MzM4MDAsImlzX2FkbWluIjp0cnVlfQ.0rWLUl8-HzCejiTx3VVPfMdB6Fkmn4M8j15taO2gGBs';
+export async function POST(req, response) {
+    // await response.headers.set(
+    //     {
+    //         'Access-Control-Allow-Origin': '*',
+    //         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    //         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    //         'Content-type': 'application/json',
+    //         'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Authorisation, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version,x-auth-token'
+    //     }
+    // );
+    const session_id = getSessionIdAndCreateIfMissing();
+    let cookieStore = cookies();
+    // console.log('_______________')
+    // console.log(cookieStore.getAll());
+    // console.log('_______________')
+    // console.log(session_id);
+
+    const formData = await req.formData()
+    // console.log(formData);
+    const account = formData.get('account')
+    // const area = formData.get('system[area]')
+    // const card_id = formData.get('page[code]')
+    // console.log(area)
+    // console.log(card_id)
+    const { searchParams } = new URL(req.url)
+    console.log(searchParams);
+    // const session = searchParams.get('session')
+
+    const token = headers().get('x-auth-token');
+    // console.log(token);
+
+    // // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcmVhbHR5d2lkZ2V0LmFtb2NybS5ydSIsImF1ZCI6Imh0dHBzOlwvXC90dXJib2Jyb2tlci5ydSIsImp0aSI6IjRiNzRlM2I3LWJjYjMtNDdkZC04ZjMyLThjODI4NDdiYjg1NyIsImlhdCI6MTY5MzMxMzQwOSwibmJmIjoxNjkzMzEzNDA5LCJleHAiOjE2OTMzMTUyMDksImFjY291bnRfaWQiOjMxMTY1MzM0LCJzdWJkb21haW4iOiJyZWFsdHl3aWRnZXQiLCJjbGllbnRfdXVpZCI6IjE2MzBlMTcyLTg3ZDAtNGRlOS1iY2M5LWY0NjBiMjY1NjM2MSIsInVzZXJfaWQiOjE0MzM4MDAsImlzX2FkbWluIjp0cnVlfQ.GuoMP4niEIulTzbKTPjzek7cuJYditFe4zlmw4CwE-s';
     let result = [];
-    // if (headers().has('x-auth-token')) {
-    //     console.log(headers().get('x-auth-token'));
+    let page = '/error';
+
     try {
-        result = await check_token(token, acc_id);
-        if (result?.data.account_id === acc_id) {
+        result = await check_token(token, account);
+        console.log(result)
+        if (Number(result?.data?.account_id) === Number(account)) {
             await setAll(result.data);
-            // result.data.sign = crypto.createHash('sha-256').update(result.data.account_id + '' + result.data.user_id + getSessionId() + process.env.SESSION_SECRET).digest('hex');
-            result.data.updated = Date.now();
-            await setAll(result.data);
-            // SESSION_SECRET
+            console.log(searchParams.get('page'));
+
+            if (searchParams.get('page') === 'card') {
+                console.log(searchParams.get('card_id'));
+                page = '/lead-card?lead_id=' + searchParams.get('card_id')
+
+            }
+            if (searchParams.get('page') === 'setting') {
+                page = '/settings'
+            }
+            if (searchParams.get('page') === 'left') {
+                console.log(searchParams.get('subitem'));
+                if (searchParams.get('subitem') === 'sub_item_code_1') {
+                    page = '/objects'
+
+                }
+                if (searchParams.get('subitem') === 'sub_item_code_2') {
+                    page = '/clients'
+
+                }
+                if (searchParams.get('subitem') === 'sub_item_code_3') {
+                    page = '/ad'
+
+                }
+
+            }
+
         } else {
+            // console.log('destroy else')
             destroy();
         }
 
     } catch (e) {
+        // console.log('destroy catch')
+        console.log(e);
         destroy();
     }
+
+    const response_data = { data: result?.data, html: '<html><body><script>window.location="https://amo-widget.turbobroker.ru/?session=' + session_id + '&page=' + encodeURIComponent(page) + '"</script></body></html>' }
 
     // } else {
     //     destroy();
     // }
-    return NextResponse.json(result);
+    return NextResponse.json(response_data)
+    // .headers(
+    //     {
+    //         'Access-Control-Allow-Origin': '*',
+    //         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    //         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    //         'Content-type': 'application/json',
+    //         'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Authorisation, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version,x-auth-token'
+    //     }
+    // )
+    //     headers: {
+    //         'Access-Control-Allow-Origin': '*',
+    //         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    //         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    //         'Content-type': 'application/json',
+    //         'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Authorisation, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version,x-auth-token'
+    //     }
+    // });
+
+
+    // });
 
 }

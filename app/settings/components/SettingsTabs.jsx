@@ -1,10 +1,11 @@
 'use client'
-import { Tab, TabList, TabPanel, Tabs } from "@mui/joy";
-import { Stack } from "@mui/material";
+import { Tab, TabList, TabPanel, Table, Tabs } from "@mui/joy";
+import { Button, Stack, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useSettingsState } from "../store";
-import UsersTable from "./UsersTable";
+
 import ExportTab from "./ExportTab";
+import UsersTab from "./UsersTab";
 // import User from "./components/User";
 
 // import UsersTable from "./components/UsersTable";
@@ -16,12 +17,12 @@ function SettingsTabs({ data }) {
     const pipelines = useSettingsState((state) => state.settings.pipelines);
     const statuses = useSettingsState((state) => state.settings.statuses);
     const groups = useSettingsState((state) => state.settings.groups);
-    const state = useSettingsState((state) => state.settings );
+    const state = useSettingsState((state) => state.settings);
 
 
     useEffect(() => {
         setInitialState(data);
-        
+
     }, [])
     useEffect(() => {
         console.log(state);
@@ -74,26 +75,13 @@ function SettingsTabs({ data }) {
             // }}
 
             >
-                <Tab id='asdfasfd'>Пользователи</Tab>
+                <Tab id='asdfasfd'>Пользователи и права доступа</Tab>
                 <Tab id='ajklhljkh'>Выгрузка</Tab>
 
             </TabList>
             <TabPanel id={'tab1'} className='mb-3' value={0}>
-                <Stack
-                    spacing={2}
+                <UsersTab />
 
-                >
-                    {groups.map((group) => {
-
-                        return (
-                            <UsersTable
-                                key={'grp+' + group.id}
-                                group={group.name}
-                                users={users.filter((user) => { return user.group_id === group.amo_group_id })}
-                            />
-                        )
-                    })}
-                </Stack>
             </TabPanel>
             <TabPanel id={'tab2'} className='mb-3' value={1}>
                 <ExportTab />

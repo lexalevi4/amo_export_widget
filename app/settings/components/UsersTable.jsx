@@ -1,48 +1,49 @@
 'use client'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import User from "./User";
+import AccessRights from "./AccessRights";
 
 function UsersTable({ users, group }) {
+    const rights = {
+        create: group.access_create,
+        read: group.access_read,
+        update: group.access_update,
+        publish: group.access_publish,
+        delete: group.access_delete
+    }
     return (<>
-        <Typography
-            // className="mt-10"
-        >{group}</Typography>
-        <TableContainer>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                style={{
+        <TableRow
+            style={{
+                backgroundColor: 'lightgray'
+            }}
 
-                                }}
-                            >Имя</Typography>
-                        </TableCell>
+        >
+            <TableCell
+                className="pt-5"
+            >
 
-                        <TableCell>
-                            Права
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
+                {group.name}
 
-                    {users.map((user, index) => {
-                        return (
-                            <User
-                                user={user}
-                                key={'user_table_row' + user.id}
-                            />
+            </TableCell>
 
-                        )
+            {/* <TableCell> */}
+            <AccessRights value={rights} isGroup={true} id={group.id} />
+            {/* </TableCell> */}
+        </TableRow>
 
-                    })}
 
-                </TableBody>
+        {users.map((user, index) => {
+            return (
+                <User
+                    user={user}
+                    key={'user_table_row' + user.id}
+                />
 
-            </Table>
+            )
 
-        </TableContainer>
+        })}
+
+
     </>);
 }
 

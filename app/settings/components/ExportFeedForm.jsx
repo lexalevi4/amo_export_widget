@@ -22,12 +22,15 @@ function ExportFeedForm({ feed, }) {
     const [expanded, setExpanded] = useState(false)
     const updateSettings = useSettingsState((state) => state.updateSettings)
     const [alert, setAlert] = useState('Скопировано');
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
+
 
 
 
 
     const delFeed = async () => {
         if (window.confirm('Удалить фид?')) {
+            setButtonsDisabled(true);
             const data = new FormData();
             data.append('feed', JSON.stringify({ id: feed.id }))
             try {
@@ -49,10 +52,12 @@ function ExportFeedForm({ feed, }) {
                 setFailSnackbarOpen(true);
             }
         }
+        setButtonsDisabled(false);
     }
 
 
     const saveFeed = async () => {
+        setButtonsDisabled(true);
 
         const data = new FormData();
         data.append('feed', JSON.stringify(
@@ -91,6 +96,7 @@ function ExportFeedForm({ feed, }) {
         } catch (e) {
             setFailSnackbarOpen(true);
         }
+        setButtonsDisabled(false);
         // setPipelinesButtonDisabled(false);
 
     }
@@ -266,7 +272,7 @@ function ExportFeedForm({ feed, }) {
                     spacing={2}
                 >
                     <Button
-                        disabled={name === ''}
+                        disabled={name === '' || buttonsDisabled}
                         onClick={saveFeed}
                         className="mt-5"
                         variant="contained"
@@ -274,7 +280,7 @@ function ExportFeedForm({ feed, }) {
                         Сохранить
                     </Button>
                     {feed.id > 0 && (<Button
-                        disabled={name === ''}
+                        disabled={name === '' || buttonsDisabled}
                         onClick={delFeed}
                         className="mt-5"
                         variant="contained"

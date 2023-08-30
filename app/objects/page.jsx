@@ -1,7 +1,7 @@
 function Flats() {
     return (<>
     <h1>
-        Flats page
+        Тут будут объекты
     </h1>
     </>  );
 }

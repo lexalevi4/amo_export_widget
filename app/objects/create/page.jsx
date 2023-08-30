@@ -1,7 +1,7 @@
-import ObjectForm from "@/app/components/objects/ObjectForm";
+// import ObjectForm from "@/app/components/objects/ObjectForm";
 import { checkSession, new_object } from "@/app/heplers/heplers";
 // import { StyledEngineProvider } from "@mui/material";
-import { useObjectFormState } from "./store";
+// import { useObjectFormState } from "./store";
 import ObjectFormZustand from "@/app/components/objects/ObjectFormZustand";
 
 async function getFormData() {

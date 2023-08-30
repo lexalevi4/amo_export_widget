@@ -6,7 +6,7 @@ import { MuiFileInput } from "mui-file-input";
 import { useState } from "react";
 import { useSettingsState } from "../store";
 
-function UserSettings({ user, handleShow }) {
+function UserSettings({ user, handleShow = () => { } }) {
 
     const [firstName, setFirstName] = useState(user.firstname || '');
     const [middleName, setMiddleName] = useState(user.middlename || '');
