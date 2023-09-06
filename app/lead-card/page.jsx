@@ -5,10 +5,13 @@ import Link from "next/link";
 // import { checkSession } from "../heplers/heplers";
 // import { cookies } from 'next/headers'
 import { session } from '../heplers/session'
-import { sendGetRequest } from "../heplers/backendApiHandler";
+import { getFormData, sendGetRequest } from "../heplers/backendApiHandler";
+import ObjectCard from "../components/objects/ObjectCard";
+import "@/app/../dist/style.css"
+import ObjectList from "../components/objects/ObjectList";
 
 async function getLeadData(id) {
-    return sendGetRequest('https://turbobroker.ru/api/get-lead-card', { lead_id: id })
+    return sendGetRequest('https://turbobroker.ru/api/get-lead-card?lead_id=' + id)
 
     // const res = await fetch('https://turbobroker.ru/api/get-lead-card?lead=' + id)
     // const data = await res.json();
@@ -48,6 +51,7 @@ async function Page({ searchParams }) {
         </>
     }
     const data = await getLeadData(leadId);
+    console.log(data);
     if (!current_session?.account_id) {
         return (<>
             <Typography>
@@ -55,6 +59,8 @@ async function Page({ searchParams }) {
             </Typography>
         </>)
     }
+    const formData = await getFormData();
+
 
 
 
@@ -80,13 +86,10 @@ async function Page({ searchParams }) {
             variant="h5"
         >Объекты:
         </Typography>
-        {data.objects.map((object, index) => {
-            return (<Typography
-                key={'objects' + object.id}
-            >
-                {object.id}
-            </Typography>)
-        })}
+        <ObjectList
+            formData={formData}
+            objects={data.objects}
+        />
         <Link
             href={'/objects/create?lead_id=' + leadId}
         // as={'/static/' + someJsString}

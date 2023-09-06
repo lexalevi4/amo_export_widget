@@ -28,20 +28,26 @@ const getSalt = async () => {
         Math.random().toString(36).substring(2, 15);
 }
 
-export const sendGetRequest = async (url, data = []) => {
+export const sendGetRequest = async (url, data = {}) => {
+    const keys = Object.keys(data)
 
-   
+    let query_string = ''
+    if (keys.length > 0) {
+        query_string = '?' + serialize(data)
+    }
+
     // console.log(sign);
     try {
         const salt = await getSalt();
         const sign = await getSign(salt);
-        const req = await fetch(url + '?' + serialize(data),
+        const req = await fetch(url + query_string,
             {
                 method: 'GET',
                 headers: {
                     'auth': getSessionId() + ':' + sign.sign + ':' + salt + ':' + sign.timestamp
                 },
                 next: {
+                    cache: 'no-store',
                     revalidate: 0
                 }
             }
@@ -49,7 +55,7 @@ export const sendGetRequest = async (url, data = []) => {
         return await req.json();
     } catch (e) {
         console.log(e);
-        return { status: 'error'  };
+        return { status: 'error' };
     }
 
 }
@@ -72,8 +78,15 @@ export const sendPostRequest = async (url, data = []) => {
         },
         body: JSON.stringify(data)
     });
-   
+
     return await req.json();
 
 
+}
+export const getFormData = async () => {
+    const form_data = await fetch('https://turbobroker.ru/api/get-form-params',
+        { cache: 'force-cache' }
+        // { next: { revalidate: 86400 } }
+    )
+    return form_data.json()
 }

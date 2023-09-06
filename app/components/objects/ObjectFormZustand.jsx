@@ -53,16 +53,47 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
     const [saveErrorMessage, setSaveErrorMessage] = useState('');
 
 
+
+    // useEffect(() => {
+    //     if (object_menu_items.length > 0) {
+
+    //         const filtered = object_menu_items.filter(item => {
+    //             return item.id === Number(object);
+    //         })
+
+    //         if (filtered.length === 0) {
+    //             updateFlat('object', '');
+    //             console.log('empty')
+    //             console.log(object_menu_items)
+    //             console.log(object_menu_items.length)
+    //             console.log(Number(object));
+    //         } else {
+    //             console.log('not empty')
+    //         }
+    //     }
+    // }, [object_menu_items])
+
     useEffect(() => {
-        updateFlat('object', '');
+
         if (Number(category) > 0) {
-
+            const new_menu = form_data.object.filter((item) => {
+                return Number(item.category) === Number(category)
+            });
+            const filtered = new_menu.filter(item => {
+                return item.id === Number(object);
+            })
+            if (filtered.length === 0) {
+                updateFlat('object', '');
+                console.log('empty')
+                console.log(object_menu_items)
+                console.log(object_menu_items.length)
+                console.log(Number(object));
+            } else {
+                console.log('not empty')
+            }
             setObject_menu_items(
-                form_data.object.filter((item) => {
-                    return Number(item.category) === Number(category)
-                })
+                new_menu
             )
-
         }
     }, [category])
 
@@ -137,8 +168,8 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                             // value={object}
                             title={"Объект"}
                             name={'object'}
-                            setter={updateFlat}
-                            getter={getter}
+                        // setter={updateFlat}
+                        // getter={getter}
                         />
                     )}
                 </>

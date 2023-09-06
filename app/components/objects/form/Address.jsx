@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { debounce } from '@mui/material/utils';
 import { AddressSuggestions } from "react-dadata";
 import { Placemark, YMaps, Map, RulerControl, ZoomControl, useYMaps } from "@pbe/react-yandex-maps";
-import { dadata_key } from "@/app/params/params";
+// import { dadata_key } from "@/app/params/params";
 import MyTextInput from "./MyTextInput";
 import { Stack, Typography } from "@mui/material";
 import '../../../../dist/style.css'
@@ -69,12 +69,14 @@ function Address({
         );
 
 
+        if (map) {
 
-        if (lat > 0 && lng > 0) {
-            let new_placemark = new ymaps.Placemark([lat, lng])
-            setPlacemark(new_placemark);
-            map.geoObjects.add(new_placemark);
-            new_placemark.events.add(['dragend'], dragEnd)
+            if (lat > 0 && lng > 0) {
+                let new_placemark = new ymaps.Placemark([lat, lng])
+                setPlacemark(new_placemark);
+                map.geoObjects.add(new_placemark);
+                new_placemark.events.add(['dragend'], dragEnd)
+            }
         }
 
     }, [ymaps])
@@ -95,28 +97,29 @@ function Address({
 
     useEffect(() => {
 
-        if (lat > 0 && lng > 0) {
-            if (placemark === null) {
-                let new_placemark = new ymaps.Placemark([lat, lng],
-                    {},
-                    {
-                        draggable: true
-                    })
-                setPlacemark(new_placemark);
-                map.geoObjects.add(new_placemark);
-                new_placemark.events.add(['dragend'], dragEnd)
-                map.setCenter([lat, lng])
-                map.setZoom(17)
-            } else {
-                placemark.geometry.setCoordinates([lat, lng]);
-                map.setCenter([lat, lng])
-                map.setZoom(17)
-            }
+        if (ymaps && map) {
+            if (lat > 0 && lng > 0) {
+                if (placemark === null) {
+                    let new_placemark = new ymaps.Placemark([lat, lng],
+                        {},
+                        {
+                            draggable: true
+                        })
+                    setPlacemark(new_placemark);
+                    map.geoObjects.add(new_placemark);
+                    new_placemark.events.add(['dragend'], dragEnd)
+                    map.setCenter([lat, lng])
+                    map.setZoom(17)
+                } else {
+                    placemark.geometry.setCoordinates([lat, lng]);
+                    map.setCenter([lat, lng])
+                    map.setZoom(17)
+                }
 
+            }
         }
 
-
-    }, [lat, lng])
+    }, [lat, lng, ymaps, map])
 
 
     return (<>

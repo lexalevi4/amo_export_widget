@@ -11,13 +11,17 @@ import _ from 'lodash';
 // import debounce from "lodash.debounce";
 
 function Description({ setter, getter }) {
+    if (window === undefined) {
+        return <>
+        </>
+    }
 
     const [editorState, setEditorState] = useState(null)
     const value = getter('description');
 
 
     const handleDebounceFn = (state) => {
-        setter('description', convertToRaw(state.getCurrentContent()))
+        setter('description', draftToHtml(convertToRaw(state.getCurrentContent())))
     };
 
 
@@ -25,10 +29,12 @@ function Description({ setter, getter }) {
 
 
     useEffect(() => {
-        let blocksFromHtml = htmlToDraft(value);
-        let { contentBlocks, entityMap } = blocksFromHtml;
-        let contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-        setEditorState(EditorState.createWithContent(contentState))
+        if (window) {
+            let blocksFromHtml = htmlToDraft(value);
+            let { contentBlocks, entityMap } = blocksFromHtml;
+            let contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+            setEditorState(EditorState.createWithContent(contentState))
+        }
     }, [])
 
 
@@ -36,6 +42,10 @@ function Description({ setter, getter }) {
     const onEditorStateChange = (editorState) => {
         setEditorState(editorState);
         debounceFn(editorState)
+    }
+    if (!window) {
+        return (<>
+        </>)
     }
     return (<>
 

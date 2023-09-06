@@ -35,7 +35,7 @@ export async function OPTIONS(req, res) {
     })
 }
 
-export async function POST(req, response) {
+export async function GET(req, response) {
     // await response.headers.set(
     //     {
     //         'Access-Control-Allow-Origin': '*',
@@ -52,21 +52,22 @@ export async function POST(req, response) {
     // console.log('_______________')
     // console.log(session_id);
 
-    const formData = await req.formData()
+    // const formData = await req.formData()
     // console.log(formData);
-    const account = formData.get('account')
+    // const account = formData.get('account')
+    const account = 31165334;
     // const area = formData.get('system[area]')
     // const card_id = formData.get('page[code]')
     // console.log(area)
     // console.log(card_id)
-    const { searchParams } = new URL(req.url)
-    console.log(searchParams);
+    // const { searchParams } = new URL(req.url)
+    // console.log(searchParams);
     // const session = searchParams.get('session')
 
-    const token = headers().get('x-auth-token');
+    // const token = headers().get('x-auth-token');
     // console.log(token);
 
-    // // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcmVhbHR5d2lkZ2V0LmFtb2NybS5ydSIsImF1ZCI6Imh0dHBzOlwvXC90dXJib2Jyb2tlci5ydSIsImp0aSI6IjRiNzRlM2I3LWJjYjMtNDdkZC04ZjMyLThjODI4NDdiYjg1NyIsImlhdCI6MTY5MzMxMzQwOSwibmJmIjoxNjkzMzEzNDA5LCJleHAiOjE2OTMzMTUyMDksImFjY291bnRfaWQiOjMxMTY1MzM0LCJzdWJkb21haW4iOiJyZWFsdHl3aWRnZXQiLCJjbGllbnRfdXVpZCI6IjE2MzBlMTcyLTg3ZDAtNGRlOS1iY2M5LWY0NjBiMjY1NjM2MSIsInVzZXJfaWQiOjE0MzM4MDAsImlzX2FkbWluIjp0cnVlfQ.GuoMP4niEIulTzbKTPjzek7cuJYditFe4zlmw4CwE-s';
+    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcmVhbHR5d2lkZ2V0LmFtb2NybS5ydSIsImF1ZCI6Imh0dHBzOlwvXC90dXJib2Jyb2tlci5ydSIsImp0aSI6IjQ2MTNjZTc1LTZlMWMtNDBlOS1hOTI2LTk2NDIxNmE2YWFlNiIsImlhdCI6MTY5MzkwMzc0MSwibmJmIjoxNjkzOTAzNzQxLCJleHAiOjE2OTM5MDU1NDEsImFjY291bnRfaWQiOjMxMTY1MzM0LCJzdWJkb21haW4iOiJyZWFsdHl3aWRnZXQiLCJjbGllbnRfdXVpZCI6IjE2MzBlMTcyLTg3ZDAtNGRlOS1iY2M5LWY0NjBiMjY1NjM2MSIsInVzZXJfaWQiOjE0MzM4MDAsImlzX2FkbWluIjp0cnVlfQ.aXkriZKuUXy-khAAkiN_sxgpJ1LuheL1g32gPfCoXmM';
     let result = [];
     let page = '/error';
 
@@ -75,32 +76,33 @@ export async function POST(req, response) {
         console.log(result)
         if (Number(result?.data?.account_id) === Number(account)) {
             await setAll(result.data);
-            console.log(searchParams.get('page'));
+            // result = data;
+            // console.log(searchParams.get('page'));
 
-            if (searchParams.get('page') === 'card') {
-                console.log(searchParams.get('card_id'));
-                page = '/lead-card?lead_id=' + searchParams.get('card_id')
+            // if (searchParams.get('page') === 'card') {
+            //     console.log(searchParams.get('card_id'));
+            //     page = '/lead-card?lead_id=' + searchParams.get('card_id')
 
-            }
-            if (searchParams.get('page') === 'settings') {
-                page = '/settings'
-            }
-            if (searchParams.get('page') === 'left') {
-                console.log(searchParams.get('subitem'));
-                if (searchParams.get('subitem') === 'sub_item_code_1') {
-                    page = '/objects'
+            // }
+            // if (searchParams.get('page') === 'settings') {
+            //     page = '/settings'
+            // }
+            // if (searchParams.get('page') === 'left') {
+            //     console.log(searchParams.get('subitem'));
+            //     if (searchParams.get('subitem') === 'sub_item_code_1') {
+            //         page = '/objects'
 
-                }
-                if (searchParams.get('subitem') === 'sub_item_code_2') {
-                    page = '/clients'
+            //     }
+            //     if (searchParams.get('subitem') === 'sub_item_code_2') {
+            //         page = '/clients'
 
-                }
-                if (searchParams.get('subitem') === 'sub_item_code_3') {
-                    page = '/ad'
+            //     }
+            //     if (searchParams.get('subitem') === 'sub_item_code_3') {
+            //         page = '/ad'
 
-                }
+            //     }
 
-            }
+            // }
 
         } else {
             // console.log('destroy else')
@@ -113,12 +115,12 @@ export async function POST(req, response) {
         destroy();
     }
 
-    const response_data = { data: result?.data, html: '<html><body><script>window.location="https://amo-widget.turbobroker.ru/?session=' + session_id + '&page=' + encodeURIComponent(page) + '"</script></body></html>' }
-
+    // const response_data = { data: result?.data, html: '<html><body><script>window.location="https://amo-widget.turbobroker.ru/?session=' + session_id + '&page=' + encodeURIComponent(page) + '"</script></body></html>' }
+    
     // } else {
     //     destroy();
     // }
-    return NextResponse.json(response_data)
+    return NextResponse.json(result)
     // .headers(
     //     {
     //         'Access-Control-Allow-Origin': '*',

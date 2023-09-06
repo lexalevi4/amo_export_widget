@@ -1,7 +1,11 @@
 'use client'
+import { useObjectFormState } from "@/app/objects/create/store";
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 
-function MyRadioGroup({ name, title, items, value, setter }) {
+function MyRadioGroup({ name, title, items,
+    //  value, 
+    //  setter 
+    }) {
 
     // const updateFlat = 
     // const handleChange = (e)=>{
@@ -11,10 +15,18 @@ function MyRadioGroup({ name, title, items, value, setter }) {
     //     setter(event.target.value);
     //     // flat['name'] = event.target.value;
     // };
-    const handleChange = (event) => {
-        setter(name, event.target.value)
 
+    const value = useObjectFormState((state) => state.flat[name]);
+    const updateFlat = useObjectFormState((state) => state.updateFlat);
+
+    const handleChange = (e) => {
+        updateFlat(name, e.target.value)
     }
+
+    // const handleChange = (event) => {
+    //     setter(name, event.target.value)
+
+    // }
 
     return (
 

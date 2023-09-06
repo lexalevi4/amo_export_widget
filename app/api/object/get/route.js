@@ -16,7 +16,7 @@ export async function POST(request, response) {
     // formData.get("flat");
     // console.log(formData.get("flat"));
 
-    const res = await sendPostRequest('https://turbobroker.ru/api/save-object', { flat: JSON.parse(formData.get("flat")) })
+    const res = await sendPostRequest('https://turbobroker.ru/api/get-objects', { filter: JSON.parse(formData.get("filter")) })
     console.log(res);
 
 

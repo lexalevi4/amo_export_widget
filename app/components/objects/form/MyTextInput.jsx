@@ -1,12 +1,18 @@
 "use client"
+import { useObjectFormState } from "@/app/objects/create/store";
 import { Box, FormControl, InputLabel, TextField } from "@mui/material";
 import { useEffect } from "react";
 
-function MyTextInput({ title, name, value, setter, type = 'text', flat, width = null }) {
+function MyTextInput({ title, name, 
+    // value,
+     setter, type = 'text', flat, width = null }) {
+
+
+    const value = useObjectFormState((state) => state.flat[name]);
+    const updateFlat = useObjectFormState((state) => state.updateFlat);
 
     const handler = (e) => {
-
-        setter(name, e.target.value)
+        updateFlat(name, e.target.value)
     }
 
     return (<>

@@ -1,31 +1,14 @@
-import { useObjectFormState } from "@/app/objects/create/store";
+'use client'
+import { useObjectSearchFormState } from "@/app/objects/store";
 import { FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
 
-function MySelect({ items, title, name, setter, width = 300, multiple = false, required = false }) {
+function SearchSelect({ width = 300, name, title, items, multiple = false, required = false }) {
 
-    // const handleChange = (e) => {
-    //     let new_value = e.target.value;
-    //     setter(new_value);
-    //     // flat[name] = new_value;
-    //     // console.log(flat)
-    // }
-    // console.log(width);
-    // const value = useObjectFormState((state) => state.flat[name]);
+    const value = useObjectSearchFormState((state) => state.search[name])
+    const setSearchParam = useObjectSearchFormState((state) => state.setSearchParam)
 
-    const value = useObjectFormState((state) => state.flat[name]);
-    const updateFlat = useObjectFormState((state) => state.updateFlat);
+    return (<>
 
-    const handleChange = (e) => {
-        updateFlat(name, e.target.value)
-    }
-
-
-    // const handleChange = (event) => {
-    //     setter(name, event.target.value)
-
-    // }
-    // console.log(value)
-    return (
         <FormControl
             style={
                 {
@@ -43,7 +26,7 @@ function MySelect({ items, title, name, setter, width = 300, multiple = false, r
                 id={name + '-select'}
                 name={name}
                 value={value}
-                onChange={handleChange}
+                onChange={(e) => setSearchParam(name, e.target.value)}
                 input={<OutlinedInput label={title} />}
             >
 
@@ -71,7 +54,8 @@ function MySelect({ items, title, name, setter, width = 300, multiple = false, r
                 }
             </Select>
         </FormControl >
-    );
+
+    </>);
 }
 
-export default MySelect;
+export default SearchSelect;

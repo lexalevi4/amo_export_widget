@@ -152,7 +152,7 @@ function Commercial({
     return (<>
 
 
-        {flat_object === 9 && (
+        {Number(flat_object) === 9 && (
             <Garage
                 flat={flat}
                 setter={setter}
@@ -162,7 +162,7 @@ function Commercial({
 
         )}
 
-        {(flat_object === 19 || flat_object === 20) && (
+        {(Number(flat_object) === 19 || flat_object === 20) && (
             <Business
                 flat={flat}
                 setter={setter}
@@ -174,7 +174,7 @@ function Commercial({
         )}
 
 
-        {(flat_object === 17) && (
+        {(Number(flat_object) === 17) && (
             <Building
                 flat={flat}
                 setter={setter}
@@ -186,7 +186,7 @@ function Commercial({
         )}
 
 
-        {(flat_object === 21) && (
+        {(Number(flat_object) === 21) && (
             <CommercialLand
                 flat={flat}
                 setter={setter}
@@ -196,7 +196,7 @@ function Commercial({
             />
 
         )}
-        {(flat_object === 10) && (
+        {(Number(flat_object) === 10) && (
             <Office
                 flat={flat}
                 setter={setter}
@@ -206,7 +206,7 @@ function Commercial({
             />
 
         )}
-        {(flat_object === 13) && (
+        {(Number(flat_object) === 13) && (
             <FreeAppointment
                 flat={flat}
                 setter={setter}
@@ -217,7 +217,7 @@ function Commercial({
 
         )}
 
-        {(flat_object === 15) && (
+        {(Number(flat_object) === 15) && (
             <Industry
                 flat={flat}
                 setter={setter}
@@ -227,7 +227,7 @@ function Commercial({
             />
 
         )}
-        {(flat_object === 12) && (
+        {(Number(flat_object) === 12) && (
             <Warehouse
                 flat={flat}
                 setter={setter}
@@ -237,7 +237,7 @@ function Commercial({
             />
 
         )}
-        {(flat_object === 11) && (
+        {(Number(flat_object) === 11) && (
             <ShoppingArea
                 flat={flat}
                 setter={setter}

@@ -93,6 +93,7 @@ export const new_object = () => {
         vatIncluded: false,
         accessType: '',
         vat_type: '',
+        vat: '',
         heatingType: '',
         buildingType: '',
         bedroomsCount: '',
@@ -135,7 +136,7 @@ export const new_object = () => {
         },
         // images: ['1adbb4fe-ef21-4389-b055-9da7068f8787.jpg'],
         video: [],
-        isNewBuilding: '',
+        isNewBuilding: false,
         deadlineQuarter: '',
         deadlineYear: '',
         mortgageAllowed: false,
@@ -187,7 +188,7 @@ export const new_object = () => {
         possibleToChangePermitedUseType: false,
         communications: [],
         drivewayType: '',
-        minArea: ',',
+        minArea: '',
         managementCompany: '',
         developer: '',
         hasTransportServices: false,
@@ -203,7 +204,8 @@ export const new_object = () => {
         work_hours_24: false,
         multiAds: [],
         metro: [],
-        highways: []
+        highways: [],
+        parkingPurposeType: ''
 
 
 
@@ -263,4 +265,10 @@ export const checkSession = async (searchParams) => {
 
     return true;
 
+}
+
+export const getFormData = async () => {
+    const form_data = await fetch('https://turbobroker.ru/api/get-form-params?asdfaasdf=asdf',
+        { next: { revalidate: 0 } })
+    return form_data.json()
 }

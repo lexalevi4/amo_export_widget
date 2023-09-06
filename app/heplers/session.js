@@ -94,7 +94,7 @@ export async function get(key) {
 
 export async function getAll() {
     const sessionId = getSessionId();
-    console.log('from getAll ' + sessionId)
+    // console.log('from getAll ' + sessionId)
     // const cookieStore = cookies();
     // console.log('session_id:' + sessionId)
     // console.log(cookieStore.getAll());

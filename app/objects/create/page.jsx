@@ -2,6 +2,7 @@
 import { checkSession, new_object } from "@/app/heplers/heplers";
 // import { StyledEngineProvider } from "@mui/material";
 // import { useObjectFormState } from "./store";
+import "@/app/../dist/style.css"
 import ObjectFormZustand from "@/app/components/objects/ObjectFormZustand";
 
 async function getFormData() {
