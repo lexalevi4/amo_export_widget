@@ -9,3 +9,45 @@
     border-radius: 20px;
     margin-right: 5px;
 }
+
+.center-cropped {
+    width: 100px;
+    height: 100px;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  .brunch_link_active {
+    /*color: black;*/
+    font-weight: bold;
+    text-decoration: underline;
+}
+.select_brunch {
+    font-size: 13px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.station_link {
+    color: black;
+    overflow-wrap: normal;
+    word-break: normal;
+    white-space: nowrap
+}
+
+.station_link_active {
+    color: black;
+    text-decoration: underline;
+    overflow-wrap: normal;
+    word-break: normal;
+    white-space: nowrap
+}
+.metro_brunch_round{
+    width: 12px;
+    height: 12px;
+    position: relative;
+    display: inline-block;
+    border-radius: 20px;
+    margin-right: 5px;
+}
+

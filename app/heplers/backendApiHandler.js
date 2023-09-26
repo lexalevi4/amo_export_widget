@@ -85,8 +85,8 @@ export const sendPostRequest = async (url, data = []) => {
 }
 export const getFormData = async () => {
     const form_data = await fetch('https://turbobroker.ru/api/get-form-params',
-        { cache: 'force-cache' }
-        // { next: { revalidate: 86400 } }
+        // { cache: 'force-cache' }
+        { next: { revalidate: 0 } }
     )
     return form_data.json()
 }

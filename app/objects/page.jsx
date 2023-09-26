@@ -1,11 +1,16 @@
-import ObjectList from "../components/objects/ObjectList";
+
 import { getFormData, sendGetRequest, sendPostRequest } from "../heplers/backendApiHandler";
 import ObjectsSearchForm from "../components/objects/searchForm/ObjectsSearchForm";
 import MyPagination from "../components/objects/searchForm/MyPagination";
-import { headers } from "next/headers";
-import { Paper, Typography } from "@mui/material";
 
-export const dynamic = 'force-dynamic'
+import { Paper, Typography } from "@mui/material";
+import ObjectsTable from "../components/objects/objectsTable/ObjectsTable";
+import 'react-dadata/dist/react-dadata.css';
+// export const dynamic = 'force-dynamic'
+
+import dynamic from 'next/dynamic'
+ 
+// const NoSSR = dynamic(() => import('../components/no-ssr'), { ssr: false })
 
 async function Flats(searchParams) {
 
@@ -34,7 +39,7 @@ async function Flats(searchParams) {
     // console.log(seachParams)
     // const filter = JSON.stringify(seachParams);
     const data = await sendGetRequest('https://turbobroker.ru/api/get-objects?' + query_array.join('&'), {})
-    console.log(data);
+    // console.log(data);
     const formData = await getFormData();
 
     if (data.status === 'error') {
@@ -45,11 +50,14 @@ async function Flats(searchParams) {
             </h1>
         )
     }
+    
 
     return (<>
 
+
+
         <ObjectsSearchForm
-            params={{}}
+            
             formData={formData}
         />
 
@@ -70,10 +78,15 @@ async function Flats(searchParams) {
 
 
         {data.objects.length > 0 && (<>
-            <ObjectList
+            
+            <ObjectsTable
                 objects={data.objects}
                 formData={formData}
             />
+            {/* <ObjectList
+                objects={data.objects}
+                formData={formData}
+            /> */}
             <MyPagination
                 count={data.count}
 
