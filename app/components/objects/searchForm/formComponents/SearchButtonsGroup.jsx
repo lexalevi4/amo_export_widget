@@ -1,5 +1,6 @@
 import { useObjectSearchFormState } from "@/app/objects/store";
 import { Button, ButtonGroup, FormControl, FormLabel } from "@mui/material";
+import { useMemo } from "react";
 
 function SearchButtonsGroup({ title, items, name }) {
     const updateMultyField = useObjectSearchFormState((state) => state.updateMultyField)
@@ -9,44 +10,45 @@ function SearchButtonsGroup({ title, items, name }) {
         updateMultyField(name, Number(e.target.dataset.onclickparam))
     }
 
-    return (<>
-        <FormControl
-            sx={{
-                marginTop: '15px',
-                width: '100%',
-                display: 'flex'
-
-            }}
-        >
-            <FormLabel>{title}</FormLabel >
-            <ButtonGroup
-                fullWidth
+    return (
+        useMemo(() => (
+            <FormControl
                 sx={{
                     marginTop: '15px',
                     width: '100%',
                     display: 'flex'
 
                 }}
-            // aria-label={name + "outlined primary button group"}
             >
-                {
-                    items.map(function (item) {
-                        return (
-                            < Button
-                                size="small"
-                                key={'rooms' + item.id}
-                                data-onclickparam={item.id}
-                                onClick={handler}
-                                // variant="outlined"
-                                variant={value.includes(item.id) ? 'contained' : 'outlined'}
-                            > {item.name}
-                            </Button>
-                        )
-                    })
-                }
-            </ButtonGroup>
-        </FormControl>
-    </>);
+                <FormLabel>{title}</FormLabel >
+                <ButtonGroup
+                    fullWidth
+                    sx={{
+                        marginTop: '15px',
+                        width: '100%',
+                        display: 'flex'
+
+                    }}
+                // aria-label={name + "outlined primary button group"}
+                >
+                    {
+                        items.map(function (item) {
+                            return (
+                                < Button
+                                    size="small"
+                                    key={'rooms' + item.id}
+                                    data-onclickparam={item.id}
+                                    onClick={handler}
+                                    // variant="outlined"
+                                    variant={value.includes(item.id) ? 'contained' : 'outlined'}
+                                > {item.name}
+                                </Button>
+                            )
+                        })
+                    }
+                </ButtonGroup>
+            </FormControl>
+        ), [value]))
 }
 
 export default SearchButtonsGroup;

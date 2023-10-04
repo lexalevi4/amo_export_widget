@@ -33,9 +33,7 @@ function MetroLink({
                             top: (Number(station.img_top) + 96 + 40  ) + "px",
                         }}
                     />
-                    {
-                        console.log('qq')
-                    }
+                    
 
                     <div
                         key={station.id + "div"}

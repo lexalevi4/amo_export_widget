@@ -1,7 +1,7 @@
 'use client'
 
 import { useObjectSearchFormState } from "@/app/objects/store";
-import { Button, Divider, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, Radio, RadioGroup, Stack } from "@mui/material";
+import { Button, Divider, Fade, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, Paper, Popper, Radio, RadioGroup, Stack, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,12 +19,14 @@ import MapSearchModal from "./formComponents/MapSearchModal";
 import { YMaps } from "@pbe/react-yandex-maps";
 import DistrictsModal from "./formComponents/DistrictsModal";
 import HighwaysModal from "./formComponents/HighwaysModal";
-
+// import { useSearchParams } from 'next/navigation'
 
 function ObjectsSearchForm({ formData }) {
 
+    const search = useObjectSearchFormState((state) => state.search)
+    const params = useObjectSearchFormState((state) => state.params)
 
-    const params = useSearchParams();
+    const searchParams = useSearchParams();
     const cluster = useObjectSearchFormState((state) => state.search.cluster);
     const setFormData = useObjectSearchFormState((state) => state.setFormData);
     const loading = useObjectSearchFormState((state) => state.loading);
@@ -38,19 +40,67 @@ function ObjectsSearchForm({ formData }) {
     const highways = useObjectSearchFormState((state) => state.search.highways);
 
 
+    const setSearch = useObjectSearchFormState((state) => state.setSearch);
     const setSearchParam = useObjectSearchFormState((state) => state.setSearchParam);
     const updateMultyField = useObjectSearchFormState((state) => state.updateMultyField);
     const [metroOpen, setMetroOpen] = useState(false);
     const [districtsOpen, setDistrictsOpen] = useState(false);
     const [highwaysOpen, setHighwaysOpen] = useState(false);
     const [mapOpen, setMapOpen] = useState(false);
+    const [isloading, setIsLoading] = useState(false);
+
+    const [saveFilteranchorEl, setSaveFilterAnchorEl] = useState(null);
+    const [saveFilterOpen, setSaveFilterOpen] = useState(false);
+    const [filterName, setFilterName] = useState('');
+
+    const handleSaveFilterClick = (e) => {
+        setSaveFilterAnchorEl(e.currentTarget);
+        setSaveFilterOpen(!saveFilterOpen);
+    }
+    const handleSetFilterName = (e) => {
+        setFilterName(e.target.value)
+    }
 
 
+    const saveFilter = async () => {
+        let data = new FormData();
+        data.append('search', JSON.stringify(search));
+        data.append('name', filterName);
+        try {
+            await fetch('/api/client/saveFilter', {
+                method: 'POST',
+                body: data,
+            }).then(res => res.json())
+            // .then(data => { setObjects(data.objects) })
+            // .then(() => setObjectsIsLoading(false))
+        } catch (e) {
+        }
+
+
+    }
+
+
+    // console.log(params.get('rooms'))
+    // console.log(params.getAll('rooms'));
 
     useEffect(() => {
+        const new_search = search;
+        for (const key of searchParams.keys()) {
+            if (params.array_nums.includes(key)) {
+                new_search[key] = (searchParams.getAll(key).map(item => Number(item))) || []
+            } else if (params.arrays.includes(key)) {
+                new_search[key] = searchParams.getAll(key) || []
+            } else {
+                new_search[key] = searchParams.get(key) || ''
+            }
+            // console.log(key);
+        }
+        // console.log(new_search);
+        setSearch(new_search);
         setFormData(formData)
     }, [])
-    const search = useObjectSearchFormState((state) => state.search)
+
+    // console.log(searchParams);
 
     const [object_menu_items, setObject_menu_items] = useState([]);
     // const [address, setAddress] = useState('');
@@ -59,7 +109,7 @@ function ObjectsSearchForm({ formData }) {
         try {
             let qq = document.querySelector('.react-dadata__input')
             if (qq) {
-                console.log(qq)
+                // console.log(qq)
                 qq.value = ''
             }
         } catch (e) {
@@ -105,19 +155,19 @@ function ObjectsSearchForm({ formData }) {
 
 
     const onAddrChange = (suggestion) => {
-        console.log(suggestion);
-        console.log(suggestion.data.fias_id);
-        console.log(suggestion.value);
+        // console.log(suggestion);
+        // console.log(suggestion.data.fias_id);
+        // console.log(suggestion.value);
         const new_value = suggestion.data.fias_id + ':' + suggestion.value;
         updateMultyField('addrobjs', new_value);
-        console.log(addrobjs);
+        // console.log(addrobjs);
 
 
     }
 
 
     return (<>
-        <h1>Объекты</h1>
+        {/* <h1>Объекты</h1> */}
         <Grid container spacing={2} >
             <Grid
                 // className="p-1 m-2"
@@ -289,14 +339,14 @@ function ObjectsSearchForm({ formData }) {
                             />
                         </>
                     )}
-
-                    <DualTextField
-                        name1={'minLandArea'}
-                        name2={'maxLandArea'}
-                        title1={'Участок от'}
-                        title2={'Участок до'}
-                    />
-
+                    {Number(category) > 1 && (
+                        <DualTextField
+                            name1={'minLandArea'}
+                            name2={'maxLandArea'}
+                            title1={'Участок от'}
+                            title2={'Участок до'}
+                        />
+                    )}
 
                 </Stack>
 
@@ -360,9 +410,9 @@ function ObjectsSearchForm({ formData }) {
                         url="/api/dadata/suggest"
                         id='dadata-search-input'
                         // height={56}
-                        style={{
-                            height: 56
-                        }}
+                        // style={{
+                        //     height: 56
+                        // }}
                         httpCache
                         // hintText={'asdf'}
                         // httpCacheTtl={}
@@ -506,19 +556,78 @@ function ObjectsSearchForm({ formData }) {
         <Divider
             className="my-3"
         />
-        <Link
-            href={'/objects?' + serialize(search)}
-            replace
-            prefetch={false}
+        <Stack spacing={2} direction={'row'}>
+            <Link
+                href={'/objects?' + serialize(search)}
+                replace
+                prefetch={false}
 
-        >
+            >
+
+                <Button
+                    className="my-10"
+                    variant="contained"
+                    disabled={isloading}
+                // onClick={() => setIsLoading(true)}
+                >
+                    Искать
+                </Button>
+            </Link>
+            <Link
+                href={'/objects?' + serialize(search)}
+                replace
+                prefetch={false}
+
+            >
+
+                <Button
+                    className="my-10"
+                    variant="contained"
+                    disabled={isloading}
+                >
+                    На карте
+                </Button>
+            </Link>
+
             <Button
                 className="my-10"
                 variant="contained"
+                onClick={handleSaveFilterClick}
+            // disabled={isloading}
             >
-                Искать
+                Создать подборку
             </Button>
-        </Link>
+            <Popper open={saveFilterOpen} anchorEl={saveFilteranchorEl} placement={'right-end'} transition>
+                {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={350}>
+                        <Paper
+                            elevation={10}
+                            className="p-5"
+                        >
+                            {/* <Typography sx={{ p: 2 }}>The content of the Popper.</Typography> */}
+                            <TextField
+                                label={'Название'}
+                                value={filterName}
+                                onChange={handleSetFilterName}
+                            />
+                            <Divider
+                                className="mb-2"
+                            />
+                            <Button
+
+                                className="mx-2"
+                                onClick={saveFilter}
+                            >Сохранить</Button>
+                            <Button
+                                onClick={() => setSaveFilterOpen(false)}
+                                className="mx-2"
+                            >Отмена</Button>
+                        </Paper>
+                    </Fade>
+                )}
+            </Popper>
+
+        </Stack>
         <MetroModal
             isOpen={metroOpen}
             handleClose={() => setMetroOpen(false)}

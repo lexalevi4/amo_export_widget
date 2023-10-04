@@ -1,0 +1,15 @@
+{
+    "apps": [
+        {
+            "name": "myNextApp",
+            "script": "node_modules/next/dist/bin/next",
+            "args": "dev",
+            "cwd": "./",
+            "instances": "max",
+            "exec_mode": "cluster",
+            "out_file": "E:\\node_projects\\amo_export_widget\\myNextApp.log",
+            "error_file": "E:\\node_projects\\amo_export_widgetmy\\NextAppError.log",
+            "watch": "true"
+        }
+    ]
+}

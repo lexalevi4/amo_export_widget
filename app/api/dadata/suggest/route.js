@@ -14,7 +14,14 @@ export async function POST(req, response) {
 
     const body = await req.json();
     const encoded = (base64encode(body.query))
-    var query = { query: body.query, count: 10 };
+    var query = {
+        query: body.query,
+        count: 10,
+        locations: [
+            { fias_id: '29251dcf-00a1-4e34-98d4-5c47484a36d4' },
+            { fias_id: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5' }
+        ]
+    };
     const client = await getRedisClient();
     try {
 
@@ -51,8 +58,8 @@ export async function POST(req, response) {
         try {
             if (!dadata_response.reason) {
                 console.log('saving')
-                await client.set(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded, JSON.stringify(dadata_response))
-                await client.expire(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded, 86400 * 14)
+                // await client.set(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded, JSON.stringify(dadata_response))
+                // await client.expire(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded, 86400 * 14)
                 try {
                     await client.quit();
                 } catch (e) {

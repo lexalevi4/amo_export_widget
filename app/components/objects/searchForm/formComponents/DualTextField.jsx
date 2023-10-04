@@ -1,6 +1,7 @@
 'use client'
 import { FormControl, Stack, TextField } from "@mui/material";
 import { useObjectSearchFormState } from "@/app/objects/store";
+import { useMemo } from "react";
 
 function DualTextField({ name1, name2, title1, title2 }) {
 
@@ -15,41 +16,44 @@ function DualTextField({ name1, name2, title1, title2 }) {
         setSearchParam(name2, e.target.value)
     }
 
-    return (<>
-        <Stack
-            className='items-end'
-            direction="row"
-            spacing={2}
-            sx={{
-                display: 'flex'
-            }}
-        >
+    return (
+        useMemo(() => (
+            <Stack
+                className='items-end'
+                direction="row"
+                spacing={2}
+                sx={{
+                    display: 'flex'
+                }}
+            >
 
-            <TextField
-                name={name1}
-                label={title1}
-                onChange={handler1}
-                value={value1}
+                <TextField
+                    name={name1}
+                    label={title1}
+                    onChange={handler1}
+                    value={value1}
+                    size="small"
 
-            // className="mx-1"
-            // onChange={handleTextInput}
-            // name={name}
-            // value={value}
-            // id={name + "iput"}
-            // label={label}
-            // variant="standard"
+                // className="mx-1"
+                // onChange={handleTextInput}
+                // name={name}
+                // value={value}
+                // id={name + "iput"}
+                // label={label}
+                // variant="standard"
 
 
-            />
+                />
 
-            <TextField
-                name={name2}
-                label={title2}
-                onChange={handler2}
-                value={value2}
-            />
-        </Stack>
-    </>);
+                <TextField
+                    size="small"
+                    name={name2}
+                    label={title2}
+                    onChange={handler2}
+                    value={value2}
+                />
+            </Stack>
+        ), [value2, value1]))
 }
 
 export default DualTextField;

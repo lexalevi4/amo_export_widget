@@ -1,6 +1,6 @@
 'use client'
 import ReactECharts from 'echarts-for-react';
-function Loading() {
+function LoadingTb() {
     const option = {
         graphic: {
             elements: [
@@ -62,4 +62,4 @@ function Loading() {
     );
 }
 
-export default Loading;
+export default LoadingTb;

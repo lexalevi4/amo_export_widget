@@ -6,6 +6,9 @@ import './globals.css'
 // import '../dist/output.css'
 
 import { Inter } from 'next/font/google'
+import { Suspense } from 'react'
+import LoadingTb from './components/Loading'
+import './../dist/style.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -41,11 +44,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body id='root' className={inter.className}>
         {/* <StyledEngineProvider injectFirst> */}
-        <Box className="bg-white pb-8">
-          <Box className="p-4 pb-0 bg-third-bg sm:max-w-7xl mx-auto ">
-            {children}
+        <Suspense fallback={<LoadingTb />}>
+          <Box className="bg-white pb-8">
+            <Box className="p-4 pb-0 bg-third-bg sm:max-w-7xl mx-auto ">
+              {children}
+            </Box>
           </Box>
-        </Box>
+        </Suspense>
         {/* </StyledEngineProvider> */}
       </body>
     </html>

@@ -8,11 +8,15 @@ function Addrobjs() {
 
 
     const addrobjs = useObjectSearchFormState((state) => state.search.addrobjs)
-    console.log(addrobjs)
+    // console.log(addrobjs)
     return (<>
-        <Grid direction="row" spacing={1}
-        alignContent={"flex-start"}
-        alignItems={"unset"}
+        <Grid
+            className="my-3"
+            direction="row"
+            container
+            spacing={1}
+            alignContent={"flex-start"}
+            alignItems={"unset"}
             style={{ width: '100%' }}
         >
             {

@@ -6,43 +6,16 @@ import MyPagination from "../components/objects/searchForm/MyPagination";
 import { Paper, Typography } from "@mui/material";
 import ObjectsTable from "../components/objects/objectsTable/ObjectsTable";
 import 'react-dadata/dist/react-dadata.css';
-// export const dynamic = 'force-dynamic'
 
-import dynamic from 'next/dynamic'
- 
-// const NoSSR = dynamic(() => import('../components/no-ssr'), { ssr: false })
 
 async function Flats(searchParams) {
 
-    // console.log(searchParams.searchParams)
-
-    const query_array = [];
-    Object.keys(searchParams.searchParams).forEach(function (key) {
-
-        if (searchParams.searchParams[key] !== '') {
-            query_array.push(encodeURIComponent(key) + '=' + encodeURIComponent(searchParams.searchParams[key]))
-
-        }
-        // console.log(key, searchParams.searchParams[key]);
-
-
-    });
-
-    // headers().forEach((v, k) => {
-    //     console.log(k + ':' + v)
-    //     // 
-    // })
     const query = '';
-    // // const query = headers().get('next-url').replace(/\/objects\?/, "");
-    // console.log(query)
 
-    // console.log(seachParams)
-    // const filter = JSON.stringify(seachParams);
-    const data = await sendGetRequest('https://turbobroker.ru/api/get-objects?' + query_array.join('&'), {})
-    // console.log(data);
+    const data = await sendPostRequest('https://turbobroker.ru/api/get-objects', searchParams.searchParams)
     const formData = await getFormData();
 
-    if (data.status === 'error') {
+    if (data?.status === 'error') {
         return (
             <h1>
                 {data.error}
@@ -50,50 +23,58 @@ async function Flats(searchParams) {
             </h1>
         )
     }
-    
+
 
     return (<>
 
 
 
         <ObjectsSearchForm
-            
+            // searchParams={searchParams}
             formData={formData}
         />
 
 
+        
 
-        {data.objects.length === 0 && (<>
-            {/* <Paper
-                
-            > */}
-            <Typography
-                className='my-10 p-10'
-                variant="h5"
+            {data.objects.length === 0 && (<>
+                <Paper
+                    style={{
+                        width: '100%',
+                        // height: 500
 
-            >Ничего не найдено...</Typography>
-            {/* </Paper> */}
-        </>
-        )}
+                    }}
+                    elevation={4}
 
 
-        {data.objects.length > 0 && (<>
-            
-            <ObjectsTable
-                objects={data.objects}
-                formData={formData}
-            />
-            {/* <ObjectList
+                >
+                    <Typography
+                        className='my-10 p-10'
+                        variant="h5"
+
+                    >Ничего не найдено...</Typography>
+                </Paper>
+            </>
+            )}
+
+
+            {data.objects.length > 0 && (<>
+
+                <ObjectsTable
+                    objects={data.objects}
+                    formData={formData}
+                />
+                {/* <ObjectList
                 objects={data.objects}
                 formData={formData}
             /> */}
-            <MyPagination
-                count={data.count}
+                <MyPagination
+                    count={data.count}
 
-            />
-        </>
-        )}
-
+                />
+            </>
+            )}
+        
     </>);
 }
 

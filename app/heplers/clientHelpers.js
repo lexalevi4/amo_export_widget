@@ -3,7 +3,8 @@ export const serialize = function (obj, prefix) {
         p;
     for (p in obj) {
         if (obj.hasOwnProperty(p)) {
-            var k = prefix ? prefix + "[" + p + "]" : p,
+            // var k = prefix ? prefix + "[" + p + "]" : p,
+            var k = prefix ? prefix  : p,
                 v = obj[p];
             str.push((v !== null && typeof v === "object") ?
                 serialize(v, k) :

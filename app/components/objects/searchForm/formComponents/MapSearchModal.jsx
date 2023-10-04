@@ -1,19 +1,32 @@
 import { useObjectSearchFormState } from "@/app/objects/store";
 import { Box, Button, Dialog, Paper } from "@mui/material";
 import { useYMaps } from "@pbe/react-yandex-maps";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function MapSearchModal({ isOpen, setIsOpen }) {
 
     const mapRef = useRef(null);
     const ymaps = useYMaps();
     const updateMultyField = useObjectSearchFormState((state) => state.updateMultyField);
-    const polygons = useObjectSearchFormState((state) => state.search.polygons);
+    const searchPolygons = useObjectSearchFormState((state) => state.search.polygons);
     const setSearchParam = useObjectSearchFormState((state) => state.setSearchParam);
+    const [currentPolygon, setCurrentPolygon] = useState(null);
+    const [nestedIsOpen, setNestedIsOpen] = useState(false);
+    const [currentMap, setMap] = useState(null)
 
-    useEffect(() => {
-        console.log(polygons)
-    }, [polygons])
+
+
+    const delPolygon = () => {
+        updateMultyField('polygons', JSON.stringify(currentPolygon.geometry.getCoordinates()));
+        currentMap.geoObjects.remove(currentPolygon);
+        setNestedIsOpen(false);
+    }
+
+
+
+    // useEffect(() => {
+    //     console.log(polygons)
+    // }, [polygons])
 
     useEffect(() => {
         if (!ymaps || !mapRef.current
@@ -201,6 +214,7 @@ function MapSearchModal({ isOpen, setIsOpen }) {
                     }
                 });
                 map.controls.add(zoomControl);
+                setMap(map);
 
 
                 // const BalloonContentLayout = ymaps.templateLayoutFactory.createClass(
@@ -233,6 +247,9 @@ function MapSearchModal({ isOpen, setIsOpen }) {
 
 
 
+                // const updatePolygons = (map, polygon) => {
+
+                // }
 
                 var paintProcess;
                 // Опции многоугольника или линии.
@@ -244,6 +261,39 @@ function MapSearchModal({ isOpen, setIsOpen }) {
                     { strokeColor: '#000000', strokeOpacity: 0.6, strokeWidth: 8, fillColor: '#000000', fillOpacity: 0.3 },
                 ];
                 var currentIndex = 0;
+
+                searchPolygons.map((current_polygon, index) => {
+                    if (currentIndex == styles.length - 1) {
+                        currentIndex = 0;
+                    } else {
+                        currentIndex += 1;
+                    }
+                    var geoObject = new ymaps.Polygon(JSON.parse(current_polygon), {
+                    }, {
+                        ...styles[currentIndex]
+                    }
+                    );
+
+                    map.geoObjects.add(geoObject);
+                    geoObject.events.add(['click'], () => {
+                        console.log(JSON.stringify(geoObject.geometry.getCoordinates()));
+                        // map.geoObjects.remove(geoObject)
+                        setCurrentPolygon(geoObject);
+                        setNestedIsOpen(true);
+                        // geoObject.balloon.open();
+                    })
+
+                })
+                if (searchPolygons.length > 0) {
+                    map.setBounds(map.geoObjects.getBounds(), {
+                        checkZoomRange: true,
+                        zoomMargin: 35
+                    });
+                }
+
+
+
+
                 // Создадим кнопку для выбора типа рисуемого контура.
                 var button = new ymaps.control.Button({ data: { content: 'Рисовать' }, options: { maxWidth: 150 } });
                 map.controls.add(button);
@@ -292,7 +342,11 @@ function MapSearchModal({ isOpen, setIsOpen }) {
                         console.log
                         updateMultyField('polygons', JSON.stringify(geoObject.geometry.getCoordinates()))
                         geoObject.events.add(['click'], () => {
-                            geoObject.balloon.open();
+                            console.log(JSON.stringify(geoObject.geometry.getCoordinates()));
+                            // map.geoObjects.remove(geoObject)
+                            setCurrentPolygon(geoObject);
+                            setNestedIsOpen(true);
+                            // geoObject.balloon.open();
                         })
 
                     }
@@ -353,6 +407,28 @@ function MapSearchModal({ isOpen, setIsOpen }) {
                 </Box>
 
             </div>
+
+        </Dialog>
+        <Dialog
+            // fullScreen
+            // maxWidth={'xl'}
+            keepMounted
+            open={nestedIsOpen}
+            scroll='paper'
+            onClose={() => setNestedIsOpen(false)}
+        >
+            <Button
+                onClick={delPolygon}
+            >
+                Удалить
+
+            </Button>
+            <Button
+                onClick={() => setNestedIsOpen(false)}
+            >
+                Отмена
+
+            </Button>
 
         </Dialog>
     </>);

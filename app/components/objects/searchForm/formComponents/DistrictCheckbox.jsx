@@ -16,7 +16,7 @@ function DistrictCheckbox({ district, handleClick, districts }) {
     return (
         useMemo(() => (
             <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
-                {console.log('district_checkbox')}
+
                 <FormControlLabel
                     label={district.name}
                     control={

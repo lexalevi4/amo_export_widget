@@ -2,9 +2,10 @@
 import { useObjectSearchFormState } from "@/app/objects/store";
 import { AppBar, Toolbar, Box, Button, Checkbox, Dialog, FormControlLabel, Grid, Paper, Stack } from "@mui/material";
 import DistrictCheckbox from "./DistrictCheckbox";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
 import CheckIcon from '@mui/icons-material/Check';
+import Districts from "./Districts";
 
 
 
@@ -73,7 +74,7 @@ function DistrictsModal({ isOpen, setIsOpen }) {
 
     const handleClick = async (e) => {
         let district = Number(e.target.value)
-        console.log(district)
+        // console.log(district)
         let current_district = districts.filter(d => d.id === district)
 
         let okrugs_arr = [];
@@ -86,119 +87,127 @@ function DistrictsModal({ isOpen, setIsOpen }) {
             districts_arr.push(item);
             return true;
         })
-        console.log(districts_arr);
+        // console.log(districts_arr);
 
         updateMultyField('districts', district)
         setUpdatedDistrict(district)
 
     }
 
-    return (<>
-        <Dialog
-            // fullScreen
-            maxWidth={'xl'}
-            keepMounted
-            open={isOpen}
-            scroll='paper'
-            onClose={handleClose}
+    return (
+        useMemo(() => (
+            <Dialog
+                // fullScreen
+                maxWidth={'xl'}
+                keepMounted
+                open={isOpen}
+                scroll='paper'
+                onClose={handleClose}
 
-        >
-            <div
-                className='m-3 p-2 pt-5 pb-5'
-                style={{
-
-                }}
             >
-                <Box>
-                    <Grid
-                        container
-                    >
-
-                        {
-                            districts.filter(d => d.type === 'Okrug').map(function (okrug, index) {
-                                return (
-                                    <Grid
-                                        key={'okrug' + '_col' + index}
-                                        item
-                                        alignItems={'start'}
-                                    >
-                                        <Stack
-                                            alignItems={"start"}
-                                            spacing={2}
-                                            direction={"column"}
-                                        >
-                                            <div
-                                                style={{
-                                                    marginBottom: 20,
-                                                    marginTop: 30,
-                                                    marginLeft: 20
-                                                }}
-                                            >
-                                                <FormControlLabel
-                                                    label={okrug.name + ":"}
-                                                    control={
-                                                        <Checkbox
-                                                            checked={search_okrugs.includes(okrug.id)}
-                                                            // indeterminate={checked[0] !== checked[1]}
-                                                            value={okrug.id}
-                                                            onChange={handleOkrugClick}
-                                                        />}
-                                                />
-                                                {districts.filter(d => d.parent === okrug.id).map(function (district) {
-                                                    return (
-                                                        <DistrictCheckbox
-                                                            key={'district_' + district.id}
-                                                            district={district}
-                                                            handleClick={handleClick}
-                                                            districts={search_districts}
-                                                        />
-                                                    )
-                                                })}
-                                            </div>
-                                        </Stack>
-                                    </Grid>
-                                )
-                            })
-                        }
-                    </Grid>
-                </Box>
-            </div>
-            <AppBar position="fixed" color="primary" sx={{ top: 0, bottom: 'auto' }}>
-                <Toolbar
+                <Districts
+                    districts={districts}
+                    search_districts={search_districts}
+                    search_okrugs={search_okrugs}
+                    handleClick={handleClick}
+                    handleOkrugClick={handleOkrugClick}
+                />
+                {/* <div
+                    className='m-3 p-2 pt-5 pb-5'
                     style={{
-                        justifyContent: 'space-around'
+
                     }}
                 >
+                    <Box>
+                        <Grid
+                            container
+                        >
 
-                    <Button
-                        className='mr-1 w-2/5'
-                        // fullWidth
-                        variant='contained'
-                        startIcon={<RemoveDoneIcon />}
-                        onClick={dropDistricts}
-                        color="error"
+                            {
+                                districts.filter(d => d.type === 'Okrug').map(function (okrug, index) {
+                                    return (
+                                        <Grid
+                                            key={'okrug' + '_col' + index}
+                                            item
+                                            alignItems={'start'}
+                                        >
+                                            <Stack
+                                                alignItems={"start"}
+                                                spacing={2}
+                                                direction={"column"}
+                                            >
+                                                <div
+                                                    style={{
+                                                        marginBottom: 20,
+                                                        marginTop: 30,
+                                                        marginLeft: 20
+                                                    }}
+                                                >
+                                                    <FormControlLabel
+                                                        label={okrug.name + ":"}
+                                                        control={
+                                                            <Checkbox
+                                                                checked={search_okrugs.includes(okrug.id)}
+                                                                // indeterminate={checked[0] !== checked[1]}
+                                                                value={okrug.id}
+                                                                onChange={handleOkrugClick}
+                                                            />}
+                                                    />
+                                                    {districts.filter(d => d.parent === okrug.id).map(function (district) {
+                                                        return (
+                                                            <DistrictCheckbox
+                                                                key={'district_' + district.id}
+                                                                district={district}
+                                                                handleClick={handleClick}
+                                                                districts={search_districts}
+                                                            />
+                                                        )
+                                                    })}
+                                                </div>
+                                            </Stack>
+                                        </Grid>
+                                    )
+                                })
+                            }
+                        </Grid>
+                    </Box>
+                </div> */}
+                <AppBar position="fixed" color="primary" sx={{ top: 0, bottom: 'auto' }}>
+                    <Toolbar
+                        style={{
+                            justifyContent: 'space-around'
+                        }}
                     >
-                        Сбросить
-                    </Button>
-                    <Button
-                        className='ml-1 w-2/5'
-                        // fullWidth
-                        color="success"
-                        variant='contained'
-                        onClick={handleClose}
-                        startIcon={<CheckIcon />}
-                    >
-                        Сохранить
-                    </Button>
+
+                        <Button
+                            className='mr-1 w-2/5'
+                            // fullWidth
+                            variant='contained'
+                            startIcon={<RemoveDoneIcon />}
+                            onClick={dropDistricts}
+                            color="error"
+                        >
+                            Сбросить
+                        </Button>
+                        <Button
+                            className='ml-1 w-2/5'
+                            // fullWidth
+                            color="success"
+                            variant='contained'
+                            onClick={handleClose}
+                            startIcon={<CheckIcon />}
+                        >
+                            Сохранить
+                        </Button>
 
 
-                </Toolbar>
-            </AppBar>
+                    </Toolbar>
+                </AppBar>
 
 
-        </Dialog>
+            </Dialog>
 
-    </>);
+        ), [search_okrugs, search_districts, isOpen]))
 }
 
 export default DistrictsModal;

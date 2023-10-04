@@ -1,17 +1,24 @@
 'use client'
-import { Box, Collapse, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Collapse, Grid, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { useState } from "react";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Images from "./Images";
-import { Map, Placemark, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
+import { Map, Placemark, RulerControl, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
 
 
-function ObjectsTableRow({ flat, formData }) {
+function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStatus }) {
     const [open, setOpen] = useState(false);
+    const [visible, setVisible] = useState(true);
     // console.log(flat.images)
     // console.log(flat.description)
+
+    const handleFilterStatusChange = (e) => {
+        setObjectStatus(flat.id, filterId, Number(e.target.dataset.onclickparam));
+        setVisible(false);
+
+    }
 
     const printObject = () => {
         if (flat.category === 1) {
@@ -28,8 +35,8 @@ function ObjectsTableRow({ flat, formData }) {
 
         }
         let current_obj = formData.object.filter(item => {
-            console.log(item.id)
-            console.log(flat.object)
+            // console.log(item.id)
+            // console.log(flat.object)
             return Number(item.id) === Number(flat.object)
         })
         // console.log(current_obj)
@@ -42,9 +49,13 @@ function ObjectsTableRow({ flat, formData }) {
         let current_material = formData.material.filter(item => {
             return Number(item.id) === Number(flat.material)
         })
-        console.log(current_material);
+        // console.log(current_material);
 
         return current_material[0]?.name || ''
+    }
+
+    if (!visible) {
+        return (<></>)
     }
 
     return (<>
@@ -123,7 +134,7 @@ function ObjectsTableRow({ flat, formData }) {
 
 
             </TableCell>
-            
+
             <TableCell align="right">{flat.price}</TableCell>
             <TableCell align="right">
                 <a
@@ -134,6 +145,51 @@ function ObjectsTableRow({ flat, formData }) {
                 </a>
             </TableCell>
         </TableRow>
+        {isFilter && (
+            <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                    <Grid
+                        className="my-5 py-3"
+                        container
+                    >
+
+                        <Grid item
+                            className="mx-2"
+                        >
+                            <Button
+                                onClick={handleFilterStatusChange}
+                                color="primary"
+                                variant="contained"
+                                data-onclickparam={1}
+                            >Да</Button>
+                        </Grid>
+                        <Grid item
+                            className="mx-2"
+                        >
+                            <Button
+                                onClick={handleFilterStatusChange}
+                                data-onclickparam={2}
+                                color="error"
+                                variant="contained"
+                            >Нет</Button>
+                        </Grid>
+                        <Grid item
+                            className="mx-2"
+                        >
+                            <Button
+                                onClick={handleFilterStatusChange}
+                                color="warning"
+                                data-onclickparam={3}
+                                variant="contained"
+                            >Не знаю</Button>
+                        </Grid>
+
+
+                    </Grid>
+                </TableCell>
+            </TableRow>
+
+        )}
         <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                 <Collapse in={open} timeout="auto" unmountOnExit>
@@ -195,6 +251,7 @@ function ObjectsTableRow({ flat, formData }) {
                                                 <Map width={'100%'} height={500} defaultState={{ center: [flat.lat, flat.lng], zoom: 16 }} >
                                                     <Placemark geometry={[flat.lat, flat.lng]} />
                                                     <ZoomControl options={{ float: "right" }} />
+                                                    <RulerControl options={{ float: "right" }} />
 
                                                 </Map>
                                             </div>

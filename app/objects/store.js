@@ -27,17 +27,40 @@ export const useObjectSearchFormState = create((set, get) => ({
         isNewBuilding: 2,
         metro: [],
         brunches: [],
-        metro: [],
         districts: [],
         okrugs: [],
         polygons: [],
         highways: [],
 
     },
-    setSearch: (data) => set((state) => {
-        const search = get().search;
+    params: {
+        strings: [],
+        array_nums: [
+            'highways',
+            'okrugs',
+            'districts',
+            'metro',
+            'brunches',
+            'rooms',
+            'object'
+        ],
+        arrays: [
+            'polygons',
+            'addrobjs'
+        ],
+    },
+    objects: [],
+    setObjects: (data) => set((state) => {
+        // const objects = get().objects;
+
         return ({
-            search: search
+            objects: data
+        })
+    }),
+    setSearch: (data) => set((state) => {
+        // const search = get().search;
+        return ({
+            search: data
 
         })
     }),
@@ -46,8 +69,8 @@ export const useObjectSearchFormState = create((set, get) => ({
 
         let field = get().search[name].slice(0);
         const search = get().search
-        console.log(field);
-        console.log(value);
+        // console.log(field);
+        // console.log(value);
         if (field.includes(value)) {
             field = field.filter((item) => { return item !== value })
         } else {
@@ -63,7 +86,7 @@ export const useObjectSearchFormState = create((set, get) => ({
     setSearchParam: (name, value) => set((state) => {
         const search = get().search;
         const new_search = { ...search, [name]: value }
-        console.log(name, value)
+        // console.log(name, value)
         return ({
             search: new_search
 
@@ -74,21 +97,22 @@ export const useObjectSearchFormState = create((set, get) => ({
     updateOkrug: (okrug) => set((state) => {
         const search = get().search;
         let okrugs = search.okrugs.slice(0);
-        console.log(okrug)
-        console.log(okrugs)
+        // console.log(okrug)
+        // console.log(okrugs)
         if (okrugs.includes(okrug)) {
             okrugs = okrugs.filter((item) => { return item !== okrug })
-            console.log('remove')
-            console.log(okrugs)
+            // console.log('remove')
+            // console.log(okrugs)
         }
         const new_search = { ...search, okrugs: okrugs }
-        console.log(new_search)
+        // console.log(new_search)
         return ({
             search: new_search
         })
 
     }),
-
+    objectsIsLoading: true,
+    setObjectsIsLoading: (value) => set((state) => ({ objectsIsLoading: value })),
     formData: {},
     setFormData: (data) => set((state) => ({ formData: data, loading: false })),
     loading: true,
