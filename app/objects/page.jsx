@@ -6,6 +6,7 @@ import MyPagination from "../components/objects/searchForm/MyPagination";
 import { Paper, Typography } from "@mui/material";
 import ObjectsTable from "../components/objects/objectsTable/ObjectsTable";
 import 'react-dadata/dist/react-dadata.css';
+import Objects from "../components/objects/Objects";
 
 
 async function Flats(searchParams) {
@@ -33,8 +34,15 @@ async function Flats(searchParams) {
             // searchParams={searchParams}
             formData={formData}
         />
+        <Objects
+            data={data}
+            formData={formData}
+            pageType={'list'}
+        />
 
 
+
+        {/* 
         
 
             {data.objects.length === 0 && (<>
@@ -64,17 +72,12 @@ async function Flats(searchParams) {
                     objects={data.objects}
                     formData={formData}
                 />
-                {/* <ObjectList
-                objects={data.objects}
-                formData={formData}
-            /> */}
                 <MyPagination
                     count={data.count}
-
                 />
             </>
-            )}
-        
+            )} */}
+
     </>);
 }
 

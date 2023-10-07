@@ -5,7 +5,9 @@ import LoadingTb from "../../Loading";
 import { useMemo } from "react";
 
 function ObjectsTable({ objects, formData, isLoading = false, isFilter = false, filterId = 0, setObjectStatus = () => { } }) {
-    // console.log(isLoading);
+    console.log(formData);
+
+    
 
     if (objects?.status === 'error') {
         return (

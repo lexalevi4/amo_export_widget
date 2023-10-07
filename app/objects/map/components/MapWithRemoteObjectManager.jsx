@@ -20,38 +20,80 @@ const serialize = function (obj, prefix) {
     var result = str.join("&")
     return result.replace(/&&+/gi, '&')
 }
-function MapWithRemoteObjectManager({ handleClusterClick }) {
+function MapWithRemoteObjectManager({ handleClusterClick, mapInfo }) {
 
 
+    const search_updated = useObjectSearchFormState((state) => state.search_updated)
+    const activeSearch = useObjectSearchFormState((state) => state.activeSearch)
 
+    const [manager, setManager] = useState(null);
+    const [currentMap, setCurrentMap] = useState(null)
+
+    const [clusterSearch, setClusterSearch] = useState(null)
 
 
     const search = useObjectSearchFormState((state) => state.search)
     // const params = useObjectSearchFormState((state) => state.params)
+    const setState = useObjectSearchFormState((state) => state.setState)
+    const searchRef = useRef(activeSearch)
 
 
-    // const search = [];
+    // // const search = [];
     const mapRef = useRef(null);
     const ymaps = useYMaps();
-    
 
+
+
+    // useEffect(() => {
+    //     setClusterSearch(activeSearch)
+    //     // console.log(clusterSearch)
+    // }, [activeSearch,search_updated])
+
+    useEffect(() => {
+        searchRef.current = activeSearch;
+        console.log(activeSearch)
+    }, [activeSearch, search_updated])
 
 
 
 
     useEffect(() => {
-        if (!ymaps || !mapRef.current
+        if (!ymaps || !mapRef.current || !mapInfo || !mapInfo.max_lat
 
         ) {
+            return;
+        }
+        if (currentMap) {
             return;
         }
         const map = new ymaps.Map(mapRef.current, {
             controls: [],
             center: [55.751574, 37.573856], zoom: 15,
+            // bounds: [[mapInfo.min_lat, mapInfo.min_lng], [mapInfo.max_lat, mapInfo.max_lng]],
+            // options: {
+            //     checkZoomRange: true,
+            //     zoomMargin: 35,
+            // },
+
+
         }, {
             // maxZoom: 16,
             // minZoom: 10
         });
+        console.log([mapInfo.min_lat, mapInfo.min_lng], [mapInfo.max_lat, mapInfo.max_lng]);
+        map.setBounds([[mapInfo.min_lat, mapInfo.min_lng], [mapInfo.max_lat, mapInfo.max_lng]], {
+            checkZoomRange: true,
+            zoomMargin: 9,
+            callback: function (err) {
+                if (err) {
+                    console.log(err)
+                    // Не удалось показать заданный регион
+                    // ...
+                }
+            }
+        });
+
+        if (map.getZoom() > 15) map.setZoom(15); // максимальный зум
 
 
         var zoomControl = new ymaps.control.ZoomControl({
@@ -64,6 +106,7 @@ function MapWithRemoteObjectManager({ handleClusterClick }) {
             }
         });
         map.controls.add(zoomControl);
+        setCurrentMap(map);
 
         // var selected_types = search.price_type.slice();
         // // console.log(selected_types)
@@ -75,7 +118,7 @@ function MapWithRemoteObjectManager({ handleClusterClick }) {
 
         const getUrl = () => {
             let link = '/api/object/map/objects?z=%z&bbox=%b&'
-                + 'search=' + JSON.stringify(search)
+                + 'search=' + JSON.stringify(activeSearch)
             // + serialize(search)
             // + '&'
             // + serialize({ 'selected_types': selected_types })
@@ -94,6 +137,7 @@ function MapWithRemoteObjectManager({ handleClusterClick }) {
         const rom = new ymaps.RemoteObjectManager(getUrl(), {
             splitRequests: true,
         });
+        setManager(rom);
 
 
         rom.objects.events.add(['click'], onObjectEvent);
@@ -107,84 +151,84 @@ function MapWithRemoteObjectManager({ handleClusterClick }) {
                     map.setCenter(object.geometry.coordinates)
                 } else {
 
-                    handleClusterClick(object.properties)
+                    handleClusterClick(object.properties, searchRef.current)
                 }
             }
             if (object.properties.type === 'point') {
                 // console.log(object.properties.flat)
-                handleClusterClick(object.properties)
+                handleClusterClick(object.properties, searchRef.current)
             }
         }
 
-        // var listBoxItems = price_types
-        //     .map(function (type) {
-        //         return new window.ymaps.control.ListBoxItem({
-        //             data: {
-        //                 content: '<span style="color:' + type.color + '">' + type.title + '</span>'
-        //                 // content:  type.title
-        //             },
-        //             state: {
-        //                 selected: selected_types.includes(String(type.val))
-        //             }
-        //         })
-        //     }),
-        //     reducer = function (filters, filter) {
-        //         filters[filter.data.get('content').replace(htmlRegexG, '')] = filter.isSelected();
-        //         return filters;
-        //     },
-        // Теперь создадим список, содержащий 5 пунктов.
-        // listBoxControl = new window.ymaps.control.ListBox({
-        //     data: {
-        //         content: 'Цены',
-        //         title: 'Цены'
-        //     },
-        //     position: {
-        //         top: 10, right: 10
-        //     },
-        //     items: listBoxItems,
-        //     state: {
-        //         // Признак, развернут ли список.
-        //         expanded: true,
-        //         filters: listBoxItems.reduce(reducer, {})
-        //     }
-        // });
-
-        // Добавим отслеживание изменения признака, выбран ли пункт списка.
-        // listBoxControl.events.add(['select', 'deselect'], function (e) {
-        //     // console.log(e)
-        //     var listBoxItem = e.get('target');
-        //     var filters = ymaps.util.extend({}, listBoxControl.state.get('filters'));
-        //     filters[listBoxItem.data.get('content').replace(htmlRegexG, '')] = listBoxItem.isSelected();
-        //     // console.log( filters[listBoxItem.data.get('content')]);
-        //     listBoxControl.state.set('filters', filters);
-        // });
-
-        // var filterMonitor = new window.ymaps.Monitor(listBoxControl.state);
-
-        // filterMonitor.add('filters', function (filters) {
-        //     // Применение фильтра к ObjectManager.
-        //     console.log(filters)
-
-        //     selected_types = [];
-        //     price_types.map(function (type) {
-        //         if (filters[type.title]) {
-        //             selected_types.push(String(type.val))
-        //         }
-        //         return true;
-        //     })
-        //     console.log(selected_types);
-        //     rom.setUrlTemplate('api/map/cluster?z=%z&bbox=%b&' + serialize(search) + '&' + serialize({ 'selected_types': selected_types }))
-        //     rom.reloadData()
-        //     dispatch(updateSearch({ field: 'price_type', value: selected_types }))
-        // });
-
-        // map.controls.add(listBoxControl);
-
-
         map.geoObjects.add(rom);
         // eslint-disable-next-line
-    }, [ymaps]
+    }, [ymaps, mapInfo]
     );
+
+    // useEffect(() => {
+    //     if (ymaps) {
+    //         if (search_updated > 0) {
+
+    //             manager.setUrlTemplate('/api/object/map/objects?z=%z&bbox=%b&'
+    //                 + 'search=' + JSON.stringify(activeSearch));
+    //             manager.reloadData()
+
+    //             setState('search_updated', 0)
+    //         }
+    //     }
+    // }, [activeSearch, search_updated])
+
+    useEffect(() => {
+        if (ymaps) {
+            if (mapInfo) {
+                if (currentMap) {
+                    console.log(mapInfo)
+
+                    currentMap.setBounds([[mapInfo.min_lat, mapInfo.min_lng], [mapInfo.max_lat, mapInfo.max_lng]], {
+                        checkZoomRange: true,
+                        zoomMargin: 35,
+                        callback: function (err) {
+                            if (err) {
+                                console.log(err)
+                                // Не удалось показать заданный регион
+                                // ...
+                            }
+                        }
+                    });
+                    if (currentMap.getZoom() > 15) currentMap.setZoom(15);
+                    if (search_updated > 0) {
+
+                        // manager.setFilter(() => false);
+                        manager.setUrlTemplate('/api/object/map/objects?z=%z&bbox=%b&'
+
+                            + 'search=' + JSON.stringify(activeSearch));
+                        manager.reloadData()
+                        // manager.objects.events.remove(['click']);
+                        // manager.objects.events.add(['click'], onObjectEvent);
+                        // function onObjectEvent(e) {
+                        //     let object = manager.objects.getById(e.get('objectId'));
+                        //     if (object.properties.type === 'cluster') {
+                        //         var current_zoom = currentMap.getZoom();
+                        //         if (current_zoom < 16) {
+                        //             currentMap.setZoom(current_zoom + 1)
+                        //             currentMap.setCenter(object.geometry.coordinates)
+                        //         } else {
+                        //             handleClusterClick(object.properties, clusterSearch)
+                        //         }
+                        //     }
+                        //     if (object.properties.type === 'point') {
+                        //         // console.log(object.properties.flat)
+                        //         handleClusterClick(object.properties, clusterSearch)
+                        //     }
+                        // }
+                        // manager.setFilter(() => true);
+
+                        setState('search_updated', 0)
+                    }
+                }
+            }
+        }
+    }, [mapInfo, ymaps, currentMap, activeSearch, search_updated])
 
 
     return (<>

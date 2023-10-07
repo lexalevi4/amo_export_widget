@@ -1,11 +1,12 @@
 'use client'
-import { Box, Button, Collapse, Grid, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Chip, Collapse, Grid, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useState } from "react";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Images from "./Images";
 import { Map, Placemark, RulerControl, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
+import { printMetro, secToStr } from "@/app/heplers/tableHelper";
 
 
 function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStatus }) {
@@ -92,27 +93,76 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                 <Typography>
                     {flat.address}
                 </Typography>
-                {flat.metro.length > 0 && (
-                    <Typography>
-                        {flat.metro.map((metro, station_index) => {
 
-                            let station = formData.metro.filter(item => item.id === metro.id)[0];
-                            return (
-
-                                <span key={'metro_string' + flat.id + "_" + station_index}>
-                                    {station.colors.map(function (color, index) {
-                                        // name = item.metro
-                                        return (<span key={station_index + '_metro_' + index} style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
-                                    })}
-                                    {station.metro} {' '}
-                                    {metro.to_metro} мин. {Number(metro.to_metro_by) === 1 ? "пешком" : 'транспортом'}
-                                    <br />
-                                </span>
-
+                {/* {flat.metro_distances.length > 0 && (
+                    <>
+                        {
+                            flat.metro_distances.map((metro, station_index) => {
+                                let station = formData.metro.filter(item => Number(item.id) === Number(metro.id))[0];
+                                return (
+                                    <Chip
+                                        key={'metro_chip_' + flat.id + "_" + station_index}
+                                        label={station.metro}
+                                    >asdf</Chip>
+                                )
+                            }
                             )
-                        })}
+                        }
+                    </>
+                )} */}
 
-                    </Typography>
+                {flat.metro_distances.length > 0 && (
+
+
+
+
+                    <TableContainer
+                        style={{
+                            maxWidth: 400
+                        }}
+                    >
+                        <Table width={200}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell
+                                        style={{
+                                            maxWidth: 100
+                                        }}
+                                        width={100}>Метро</TableCell>
+                                    <TableCell width={50}>🦶</TableCell>
+                                    <TableCell width={50}>🚗</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+
+                                {flat.metro_distances.map((metro, station_index) => {
+
+
+                                    let station = formData.metro.filter(item => Number(item.id) === Number(metro.id))[0];
+                                    // console.log(station);
+                                    // console.log(metro);
+                                    return (
+                                        <TableRow key={'metro_row' + flat.id + "_" + station_index}>
+                                            <TableCell
+                                                style={{
+                                                    maxWidth: 100
+                                                }}
+                                                width={100}
+                                            >
+                                                {station.colors.map(function (color, index) {
+                                                    // name = item.metro
+                                                    return (<span key={station_index + '_metro_' + index} style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
+                                                })}
+                                                {station.metro}
+                                            </TableCell>
+                                            <TableCell>{secToStr(metro.foot)}</TableCell>
+                                            <TableCell>{secToStr(metro.car)}</TableCell>
+                                        </TableRow>
+                                    )
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 )}
             </TableCell>
             <TableCell align="left">

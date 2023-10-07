@@ -19,6 +19,7 @@ import MapSearchModal from "./formComponents/MapSearchModal";
 import { YMaps } from "@pbe/react-yandex-maps";
 import DistrictsModal from "./formComponents/DistrictsModal";
 import HighwaysModal from "./formComponents/HighwaysModal";
+
 // import { useSearchParams } from 'next/navigation'
 
 function ObjectsSearchForm({ formData }) {
@@ -40,6 +41,7 @@ function ObjectsSearchForm({ formData }) {
     const highways = useObjectSearchFormState((state) => state.search.highways);
 
 
+
     const setSearch = useObjectSearchFormState((state) => state.setSearch);
     const setSearchParam = useObjectSearchFormState((state) => state.setSearchParam);
     const updateMultyField = useObjectSearchFormState((state) => state.updateMultyField);
@@ -52,6 +54,15 @@ function ObjectsSearchForm({ formData }) {
     const [saveFilteranchorEl, setSaveFilterAnchorEl] = useState(null);
     const [saveFilterOpen, setSaveFilterOpen] = useState(false);
     const [filterName, setFilterName] = useState('');
+
+    const pageType = useObjectSearchFormState((state) => state.pageType)
+    const setState = useObjectSearchFormState((state) => state.setState)
+
+
+    const setActiveSearch = useObjectSearchFormState((state) => state.setActiveSearch);
+    const changePageType = useObjectSearchFormState((state) => state.changePageType);
+    
+
 
     const handleSaveFilterClick = (e) => {
         setSaveFilterAnchorEl(e.currentTarget);
@@ -78,6 +89,7 @@ function ObjectsSearchForm({ formData }) {
 
 
     }
+
 
 
     // console.log(params.get('rooms'))
@@ -162,6 +174,16 @@ function ObjectsSearchForm({ formData }) {
         updateMultyField('addrobjs', new_value);
         // console.log(addrobjs);
 
+
+    }
+
+    const updateObjects = () => {
+        setActiveSearch(search);
+    }
+
+    const handlePageType = () => {
+        
+        pageType === 'list' ? setState('pageType', 'map') : setState('pageType', 'list')
 
     }
 
@@ -557,37 +579,40 @@ function ObjectsSearchForm({ formData }) {
             className="my-3"
         />
         <Stack spacing={2} direction={'row'}>
-            <Link
+            {/* <Link
                 href={'/objects?' + serialize(search)}
                 replace
                 prefetch={false}
 
-            >
+            > */}
 
-                <Button
-                    className="my-10"
-                    variant="contained"
-                    disabled={isloading}
-                // onClick={() => setIsLoading(true)}
-                >
-                    Искать
-                </Button>
-            </Link>
-            <Link
+            <Button
+                className="my-10"
+                variant="contained"
+                disabled={isloading}
+                onClick={updateObjects}
+            // onClick={() => setIsLoading(true)}
+            >
+                Искать
+            </Button>
+            {/* </Link> */}
+            {/* <Link
                 href={'/objects?' + serialize(search)}
                 replace
                 prefetch={false}
 
-            >
+            > */}
 
-                <Button
-                    className="my-10"
-                    variant="contained"
-                    disabled={isloading}
-                >
-                    На карте
-                </Button>
-            </Link>
+            <Button
+                className="my-10"
+                variant="contained"
+                disabled={isloading}
+                onClick={changePageType}
+
+            >
+                {pageType === 'list' ? 'На карте' : 'Списком'}
+            </Button>
+            {/* </Link> */}
 
             <Button
                 className="my-10"
