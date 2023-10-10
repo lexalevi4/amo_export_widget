@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, Chip, Collapse, Grid, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Chip, Collapse, Grid, IconButton, Rating, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useState } from "react";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -7,6 +7,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Images from "./Images";
 import { Map, Placemark, RulerControl, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
 import { printMetro, secToStr } from "@/app/heplers/tableHelper";
+import PriceAnalizeTabs from "./PriceAnalizeTabs";
 
 
 function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStatus }) {
@@ -57,6 +58,24 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
 
     if (!visible) {
         return (<></>)
+    }
+
+    const getPriceRating = (val) => {
+        if (val === 1) {
+            return 5
+        }
+        if (val === 2) {
+            return 4
+        }
+        if (val === 3) {
+            return 3
+        }
+        if (val === 4) {
+            return 2
+        }
+        if (val === 5) {
+            return 1
+        }
     }
 
     return (<>
@@ -117,11 +136,12 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
 
 
                     <TableContainer
+                        className="mt-3"
                         style={{
-                            maxWidth: 400
+                            maxWidth: 500
                         }}
                     >
-                        <Table width={200}>
+                        <Table width={200} size="small">
                             <TableHead>
                                 <TableRow>
                                     <TableCell
@@ -185,7 +205,41 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
 
             </TableCell>
 
-            <TableCell align="right">{flat.price}</TableCell>
+            <TableCell align="right">
+
+
+
+                <Typography >
+                    {Intl.NumberFormat('ru-RU', {
+                        style: 'currency',
+                        currency: 'RUB',
+                        currencyDisplay: 'symbol', maximumFractionDigits: 0
+                    }).format(flat.price)}
+                </Typography>
+                {flat.totalArea > 0 && (
+                    <>
+                        <Typography color="text.secondary">
+                            {' ' +
+                                Intl.NumberFormat('ru-RU', {
+                                    style: 'currency',
+                                    currency: 'RUB',
+                                    currencyDisplay: 'symbol', maximumFractionDigits: 0
+                                }).format(
+                                    Math.round(flat.price / flat.totalArea))
+                            } / m<sup>2</sup>
+                        </Typography>
+                    </>
+                )}
+                {flat.price_type > 0 && (
+                    <Rating  value={(flat.price_type - 6) * -1} size="small" readOnly />
+                )}
+
+
+
+
+                {/* {flat.price} */}
+
+            </TableCell>
             <TableCell align="right">
                 <a
                     href={flat.link}
@@ -240,10 +294,17 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
             </TableRow>
 
         )}
+
         <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <Box sx={{ margin: 1 }}>
+                        {/* <Box
+                            style={{ width: '100%' }}
+                        > */}
+
+
+                        {/* </Box> */}
                         <Table size="small" aria-label="purchases">
                             {/* <TableHead>
                                 <TableRow>
@@ -254,6 +315,20 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                                 </TableRow>
                             </TableHead> */}
                             <TableBody>
+                                <TableRow
+
+                                >
+                                    <TableCell
+                                        colSpan={2}
+                                        width={'100%'}
+                                    >
+                                        {flat?.positions?.price?.district?.length > 0 && (
+                                            <PriceAnalizeTabs
+                                                flat={flat}
+                                            />
+                                        )}
+                                    </TableCell>
+                                </TableRow>
 
                                 <TableRow >
                                     <TableCell width={'60%'} scope="row"

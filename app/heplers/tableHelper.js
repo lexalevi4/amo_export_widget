@@ -31,7 +31,9 @@ export const printMetro = (station) => {
     {
         station.colors.map(function (color, index) {
             // name = item.metro
-            return (<span  style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
+            return (<span
+                key={"station" + station + color + index + Math.random() + Math.random()}
+                style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
         })
     }
     { station.metro }

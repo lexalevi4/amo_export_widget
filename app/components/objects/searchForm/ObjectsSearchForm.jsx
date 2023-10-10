@@ -4,7 +4,7 @@ import { useObjectSearchFormState } from "@/app/objects/store";
 import { Button, Divider, Fade, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, Paper, Popper, Radio, RadioGroup, Stack, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { serialize } from '@/app/heplers/clientHelpers'
 import SearchRadioGroup from "./formComponents/SearchRadioGroup";
 import SearchSelect from "./formComponents/SearchSelect";
@@ -61,7 +61,11 @@ function ObjectsSearchForm({ formData }) {
 
     const setActiveSearch = useObjectSearchFormState((state) => state.setActiveSearch);
     const changePageType = useObjectSearchFormState((state) => state.changePageType);
-    
+
+    const [address, setAddress] = useState('');
+
+    const dadataRef = useRef('');
+
 
 
     const handleSaveFilterClick = (e) => {
@@ -119,14 +123,23 @@ function ObjectsSearchForm({ formData }) {
 
     useEffect(() => {
         try {
-            let qq = document.querySelector('.react-dadata__input')
-            if (qq) {
-                // console.log(qq)
-                qq.value = ''
-            }
+
+            let qq = document.querySelector('.react-dadata__input');
+            // if (qq) {
+            // console.log(qq)
+            qq.value = '';
+            // }
+            // let get_el = document.getElementsByClassName('react-dadata__input');
+            // get_el.value = '';
         } catch (e) {
+            // console.log(e)
 
         }
+        // try {
+        //     $('.react-dadata__input').value = ''
+        // } catch (e) {
+
+        // }
 
     }, [addrobjs])
 
@@ -172,6 +185,7 @@ function ObjectsSearchForm({ formData }) {
         // console.log(suggestion.value);
         const new_value = suggestion.data.fias_id + ':' + suggestion.value;
         updateMultyField('addrobjs', new_value);
+        // dadata-search-input
         // console.log(addrobjs);
 
 
@@ -182,7 +196,7 @@ function ObjectsSearchForm({ formData }) {
     }
 
     const handlePageType = () => {
-        
+
         pageType === 'list' ? setState('pageType', 'map') : setState('pageType', 'list')
 
     }
@@ -431,11 +445,13 @@ function ObjectsSearchForm({ formData }) {
                         uid='dadata-input-qq'
                         url="/api/dadata/suggest"
                         id='dadata-search-input'
+                        defaultQuery={''}
+                        // on
                         // height={56}
                         // style={{
                         //     height: 56
                         // }}
-                        httpCache
+                        // httpCache
                         // hintText={'asdf'}
                         // httpCacheTtl={}
 
@@ -443,7 +459,7 @@ function ObjectsSearchForm({ formData }) {
                         // defaultQuery={''}
 
                         onChange={onAddrChange}
-                        delay={300}
+                        delay={100}
                         minChars={3}
                     />
                 </FormControl>

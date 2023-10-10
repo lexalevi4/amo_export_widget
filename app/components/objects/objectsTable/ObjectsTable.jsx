@@ -3,11 +3,12 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import ObjectsTableRow from "./ObjectsTableRow";
 import LoadingTb from "../../Loading";
 import { useMemo } from "react";
+import ReportPlotModal from "./ReportPlotModal";
 
 function ObjectsTable({ objects, formData, isLoading = false, isFilter = false, filterId = 0, setObjectStatus = () => { } }) {
     console.log(formData);
 
-    
+
 
     if (objects?.status === 'error') {
         return (
@@ -51,9 +52,21 @@ function ObjectsTable({ objects, formData, isLoading = false, isFilter = false, 
     return (
         // useMemo(() => (
 
+        <>
 
-            <TableContainer component={Paper} elevation={4}>
-                <Table aria-label="collapsible table">
+            <TableContainer component={Paper} elevation={4}
+                style={{
+                    // overflow:'unset'
+                    // maxWidth: 1000
+                }}
+            >
+                <Table aria-label="collapsible table"
+                    style={{
+                        maxWidth: 1300,
+                        boxSizing: 'border-box'
+                    }}
+                >
+
                     {/* <TableHead>
                     <TableRow>
                         <TableCell />
@@ -85,8 +98,10 @@ function ObjectsTable({ objects, formData, isLoading = false, isFilter = false, 
                     </TableBody>
                 </Table>
             </TableContainer>
-        )
-        // , [objects]))
+            <ReportPlotModal />
+        </>
+    )
+    // , [objects]))
 }
 
 export default ObjectsTable;

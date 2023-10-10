@@ -53,13 +53,13 @@ export async function POST(req, response) {
         });
         const dadata_response = await dadata.json()
         // const dadata_response = []
-        console.log(dadata_response);
+        // console.log(dadata_response);
 
         try {
             if (!dadata_response.reason) {
                 console.log('saving')
-                // await client.set(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded, JSON.stringify(dadata_response))
-                // await client.expire(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded, 86400 * 14)
+                await client.set(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded, JSON.stringify(dadata_response))
+                await client.expire(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded, 86400 * 14)
                 try {
                     await client.quit();
                 } catch (e) {
