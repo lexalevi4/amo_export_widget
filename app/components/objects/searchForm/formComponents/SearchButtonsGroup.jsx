@@ -2,12 +2,25 @@ import { useObjectSearchFormState } from "@/app/objects/store";
 import { Button, ButtonGroup, FormControl, FormLabel } from "@mui/material";
 import { useMemo } from "react";
 
-function SearchButtonsGroup({ title, items, name }) {
+function SearchButtonsGroup({ title, items, name, arrayValue = true }) {
     const updateMultyField = useObjectSearchFormState((state) => state.updateMultyField)
+    const setSearchParam = useObjectSearchFormState((state) => state.setSearchParam)
     const value = useObjectSearchFormState((state) => state.search[name])
 
     const handler = (e) => {
-        updateMultyField(name, Number(e.target.dataset.onclickparam))
+        if (arrayValue) {
+            updateMultyField(name, Number(e.target.dataset.onclickparam))
+        } else {
+            setSearchParam(name, Number(e.target.dataset.onclickparam))
+        }
+    }
+
+    const getVariant = (id) => {
+        if (arrayValue) {
+            return value.includes(id) ? 'contained' : 'outlined'
+        } else {
+            return value === id ? 'contained' : 'outlined'
+        }
     }
 
     return (
@@ -40,7 +53,12 @@ function SearchButtonsGroup({ title, items, name }) {
                                     data-onclickparam={item.id}
                                     onClick={handler}
                                     // variant="outlined"
-                                    variant={value.includes(item.id) ? 'contained' : 'outlined'}
+                                    variant={
+                                        arrayValue ?
+                                            value.includes(item.id) ? 'contained' : 'outlined'
+                                            :
+                                            value === item.id ? 'contained' : 'outlined'
+                                    }
                                 > {item.name}
                                 </Button>
                             )

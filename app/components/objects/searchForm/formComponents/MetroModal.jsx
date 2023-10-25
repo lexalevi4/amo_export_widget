@@ -5,6 +5,7 @@ import { useObjectSearchFormState } from "@/app/objects/store";
 import MetroLink from "./MetroLink";
 import { useMemo } from "react";
 import MetroMap from "./MetroMap";
+import MetroMapSvg from "./MetroMapSvg";
 
 function MetroModal({ isOpen, handleClose }) {
 
@@ -74,7 +75,7 @@ function MetroModal({ isOpen, handleClose }) {
         useMemo(() => (
 
             <Dialog
-                // fullScreen
+                fullScreen
                 maxWidth={'xl'}
                 keepMounted
                 open={isOpen}
@@ -93,6 +94,7 @@ function MetroModal({ isOpen, handleClose }) {
                  
 
                 />
+                {/* <MetroMapSvg /> */}
                 <AppBar position="fixed" color="primary" sx={{ top: 0, bottom: 'auto' }}>
                     <Toolbar
                         style={{

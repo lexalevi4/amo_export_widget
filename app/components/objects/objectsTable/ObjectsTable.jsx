@@ -62,7 +62,8 @@ function ObjectsTable({ objects, formData, isLoading = false, isFilter = false, 
             >
                 <Table aria-label="collapsible table"
                     style={{
-                        maxWidth: 1300,
+                        // width: 'max-content'
+                        maxWidth: '80svw',
                         boxSizing: 'border-box'
                     }}
                 >

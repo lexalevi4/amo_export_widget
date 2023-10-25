@@ -69,7 +69,11 @@ const PriceAnalizeTabs = function ({ flat }) {
         <>
             <Box
                 className='p-2'
-           
+                style={{
+                    maxWidth:'90svw',
+                    objectFit:'contain'
+                }}
+
 
             >
                 <Button
@@ -95,24 +99,25 @@ const PriceAnalizeTabs = function ({ flat }) {
                     size="sm"
                     aria-label="Pricing plan"
                     defaultValue={0}
-                  
+
                     sx={(theme) => ({
                         // width: 343,
                         '--Tabs-gap': '0px',
                         borderRadius: 'lg',
                         boxShadow: 'sm',
                         overflow: 'auto',
+                        objectFit: "contain",
                         border: `1px solid ${theme.vars.palette.divider}`,
                     })}
                 >
                     <TabList
-                     style={{
-                        // display:"flex",
-                        // position:'absolute',
-                        // overflow: "auto",
-                        // width: '100%',
-                        // maxWidth: 1000
-                    }}
+                        style={{
+                            // display:"flex",
+                            // position:'absolute',
+                            // overflow: "auto",
+                            // width: '100%',
+                            // maxWidth: 1000
+                        }}
                         sx={{
                             '--ListItem-radius': '0px',
                             borderRadius: 0,
@@ -148,13 +153,13 @@ const PriceAnalizeTabs = function ({ flat }) {
                     <hr />
 
                     <TabPanel className='mb-3' value={0}
-                     style={{
-                        // display:"flex",
-                        // position:'absolute',
-                        overflow: "auto",
-                        // width: '100%',
-                        // maxWidth: 1000
-                    }}
+                        style={{
+                            // display:"flex",
+                            // position:'absolute',
+                            overflow: "auto",
+                            // width: '100%',
+                            // maxWidth: 1000
+                        }}
                     >
                         <TableContainer component={Paper}
                             style={{

@@ -137,20 +137,25 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
 
                     <TableContainer
                         className="mt-3"
-                        style={{
-                            maxWidth: 500
-                        }}
+                    // style={{
+                    //     maxWidth: 500
+                    // }}
                     >
-                        <Table width={200} size="small">
+                        <Table
+                            style={{
+                                width: 'max-content'
+                            }}
+                            size="small">
                             <TableHead>
                                 <TableRow>
                                     <TableCell
                                         style={{
-                                            maxWidth: 100
+                                            minWidth: 170
                                         }}
-                                        width={100}>Метро</TableCell>
-                                    <TableCell width={50}>🦶</TableCell>
-                                    <TableCell width={50}>🚗</TableCell>
+                                    // width={100}
+                                    >Метро</TableCell>
+                                    <TableCell>🦶</TableCell>
+                                    <TableCell>🚗</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -183,6 +188,61 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                             </TableBody>
                         </Table>
                     </TableContainer>
+                )}
+
+                {flat.highway_distances.length > 0 && (
+
+                    <TableContainer
+                        className="mt-3"
+                    // style={{
+                    //     maxWidth: 500
+                    // }}
+                    >
+                        <Table
+                            style={{
+                                width: 'max-content'
+                            }}
+                            size="small">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell
+                                        style={{
+                                            minWidth: 170
+                                        }}
+                                    // width={100}
+                                    >Шоссе</TableCell>
+                                    
+                                    <TableCell>🚗 до МКАД</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+
+                                {flat.highway_distances.map((highway, highway_index) => {
+
+
+                                    let current_highway = formData.highway.filter(item => Number(item.id) === Number(highway.id))[0];
+                                    // console.log(station);
+                                    // console.log(metro);
+                                    return (
+                                        <TableRow key={'highway_row' + flat.id + "_" + highway_index}>
+                                            <TableCell
+                                                style={{
+                                                    maxWidth: 100
+                                                }}
+                                                width={100}
+                                            >
+                                               
+                                                {current_highway.name}
+                                            </TableCell>
+                                            <TableCell>{(highway.distance/1000).toFixed(1)} км.</TableCell>
+                                        </TableRow>
+                                    )
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+
                 )}
             </TableCell>
             <TableCell align="left">
@@ -231,7 +291,7 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                     </>
                 )}
                 {flat.price_type > 0 && (
-                    <Rating  value={(flat.price_type - 6) * -1} size="small" readOnly />
+                    <Rating value={(flat.price_type - 6) * -1} size="small" readOnly />
                 )}
 
 
@@ -298,7 +358,9 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
         <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    <Box sx={{ margin: 1 }}>
+                    <Box
+
+                    >
                         {/* <Box
                             style={{ width: '100%' }}
                         > */}
@@ -322,7 +384,7 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                                         colSpan={2}
                                         width={'100%'}
                                     >
-                                        {flat?.positions?.price?.district?.length > 0 && (
+                                        {flat?.positions?.price?.district?.length > 0 && flat?.districts.length > 0 && (
                                             <PriceAnalizeTabs
                                                 flat={flat}
                                             />

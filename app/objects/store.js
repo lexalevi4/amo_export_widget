@@ -25,6 +25,7 @@ export const useObjectSearchFormState = create((set, get) => ({
         maxPrice: '',
         isByHomeowner: 2,
         isNewBuilding: 2,
+        isApartments:2,
         metro: [],
         brunches: [],
         districts: [],
@@ -33,6 +34,8 @@ export const useObjectSearchFormState = create((set, get) => ({
         highways: [],
         to_metro: '',
         to_metro_by: 1,
+        to_mkad:'',
+        price_type:[]
 
     },
     activeSearch: {
@@ -58,6 +61,7 @@ export const useObjectSearchFormState = create((set, get) => ({
         maxPrice: '',
         isByHomeowner: 2,
         isNewBuilding: 2,
+        isApartments:2,
         metro: [],
         brunches: [],
         districts: [],
@@ -66,6 +70,9 @@ export const useObjectSearchFormState = create((set, get) => ({
         highways: [],
         to_metro: '',
         to_metro_by: 1,
+        to_mkad:'',
+        price_type:[]
+
 
     },
     params: {

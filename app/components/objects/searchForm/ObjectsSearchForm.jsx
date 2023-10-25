@@ -19,6 +19,7 @@ import MapSearchModal from "./formComponents/MapSearchModal";
 import { YMaps } from "@pbe/react-yandex-maps";
 import DistrictsModal from "./formComponents/DistrictsModal";
 import HighwaysModal from "./formComponents/HighwaysModal";
+import SearchTextField from "./formComponents/SearchTextField";
 
 // import { useSearchParams } from 'next/navigation'
 
@@ -124,7 +125,7 @@ function ObjectsSearchForm({ formData }) {
     useEffect(() => {
         try {
 
-            let qq = document.querySelector('.react-dadata__input');
+            let qq = document.querySelector('.my-dadata-input .react-dadata__input');
             // if (qq) {
             // console.log(qq)
             qq.value = '';
@@ -298,6 +299,11 @@ function ObjectsSearchForm({ formData }) {
                                 name={'isNewBuilding'}
                                 title={'Готовность'}
                             />
+                             <SearchRadioGroup
+                                items={formData.isApartments}
+                                name={'isApartments'}
+                                title={'Статус'}
+                            />
                         </>
                     )}
 
@@ -329,8 +335,12 @@ function ObjectsSearchForm({ formData }) {
                         </>
                     )} */}
 
-
-
+                    <SearchButtonsGroup
+                        items={formData.price_type}
+                        name={'price_type'}
+                        title={'Тип цены'}
+                    />
+                    
 
 
 
@@ -438,6 +448,7 @@ function ObjectsSearchForm({ formData }) {
 
                 <FormControl
                     fullWidth
+                    className="my-dadata-input"
                 >
                     <FormLabel id={"dadata-name-label"}>Адрес</FormLabel>
 
@@ -485,19 +496,38 @@ function ObjectsSearchForm({ formData }) {
                         style={{ width: '50%' }}
                         className="px-2"
                     >
-                        <Button
-                            // className="mx-2"
-                            style={{ width: '100%' }}
-                            variant="contained"
-                            onClick={() => setMetroOpen(true)}
-                        >
-                            Выбрать метро
-                            {metro.length > 0 && (
-                                <>
-                                    &nbsp;[{metro.length}]
-                                </>
-                            )}
-                        </Button>
+                        <Stack spacing={1}>
+                            <Button
+                                // className="mb-2"
+                                style={{ width: '100%' }}
+                                variant="contained"
+                                onClick={() => setMetroOpen(true)}
+                            >
+                                Выбрать метро
+                                {metro.length > 0 && (
+                                    <>
+                                        &nbsp;[{metro.length}]
+                                    </>
+                                )}
+                            </Button>
+
+
+                            <SearchButtonsGroup
+                                items={formData.to_metro_by}
+                                name={'to_metro_by'}
+                                arrayValue={false}
+
+                                title={''}
+                            />
+
+                            <SearchTextField
+                                name='to_metro'
+                                title={'До метро минут max'}
+                                size="small"
+                            />
+
+
+                        </Stack>
 
 
                     </Grid>
@@ -505,19 +535,33 @@ function ObjectsSearchForm({ formData }) {
                         className="px-2"
                         style={{ width: '50%' }}
                     >
-                        <Button
-                            // className="mx-2"
-                            style={{ width: '100%' }}
-                            variant="contained"
-                            onClick={() => setHighwaysOpen(true)}
-                        >
-                            Выбрать шоссе
-                            {highways.length > 0 && (
-                                <>
-                                    &nbsp;[{highways.length}]
-                                </>
-                            )}
-                        </Button>
+                        <Stack spacing={1}>
+                            <Button
+                                // className="mx-2"
+                                style={{ width: '100%' }}
+                                variant="contained"
+                                onClick={() => setHighwaysOpen(true)}
+                            >
+                                Выбрать шоссе
+                                {highways.length > 0 && (
+                                    <>
+                                        &nbsp;[{highways.length}]
+                                    </>
+                                )}
+                            </Button>
+                            <div
+                                style={{
+                                    marginTop: 22
+                                }}
+                            >
+                                <SearchTextField
+                                    name='to_mkad'
+                                    title={'До МКАД (км) max'}
+                                    size="small"
+                                />
+                            </div>
+
+                        </Stack>
                     </Grid>
 
                 </Grid>

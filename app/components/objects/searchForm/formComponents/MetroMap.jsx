@@ -1,9 +1,11 @@
 import { Typography } from "@mui/material";
 import MetroLink from "./MetroLink";
 
-function MetroMap({ brunches, handleBrunchClick, handleStationClick ,formData, state }) {
+function MetroMap({ brunches, handleBrunchClick, handleStationClick, formData, state }) {
+    console.log(formData);
     return (
         <div
+            id='metro_content'
             className='m-3 p-2 pt-5 pb-5'
             style={{
 
@@ -279,6 +281,16 @@ function MetroMap({ brunches, handleBrunchClick, handleStationClick ,formData, s
                                         cursor: 'pointer'
                                     }}
                                 >Кольцевая</Typography>
+
+                                <Typography
+                                    className={!brunches.includes(20) ? 'select_brunch ' : "select_brunch brunch_link_active"}
+                                    onClick={handleBrunchClick}
+                                    data-onclickparam={20}
+                                    style={{
+                                        "color": "#8D7A55",
+                                        cursor: 'pointer'
+                                    }}
+                                >Внутри кольца</Typography>
                                 <Typography
                                     className={!brunches.includes(35) ? 'select_brunch ' : "select_brunch brunch_link_active"}
                                     onClick={handleBrunchClick}
@@ -297,60 +309,66 @@ function MetroMap({ brunches, handleBrunchClick, handleStationClick ,formData, s
                                         "color": "#7FBEBB",
                                         cursor: 'pointer'
                                     }}
-                                >Большое кольцо</Typography>
+                                >БКЛ</Typography>
+
+
 
 
                             </td>
-                            <td valign="top" style={{ "paddingLeft": "10px" }}>
-                                <Typography>
-                                    <span
-                                        className={!brunches.includes(20) ? 'select_brunch ' : "select_brunch brunch_link_active"}
-                                        onClick={handleBrunchClick}
-                                        data-onclickparam={20}
 
-                                        style={{
-                                            "color": "#8D7A55",
-                                            cursor: 'pointer'
-                                        }}
-                                    >Внутри кольца</span><br />
-                                    От кольца:<br /> <span
-                                        className={!brunches.includes(21) ? 'select_brunch ' : "select_brunch brunch_link_active"}
-                                        onClick={handleBrunchClick}
-                                        data-onclickparam={21}
-                                        style={{
+                            <td>
+                                <Typography
+                                    className={!brunches.includes(46) ? 'select_brunch ' : "select_brunch brunch_link_active"}
+                                    onClick={handleBrunchClick}
+                                    data-onclickparam={46}
 
-                                            cursor: 'pointer'
-                                        }}
-
-                                    >+1</span>
-                                    <span
-                                        className={!brunches.includes(22) ? 'select_brunch ' : "select_brunch brunch_link_active"}
-                                        onClick={handleBrunchClick}
-                                        data-onclickparam={22}
-                                        style={{
-
-                                            cursor: 'pointer'
-                                        }}
-                                    >+2</span>
-                                    <span
-                                        className={!brunches.includes(23) ? 'select_brunch ' : "select_brunch brunch_link_active"}
-                                        onClick={handleBrunchClick}
-                                        data-onclickparam={23}
-                                        style={{
-
-                                            cursor: 'pointer'
-                                        }}
-                                    >+3</span>
-                                    <span
-                                        className={!brunches.includes(24) ? 'select_brunch ' : "select_brunch brunch_link_active"}
-                                        onClick={handleBrunchClick}
-                                        data-onclickparam={24}
-                                        style={{
-
-                                            cursor: 'pointer'
-                                        }}
-                                    >+4</span>
+                                    style={{
+                                        "color": "#DE9C4E",
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    МЦД-1
                                 </Typography>
+
+                                <Typography
+                                    className={!brunches.includes(47) ? 'select_brunch ' : "select_brunch brunch_link_active"}
+                                    onClick={handleBrunchClick}
+                                    data-onclickparam={47}
+
+                                    style={{
+                                        "color": "#BD748F",
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    МЦД-2
+                                </Typography>
+                                <Typography
+                                    className={!brunches.includes(48) ? 'select_brunch ' : "select_brunch brunch_link_active"}
+                                    onClick={handleBrunchClick}
+                                    data-onclickparam={48}
+
+                                    style={{
+                                        "color": "#E15D29",
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    МЦД-3
+                                </Typography>
+                                <Typography
+                                    className={!brunches.includes(49) ? 'select_brunch ' : "select_brunch brunch_link_active"}
+                                    onClick={handleBrunchClick}
+                                    data-onclickparam={49}
+
+                                    style={{
+                                        "color": "#3CB183",
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    МЦД-4
+                                </Typography>
+
+                                
+
                             </td>
 
 
@@ -361,10 +379,13 @@ function MetroMap({ brunches, handleBrunchClick, handleStationClick ,formData, s
                 <img
                     style={{
 
-                        marginLeft: '100px'
+                        // marginLeft: '100px',
+                        display: 'block',
                     }
                     }
-                    src='https://pyxi.pro/metromap_new.png'
+                    // src='https://pyxi.pro/metromap_new.png'
+                    src='/metro.png'
+
                 />
             </div>
             {
@@ -379,10 +400,11 @@ function MetroMap({ brunches, handleBrunchClick, handleStationClick ,formData, s
 
                         />
                     );
-                })}
+                })
+            }
 
 
-        </div>
+        </div >
     );
 }
 

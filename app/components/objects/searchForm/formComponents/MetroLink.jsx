@@ -14,6 +14,23 @@ function MetroLink({
         return state.includes(id)
     }, [station.id, state])
 
+    let width = null;
+    const images = [];
+    if (station?.div_options !== '' && station?.div_options !== null) {
+        console.log(station.div_options);
+        let options = JSON.parse(station.div_options);
+        width = options.width;
+        station.metro = station.metro.split(' ').join('\n')
+    }
+    if (station?.images !== '' && station?.images !== null) {
+        JSON.parse(station.images).map(image => {
+            images.push(image);
+            return true;
+        })
+    }
+
+    console.log(width);
+
 
     return (
         useMemo(() => {
@@ -29,19 +46,49 @@ function MetroLink({
                         style={{
                             display: (checked) ? null : "none",
                             position: 'absolute',
-                            left: (Number(station.img_left) + 24 + 28 ) + "px",
-                            top: (Number(station.img_top) + 96 + 40  ) + "px",
+                            left: (Number(station.img_left) - 100) + "px",
+                            top: (Number(station.img_top) + 24) + "px",
+
+
                         }}
                     />
-                    
+
+                    {images.map((image, index) => {
+                        console.log(image);
+                        return (
+
+                            <img
+                                key={station.id + '_' + index + "add_img"}
+                                src='https://img.pyxi.pro/tchk.gif'
+                                // id={'metro_img' + station.id}
+                                alt={'tchk'}
+                                // className={(checked) ? '' : "station_img_hidden"}
+                                style={{
+                                    display: (checked) ? null : "none",
+                                    position: 'absolute',
+                                    left: (Number(image.left) - 100) + "px",
+                                    top: (Number(image.top) + 24) + "px",
+
+                                }}
+                            />
+                        )
+                    })}
+
+
+
+
+
 
                     <div
                         key={station.id + "div"}
                         className={'metro_div'}
                         style={{
                             position: 'absolute',
-                            left: (Number(station.div_left) + 22 + 28  ) + "px",
-                            top: (Number(station.div_top) + 98 + 40 ) + "px",
+                            left: (Number(station.div_left) - 100) + "px",
+                            top: (Number(station.div_top) + 24) + "px",
+
+                            lineHeight: 11
+
 
                         }}
                     >
@@ -52,7 +99,9 @@ function MetroLink({
                             data-onclickparam={station.id}
                             style={{
                                 cursor: 'pointer',
-                                fontSize: '10px'
+                                fontSize: '10px',
+                                width: width,
+                                lineHeight: 1
                             }
                             }
                         >{station.metro}</Typography>
