@@ -3,7 +3,7 @@ import { FormControl, Stack, TextField } from "@mui/material";
 import { useObjectSearchFormState } from "@/app/objects/store";
 import { useMemo } from "react";
 
-function DualTextField({ name1, name2, title1, title2 }) {
+function DualTextField({ name1, name2, title1, title2, spacing = 2 }) {
 
     const value1 = useObjectSearchFormState((state) => state.search[name1])
     const value2 = useObjectSearchFormState((state) => state.search[name2])
@@ -21,7 +21,7 @@ function DualTextField({ name1, name2, title1, title2 }) {
             <Stack
                 className='items-end'
                 direction="row"
-                spacing={2}
+                spacing={spacing}
                 sx={{
                     display: 'flex'
                 }}

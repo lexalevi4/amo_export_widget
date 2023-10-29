@@ -4,7 +4,7 @@ import { usePlotSaga } from "@/app/objects/plotSaga";
 import ReportPlotModalContent from "./ReportPlotModalContent";
 import { useRef, useEffect } from "react";
 
-function ReportPlotModal() {
+function ReportPlotModal({ mobile = false }) {
 
 
 
@@ -69,6 +69,7 @@ function ReportPlotModal() {
                 }}
             >
                 <ReportPlotModalContent
+                    mobile={mobile}
                 // isLoading={reportPlotsIsLoading}
                 // plotData={reportPlotData}
                 />

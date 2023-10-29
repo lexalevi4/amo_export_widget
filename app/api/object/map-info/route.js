@@ -16,7 +16,7 @@ export async function POST(request, response) {
     // formData.get("flat");
     // console.log(formData.get("flat"));
 
-    const res = await sendPostRequest('https://turbobroker.ru/api/map-info', { filter: formData.get("filter") })
+    const res = await sendPostRequest(process.env.API_URL + 'api/map-info', { filter: formData.get("filter") })
     console.log(res);
 
 

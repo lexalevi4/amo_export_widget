@@ -7,7 +7,7 @@ export async function GET(request, response) {
     const id = searchParams.get('id');
     const status = searchParams.get('status');
     const page = searchParams.get('page');
-    const res = await sendPostRequest('https://turbobroker.ru/api/get-filtered-objects',
+    const res = await sendPostRequest(process.env.API_URL + 'api/get-filtered-objects',
         {
             id: id,
             status: status,

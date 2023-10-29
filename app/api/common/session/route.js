@@ -12,7 +12,7 @@ var crypto = require('crypto');
 
 const check_token = async (token, acc_id) => {
 
-    const request = await fetch('https://turbobroker.ru/token/check-token', {
+    const request = await fetch(process.env.API_URL + 'token/check-token', {
         method: "POST",
         mode: "cors",
         headers: {

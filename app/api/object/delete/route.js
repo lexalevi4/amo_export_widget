@@ -11,7 +11,7 @@ import { NextResponse } from "next/server";
 export async function GET(request, response) {
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
-    const res = await sendGetRequest('https://turbobroker.ru/api/delete-object', { id: id })
+    const res = await sendGetRequest(process.env.API_URL + 'api/delete-object', { id: id })
     console.log(res);
     return NextResponse.json(res);
 

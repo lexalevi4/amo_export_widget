@@ -7,7 +7,7 @@ export async function POST(request, response) {
     const formData = await request.formData();
     // console.log(request)
 
-    const res = await sendPostRequest('https://turbobroker.ru/api/generate-report-plot',
+    const res = await sendPostRequest(process.env.API_URL + 'api/generate-report-plot',
         {
             plot_data: JSON.parse(formData.get("plot_data")),
         })

@@ -9,7 +9,7 @@ export async function POST(request, response) {
     // formData.get("flat");
     // console.log(formData.get("flat"));
 
-    const res = await sendPostRequest('https://turbobroker.ru/api/get-map-cluster-objects',
+    const res = await sendPostRequest(process.env.API_URL + 'api/get-map-cluster-objects',
         {
             cluster: JSON.parse(formData.get("cluster")),
             search: JSON.parse(formData.get("search"))

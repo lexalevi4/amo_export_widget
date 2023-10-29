@@ -97,8 +97,8 @@ function DistrictsModal({ isOpen, setIsOpen }) {
     return (
         useMemo(() => (
             <Dialog
-                // fullScreen
-                maxWidth={'xl'}
+                fullScreen
+                // maxWidth={'xl'}
                 keepMounted
                 open={isOpen}
                 scroll='paper'

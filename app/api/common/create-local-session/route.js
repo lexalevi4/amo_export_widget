@@ -12,7 +12,7 @@ var crypto = require('crypto');
 
 const check_token = async (token, acc_id) => {
 
-    const request = await fetch('https://turbobroker.ru/token/check-token', {
+    const request = await fetch(process.env.API_URL + '/token/check-token', {
         method: "POST",
         mode: "cors",
         headers: {
@@ -67,7 +67,7 @@ export async function GET(req, response) {
     // const token = headers().get('x-auth-token');
     // console.log(token);
 
-    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcmVhbHR5d2lkZ2V0LmFtb2NybS5ydSIsImF1ZCI6Imh0dHBzOlwvXC90dXJib2Jyb2tlci5ydSIsImp0aSI6ImI2ZGVmMzAyLTY4OWItNDdjMi04ZjBhLTFhZDJkMDliMzg4ZCIsImlhdCI6MTY5NzQ4NDU1NywibmJmIjoxNjk3NDg0NTU3LCJleHAiOjE2OTc0ODYzNTcsImFjY291bnRfaWQiOjMxMTY1MzM0LCJzdWJkb21haW4iOiJyZWFsdHl3aWRnZXQiLCJjbGllbnRfdXVpZCI6IjE2MzBlMTcyLTg3ZDAtNGRlOS1iY2M5LWY0NjBiMjY1NjM2MSIsInVzZXJfaWQiOjE0MzM4MDAsImlzX2FkbWluIjp0cnVlfQ.z9EhdOgJfRNqFX2s5xFU-vI6TEruKw61Mf9rXH0uxM8';
+    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcmVhbHR5d2lkZ2V0LmFtb2NybS5ydSIsImF1ZCI6Imh0dHBzOlwvXC90dXJib2Jyb2tlci5ydSIsImp0aSI6IjFiY2U2ZjA4LTY4MmItNDFiNy1hNzI4LWJkMjQzNjQ0ZDZlMyIsImlhdCI6MTY5ODIzNzMxOSwibmJmIjoxNjk4MjM3MzE5LCJleHAiOjE2OTgyMzkxMTksImFjY291bnRfaWQiOjMxMTY1MzM0LCJzdWJkb21haW4iOiJyZWFsdHl3aWRnZXQiLCJjbGllbnRfdXVpZCI6IjE2MzBlMTcyLTg3ZDAtNGRlOS1iY2M5LWY0NjBiMjY1NjM2MSIsInVzZXJfaWQiOjE0MzM4MDAsImlzX2FkbWluIjp0cnVlfQ.54Wh9-uGn3NWIwkQHbkjR6bRa38HrE9UFxlMdbjuCVQ';
     let result = [];
     let page = '/error';
 

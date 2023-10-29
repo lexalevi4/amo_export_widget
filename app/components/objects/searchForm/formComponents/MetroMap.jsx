@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import MetroLink from "./MetroLink";
 
-function MetroMap({ brunches, handleBrunchClick, handleStationClick, formData, state }) {
+function MetroMap({ brunches, handleBrunchClick, handleStationClick, formData, state, topDiff, leftDiff }) {
     console.log(formData);
     return (
         <div
@@ -367,7 +367,7 @@ function MetroMap({ brunches, handleBrunchClick, handleStationClick, formData, s
                                     МЦД-4
                                 </Typography>
 
-                                
+
 
                             </td>
 
@@ -393,6 +393,8 @@ function MetroMap({ brunches, handleBrunchClick, handleStationClick, formData, s
                 formData.metro.map(function (station) {
                     return (
                         <MetroLink
+                            topDiff={topDiff}
+                            leftDiff={leftDiff}
                             key={station.id}
                             state={state}
                             station={station}

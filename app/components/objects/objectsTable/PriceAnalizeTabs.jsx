@@ -21,7 +21,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import PriceAnalyzeTableRows from './PriceAnalizeTableRows';
 import { Box } from '@mui/material';
 
-const PriceAnalizeTabs = function ({ flat }) {
+const PriceAnalizeTabs = function ({ flat, maxContent = false }) {
 
     const positions = flat.positions;
 
@@ -68,10 +68,10 @@ const PriceAnalizeTabs = function ({ flat }) {
     return (
         <>
             <Box
-                className='p-2'
+                // className='p-2'
                 style={{
-                    maxWidth:'90svw',
-                    objectFit:'contain'
+                    maxWidth: '90svw',
+                    objectFit: 'contain'
                 }}
 
 
@@ -171,7 +171,7 @@ const PriceAnalizeTabs = function ({ flat }) {
                                 sx={{
                                     // position:"absolute",
                                     overflow: "auto",
-                                    // width: 'max-content'
+                                    width: maxContent ? 'max-content' : null
                                 }}
 
                                 size="small" aria-label="a dense table">
@@ -212,6 +212,7 @@ const PriceAnalizeTabs = function ({ flat }) {
                         >
                             <Table
                                 sx={{
+                                    width: maxContent ? 'max-content' : null,
                                     // width: 'max-content'
                                     overflow: "auto"
                                 }}

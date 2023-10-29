@@ -10,7 +10,7 @@ export async function POST(request, response) {
     // formData.get("flat");
     // console.log(formData.get("flat"));
 
-    const res = await sendPostRequest('https://turbobroker.ru/api/save-filter',
+    const res = await sendPostRequest(process.env.API_URL + 'api/save-filter',
         {
             name: formData.get("name"),
             search: formData.get("search")

@@ -2,7 +2,7 @@ import { Box, Divider, Typography } from "@mui/material";
 import LoadingTb from "../../Loading";
 import { usePlotSaga } from "@/app/objects/plotSaga";
 
-function ReportPlotModalContent() {
+function ReportPlotModalContent({ mobile }) {
 
     const isLoading = usePlotSaga((state) => state.reportPlotsIsLoading);
     const plotData = usePlotSaga((state) => state.reportPlotData);
@@ -26,13 +26,16 @@ function ReportPlotModalContent() {
 
 
     return (<>
-        <Box
-            className="p-4"
-        >
-            <img src={'https://img.turbobroker.ru/report_plot/' + plotData.img} style={{ maxWidth: '90svw' }} />
-            <Divider />
-            <img src={'https://img.turbobroker.ru/report_plot/' + plotData.img_2} style={{ maxWidth: '90svw' }} />
-        </Box>
+        {plotData.img && (
+            <Box
+                className="p-4"
+            >
+                <img src={'https://img.turbobroker.ru/report_plot/' + plotData.img} style={{ maxWidth: mobile ? '150svw' : '90svw' }} />
+                <Divider />
+                <img src={'https://img.turbobroker.ru/report_plot/' + plotData.img_2} style={{ maxWidth: mobile ? '150svw' : '90svw' }} />
+            </Box>
+        )}
+
 
     </>);
 }

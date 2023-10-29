@@ -9,7 +9,7 @@ export async function POST(request, response) {
     // formData.get("flat");
     // console.log(formData.get("flat"));
 
-    const result = await sendPostRequest('https://turbobroker.ru/api/update-user', { user: JSON.parse(formData.get("user")) })
+    const result = await sendPostRequest(process.env.API_URL + 'api/update-user', { user: JSON.parse(formData.get("user")) })
 
 
 

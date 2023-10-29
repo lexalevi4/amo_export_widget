@@ -4,7 +4,9 @@ import { useMemo } from "react";
 function MetroLink({
     handleStationClick,
     state,
-    station
+    station,
+    topDiff,
+    leftDiff
 
 }) {
     // console.log(state);
@@ -46,8 +48,8 @@ function MetroLink({
                         style={{
                             display: (checked) ? null : "none",
                             position: 'absolute',
-                            left: (Number(station.img_left) - 100) + "px",
-                            top: (Number(station.img_top) + 24) + "px",
+                            left: (Number(station.img_left) - 100 + leftDiff) + "px",
+                            top: (Number(station.img_top) + 24 + topDiff) + "px",
 
 
                         }}
@@ -66,8 +68,8 @@ function MetroLink({
                                 style={{
                                     display: (checked) ? null : "none",
                                     position: 'absolute',
-                                    left: (Number(image.left) - 100) + "px",
-                                    top: (Number(image.top) + 24) + "px",
+                                    left: (Number(image.left) - 100 + leftDiff) + "px",
+                                    top: (Number(image.top) + 24 + topDiff) + "px",
 
                                 }}
                             />
@@ -84,8 +86,8 @@ function MetroLink({
                         className={'metro_div'}
                         style={{
                             position: 'absolute',
-                            left: (Number(station.div_left) - 100) + "px",
-                            top: (Number(station.div_top) + 24) + "px",
+                            left: (Number(station.div_left) - 100 + leftDiff) + "px",
+                            top: (Number(station.div_top) + 24 + topDiff) + "px",
 
                             lineHeight: 11
 

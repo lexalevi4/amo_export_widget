@@ -27,7 +27,7 @@ function SearchButtonsGroup({ title, items, name, arrayValue = true }) {
         useMemo(() => (
             <FormControl
                 sx={{
-                    marginTop: '15px',
+                    // marginTop: '15px',
                     width: '100%',
                     display: 'flex'
 
@@ -37,7 +37,7 @@ function SearchButtonsGroup({ title, items, name, arrayValue = true }) {
                 <ButtonGroup
                     fullWidth
                     sx={{
-                        marginTop: '15px',
+                        // marginTop: '15px',
                         width: '100%',
                         display: 'flex'
 

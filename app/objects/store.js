@@ -155,8 +155,8 @@ export const useObjectSearchFormState = create((set, get) => ({
 
     setActiveSearch: (value) => set((state) => {
         console.log(value)
-        const search_updated = get().search_updated;
-        console.log(search_updated)
+        // const search_updated = get().search_updated;
+        // console.log(search_updated)/
         // const search = get().search;
         // let okrugs = search.okrugs.slice(0);
         // if (okrugs.includes(okrug)) {

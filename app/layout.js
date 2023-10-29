@@ -46,7 +46,9 @@ export default function RootLayout({ children }) {
         {/* <StyledEngineProvider injectFirst> */}
         <Suspense fallback={<LoadingTb />}>
           <Box className="bg-white pb-8">
-            <Box className="p-4 pb-0 bg-third-bg sm:max-w-7xl mx-auto ">
+            <Box className="
+            
+            pb-0 bg-third-bg sm:max-w-7xl mx-auto ">
               {children}
             </Box>
           </Box>

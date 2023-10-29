@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import MetroMap from "./MetroMap";
 import MetroMapSvg from "./MetroMapSvg";
 
-function MetroModal({ isOpen, handleClose }) {
+function MetroModal({ isOpen, handleClose, topDiff = 0, leftDiff = 0 }) {
 
 
     // const handleClose = () => {
@@ -86,12 +86,14 @@ function MetroModal({ isOpen, handleClose }) {
                 {console.log('metr')}
 
                 <MetroMap
+                    topDiff={topDiff}
+                    leftDiff={leftDiff}
                     brunches={brunches}
                     handleBrunchClick={handleBrunchClick}
                     handleStationClick={handleStationClick}
-                    formData={formData} 
+                    formData={formData}
                     state={metro}
-                 
+
 
                 />
                 {/* <MetroMapSvg /> */}

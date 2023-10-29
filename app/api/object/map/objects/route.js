@@ -39,7 +39,7 @@ export async function GET(request, response) {
         console.log(e)
     }
 
-    const result = await sendPostRequest('https://turbobroker.ru/api/get-map-objects', requestData)
+    const result = await sendPostRequest(process.env.API_URL + 'api/get-map-objects', requestData)
 
 
     try {

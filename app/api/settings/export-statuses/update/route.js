@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(request, response) {
 
     const formData = await request.formData();
-    const result = await sendPostRequest('https://turbobroker.ru/api/update-export-statuses', JSON.parse(formData.get("statuses")))
+    const result = await sendPostRequest(process.env.API_URL + 'api/update-export-statuses', JSON.parse(formData.get("statuses")))
 
     return NextResponse.json(result);
 

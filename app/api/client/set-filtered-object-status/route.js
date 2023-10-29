@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request, response) {
     const { searchParams } = new URL(request.url);
-    const res = await sendPostRequest('https://turbobroker.ru/api/set-filtered-object-status',
+    const res = await sendPostRequest(process.env.API_URL + 'api/set-filtered-object-status',
         {
             filterId: searchParams.get('filterId'),
             objectId: searchParams.get('objectId'),
