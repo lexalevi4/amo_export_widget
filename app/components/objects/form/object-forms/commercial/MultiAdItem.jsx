@@ -8,7 +8,7 @@ import Image from "next/image";
 import { SortableContext, arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import ImageSortable from "../../../ImageSortable";
 import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-function MultiAdItem({ item, flat, setter, getter, index, deleteItem, del_disabled = false }) {
+function MultiAdItem({ item, index,  del_disabled = false }) {
 
 
 

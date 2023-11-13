@@ -8,7 +8,8 @@ import { useEffect } from "react";
 
 function CommercialLand({ flat, setter, getter, form_data }) {
     const updateArrayField = useObjectFormState((state) => state.updateArrayField)
-    const communications = getter('communications')
+    const communications = useObjectFormState((state) => state.flat.communications)
+    // const communications = getter('communications')
     const landTypes = form_data.land_use_type.filter((item) => {
         return item.commercial === 1
     })
@@ -43,18 +44,18 @@ function CommercialLand({ flat, setter, getter, form_data }) {
         >
             <MyTextInput
                 name={'landArea'}
-                setter={setter}
+              
                 title={'Площадь участка'}
-                value={flat.landArea}
+                
                 type="number"
             />
             <MySelect
                 width={150}
                 items={form_data.land_area_unit_type}
                 name={'landAreaUnitType'}
-                setter={setter}
+                
                 title={"Единица"}
-                getter={getter}
+                
             />
 
 
@@ -65,13 +66,11 @@ function CommercialLand({ flat, setter, getter, form_data }) {
 
                 name={'landType'}
                 items={landTypes}
-                getter={getter}
-                setter={setter}
+                
             />
             <MySwitch
                 name={'possibleToChangePermitedUseType'}
-                getter={getter}
-                setter={setter}
+            
                 title={'Можно сменить'}
             />
 
@@ -82,13 +81,11 @@ function CommercialLand({ flat, setter, getter, form_data }) {
                 title={'Категория земель'}
                 name={'landCategory'}
                 items={form_data.land_category}
-                getter={getter}
-                setter={setter}
+            
             />
             <MySwitch
                 name={'possibleToChangeStatus'}
-                getter={getter}
-                setter={setter}
+            
                 title={'Можно сменить'}
             />
         </Stack>
@@ -250,8 +247,7 @@ function CommercialLand({ flat, setter, getter, form_data }) {
             title={'Подъездные пути'}
             name={'drivewayType'}
             items={form_data.driveway_type}
-            getter={getter}
-            setter={setter}
+      
         />
 
 

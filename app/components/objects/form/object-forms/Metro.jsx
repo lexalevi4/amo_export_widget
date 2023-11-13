@@ -1,11 +1,13 @@
 import { Button } from "@mui/material";
 import MetroStation from "./MetroStation";
 import { sortByName } from "@/app/heplers/heplers";
+import { useObjectFormState } from "@/app/objects/create/store";
 
-function Metro({ setter, getter, flat, form_data }) {
+function Metro({  flat, form_data }) {
 
-
-    const metro = getter('metro')
+    const setter = useObjectFormState((state) => state.updateFlat);
+    const metro = useObjectFormState((state) => state.flat['metro']);
+    
 
     const selected = [];
     metro.map(item => {
@@ -27,7 +29,7 @@ function Metro({ setter, getter, flat, form_data }) {
             return (
                 <MetroStation
                     selected={selected}
-                    getter={getter}
+                    
                     key={'metro-component-' + index}
                     item={item}
                     stations={form_data.metro.sort((a, b) => sortByName(a, b, 'metro'))}

@@ -1,11 +1,11 @@
 "use client"
 import { useObjectFormState } from "@/app/objects/create/store";
-import { Box, FormControl, InputLabel, TextField } from "@mui/material";
-import { useEffect } from "react";
+import { Box, FormControl,  TextField } from "@mui/material";
+import { useMemo } from "react";
 
-function MyTextInput({ title, name, 
+function MyTextInput({ title, name,
     // value,
-     setter, type = 'text', flat, width = null }) {
+    type = 'text', width = null }) {
 
 
     const value = useObjectFormState((state) => state.flat[name]);
@@ -15,33 +15,36 @@ function MyTextInput({ title, name,
         updateFlat(name, e.target.value)
     }
 
-    return (<>
-        <Box>
+    return (
+        useMemo(() => (
+            <>
 
-            <FormControl
-                style={
-                    {
-                        width: width
-                    }}
-            >
-                {/* <InputLabel
+                <Box>
+
+                    <FormControl
+                        style={
+                            {
+                                width: width
+                            }}
+                    >
+                        {/* <InputLabel
                     htmlFor={name + '-input'}
                     id={name + "-name-label"}>{title}</InputLabel> */}
-                < TextField
-                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                    type={type}
-                    // InputLabelProps={{ shrink: true }}
-                    // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                    // error
-                    label={title}
+                        < TextField
+                            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                            type={type}
+                            // InputLabelProps={{ shrink: true }}
+                            // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                            // error
+                            label={title}
 
-                    id={name + '-input'}
-                    value={value}
-                    onChange={handler}
-                />
-            </FormControl>
-        </Box >
-    </>);
+                            id={name + '-input'}
+                            value={value}
+                            onChange={handler}
+                        />
+                    </FormControl>
+                </Box >
+            </>), [value, name]))
 }
 
 export default MyTextInput;

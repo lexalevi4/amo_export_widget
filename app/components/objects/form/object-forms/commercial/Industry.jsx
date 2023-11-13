@@ -7,8 +7,9 @@ import { chunkArray, sortByName } from "@/app/heplers/heplers";
 import MultipleSwitchGroup from "../../MultipleSwitchGroup";
 import Lifts from "./Lifts";
 import Cranage from "./Cranage";
+import { useObjectFormState } from "@/app/objects/create/store";
 
-function Industry({ flat, setter, getter, form_data }) {
+function Industry({ form_data }) {
 
 
     const infrastructures = form_data.infrastructure.filter((item) => {
@@ -19,14 +20,18 @@ function Industry({ flat, setter, getter, form_data }) {
     const materials = form_data.material.filter((item) => {
         return item.commercial === 1
     })
-    const parkingIsFree = getter('parkingIsFree');
+
+
+
+    const parkingIsFree = useObjectFormState((state) => state.flat['parkingIsFree']);
+    const isOccupied = useObjectFormState((state) => state.flat['isOccupied']);
 
     const heating_types = form_data.heating_type.filter((item) => {
         return item.commercial === 1
     })
-    const isOccupied = getter('isOccupied');
 
-    const conditions = form_data.condition.filter((item) => {
+
+    const conditions = form_data.condition_type.filter((item) => {
         return item.industry === 1;
     });
 
@@ -42,8 +47,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 type="number"
 
                 name={'totalArea'}
-                value={flat.totalArea}
-                setter={setter}
+
                 title={"Общая площадь"}
 
             />
@@ -52,8 +56,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 type="number"
 
                 name={'minArea'}
-                value={flat.minArea}
-                setter={setter}
+
                 title={"Минимальная площадь"}
 
             />
@@ -68,16 +71,14 @@ function Industry({ flat, setter, getter, form_data }) {
 
                 type='number'
                 name={'floor'}
-                setter={setter}
-                value={flat.floor}
+
                 title={'Этаж'}
             />
 
             <MyTextInput
                 type='number'
                 name={'floorsCount'}
-                setter={setter}
-                value={flat.floorsCount}
+
                 title={'Этажность'}
             />
 
@@ -92,8 +93,7 @@ function Industry({ flat, setter, getter, form_data }) {
 
                 items={conditions}
                 name={'condition'}
-                getter={getter}
-                setter={setter}
+
                 title={"Состояние"}
 
             />
@@ -102,8 +102,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 title={'Материал пола'}
                 items={form_data.floor_material}
                 name={'floorMaterialType'}
-                getter={getter}
-                setter={setter}
+
             />
         </Stack>
 
@@ -113,25 +112,25 @@ function Industry({ flat, setter, getter, form_data }) {
         >
             <MyTextInput
                 // width={350}
-                value={flat.waterPipesCount}
+
 
                 name={'waterPipesCount'}
-                setter={setter}
+
                 title={"Мокрых точек"}
                 type="number"
 
             />
             <MyTextInput
                 // width={350}
-                value={flat.power}
+
 
                 name={'power'}
-                setter={setter}
+
                 title={"Мощность (кВт)"}
                 type="number"
 
             />
-            
+
         </Stack>
 
         <Stack
@@ -142,8 +141,7 @@ function Industry({ flat, setter, getter, form_data }) {
 
 
                 name={'isOccupied'}
-                getter={getter}
-                setter={setter}
+
                 title={isOccupied ? "Помещение занято до " : "Помещение занято"}
 
             />
@@ -156,8 +154,7 @@ function Industry({ flat, setter, getter, form_data }) {
                         items={form_data.month}
 
                         name={'freeMonth'}
-                        getter={getter}
-                        setter={setter}
+
                     />
 
                     <MySelect
@@ -166,8 +163,7 @@ function Industry({ flat, setter, getter, form_data }) {
                         items={form_data.year}
 
                         name={'freeYear'}
-                        getter={getter}
-                        setter={setter}
+
                     />
                 </>
 
@@ -188,8 +184,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 items={form_data.layout}
 
                 name={'layout'}
-                getter={getter}
-                setter={setter}
+
             />
 
             <MyTextInput
@@ -197,8 +192,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 title={'Высота потолков'}
 
                 name={'ceilingHeight'}
-                value={flat.ceilingHeight}
-                setter={setter}
+
             />
 
 
@@ -212,8 +206,7 @@ function Industry({ flat, setter, getter, form_data }) {
 
 
                 name={'hasSafeCustody'}
-                getter={getter}
-                setter={setter}
+
                 title={"Ответ. хранение"}
 
             />
@@ -221,8 +214,7 @@ function Industry({ flat, setter, getter, form_data }) {
 
 
                 name={'isCustoms'}
-                getter={getter}
-                setter={setter}
+
                 title={"Таможня"}
 
             />
@@ -230,8 +222,7 @@ function Industry({ flat, setter, getter, form_data }) {
 
 
                 name={'hasTransportServices'}
-                getter={getter}
-                setter={setter}
+
                 title={"Транспортные услуги"}
 
             />
@@ -241,8 +232,8 @@ function Industry({ flat, setter, getter, form_data }) {
             title={'Сетка колонн'}
 
             name={'columnGrid'}
-            value={flat.columnGrid}
-            setter={setter}
+
+
         />
         <MyDivider
             title={'Здание'}
@@ -255,8 +246,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
                 name={'buildingType'}
-                getter={getter}
-                setter={setter}
+
             />
 
             <MySelect
@@ -264,8 +254,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 items={form_data.building_class_type}
 
                 name={'buildingClass'}
-                getter={getter}
-                setter={setter}
+
                 width={150}
             />
 
@@ -280,8 +269,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 items={form_data.building_status_type}
 
                 name={'buildingStatusType'}
-                getter={getter}
-                setter={setter}
+
                 width={200}
             />
 
@@ -290,8 +278,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 title={'Площадь здания'}
 
                 name={'buildingTotalArea'}
-                value={flat.buildingTotalArea}
-                setter={setter}
+
             />
         </Stack>
 
@@ -304,8 +291,7 @@ function Industry({ flat, setter, getter, form_data }) {
 
                 items={materials}
                 name={'material'}
-                getter={getter}
-                setter={setter}
+
                 title={'Материал'}
             />
 
@@ -314,8 +300,7 @@ function Industry({ flat, setter, getter, form_data }) {
                 title={'Год постройки'}
 
                 name={'buildYear'}
-                value={flat.buildYear}
-                setter={setter}
+
             />
 
 
@@ -331,9 +316,9 @@ function Industry({ flat, setter, getter, form_data }) {
 
                 items={heating_types}
                 name={'heatingType'}
-                setter={setter}
+
                 title={"Отопление"}
-                getter={getter}
+
                 width={200}
             />
 
@@ -341,18 +326,18 @@ function Industry({ flat, setter, getter, form_data }) {
 
                 items={form_data.communication_ventilation_type}
                 name={'ventilationType'}
-                setter={setter}
+
                 title={"Вентиляция"}
-                getter={getter}
+
                 width={200}
             />
             <MySelect
 
                 items={form_data.communication_conditioning_type}
                 name={'conditioningType'}
-                setter={setter}
+
                 title={"Кондиционирование"}
-                getter={getter}
+
                 width={200}
             />
 
@@ -360,10 +345,10 @@ function Industry({ flat, setter, getter, form_data }) {
 
                 items={form_data.extinguishing_system_type}
                 name={'extinguishingSystemTypes'}
-                setter={setter}
+
                 title={"Пожаротушение"}
                 multiple={true}
-                getter={getter}
+
             // width={200}
             />
 
@@ -372,12 +357,11 @@ function Industry({ flat, setter, getter, form_data }) {
         <MySelect
             items={form_data.access_type}
             name={'accessType'}
-            getter={getter}
-            setter={setter}
+
             title={"Вход"}
         />
 
-       
+
         <Stack
             direction={"row"}
             spacing={2}
@@ -385,9 +369,9 @@ function Industry({ flat, setter, getter, form_data }) {
             <MyTextInput
 
                 name={'developer'}
-                setter={setter}
+
                 title={'Застройщик'}
-                value={flat.developer}
+
                 // type="number"
                 width={300}
 
@@ -395,9 +379,9 @@ function Industry({ flat, setter, getter, form_data }) {
             <MyTextInput
 
                 name={'managementCompany'}
-                setter={setter}
+
                 title={'Управляющая компания'}
-                value={flat.managementCompany}
+
                 // type="number"
                 width={300}
 
@@ -409,8 +393,7 @@ function Industry({ flat, setter, getter, form_data }) {
         <Lifts
             items={form_data.lift_type.filter(item => item.industry === 1)}
             form_data={form_data}
-            getter={getter}
-            setter={setter}
+
             show_capacity={true}
 
         />
@@ -418,12 +401,11 @@ function Industry({ flat, setter, getter, form_data }) {
         <Cranage
             // items={form_data.lift_type.filter(item => item.industry === 1)}
             form_data={form_data}
-            getter={getter}
-            setter={setter}
+
             show_capacity={true}
 
         />
- <MyDivider
+        <MyDivider
             title={'Парковка'}
         />
         <Stack
@@ -435,24 +417,22 @@ function Industry({ flat, setter, getter, form_data }) {
                 items={form_data.parking_location_type}
                 name={'parkingLocationType'}
                 title={"Расположение"}
-                getter={getter}
-                setter={setter}
+
                 width={200}
             />
-             <MySelect
+            <MySelect
                 items={form_data.parking_purpose_type}
                 name={'parkingPurposeType'}
                 title={"Назначение"}
-                getter={getter}
-                setter={setter}
+
                 width={200}
             />
             <MyTextInput
 
                 name={'parkingPlacesCount'}
-                setter={setter}
+
                 title={'Количество мест'}
-                value={flat.parkingPlacesCount}
+
                 type="number"
 
             />
@@ -462,18 +442,17 @@ function Industry({ flat, setter, getter, form_data }) {
                 name={'parkingIsFree'}
                 title={'Бесплатная'}
 
-                getter={getter}
-                setter={setter}
+
             />
             {!parkingIsFree && (
                 <MyTextInput
 
                     name={'parkingPlacesPrice'}
-                    setter={setter}
+
                     title={'Стоимость въезда'}
-                    value={flat.parkingPlacesPrice}
+
                     type="number"
-                    // width={350}
+                // width={350}
                 />
             )
             }
@@ -488,9 +467,9 @@ function Industry({ flat, setter, getter, form_data }) {
         >
             <MyTextInput
                 name={'landArea'}
-                setter={setter}
+
                 title={'Площадь участка'}
-                value={flat.landArea}
+
                 type="number"
             />
             <MySelect
@@ -498,10 +477,10 @@ function Industry({ flat, setter, getter, form_data }) {
 
                 items={form_data.land_area_unit_type}
                 name={'landAreaUnitType'}
-                setter={setter}
+
                 title={"Единица"}
-                // multiple={true}
-                getter={getter}
+            // multiple={true}
+
             // width={200}
             />
             {/* landAreaUnitType */}
@@ -512,10 +491,10 @@ function Industry({ flat, setter, getter, form_data }) {
             title={'Инфраструктура'}
         />
         <MultipleSwitchGroup
-            getter={getter}
+
             items={chunkedInfrastructure}
             name={'infrastructure'}
-            setter={setter}
+
         // maxCount={flat_object === 20 ? 1 : 5}
 
         />

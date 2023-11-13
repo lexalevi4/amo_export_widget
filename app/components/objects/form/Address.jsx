@@ -11,8 +11,9 @@ import { useObjectFormState } from "@/app/objects/create/store";
 
 
 function Address({
-    setter
+    // setter
 }) {
+
 
     const ymaps = useYMaps();
     const [placemark, setPlacemark] = useState(null);
@@ -24,12 +25,12 @@ function Address({
     const dadata_response = useObjectFormState((state) => state.flat.dadata_response);
 
     const mapRef = useRef(null);
-
+    const updateFlat = useObjectFormState((state) => state.updateFlat);
 
     const dragEnd = (e) => {
         let coords = e.originalEvent.target.geometry.getCoordinates()
-        setter('lat', coords[0])
-        setter('lng', coords[1])
+        updateFlat('lat', coords[0])
+        updateFlat('lng', coords[1])
 
     }
 
@@ -55,11 +56,11 @@ function Address({
         })
         newMap.events.add('click', async function (e) {
             let coords = e.get('coords');
-            setter('lat', coords[0])
-            setter('lng', coords[1])
+            updateFlat('lat', coords[0])
+            updateFlat('lng', coords[1])
             let dadata = await geocode(coords[0], coords[1]);
-            setter('address', dadata.value)
-            setter('dadata_response', dadata)
+            updateFlat('address', dadata.value)
+            updateFlat('dadata_response', dadata)
             let addr_field = document.querySelector('.react-dadata__input');
             addr_field.value = dadata.value;
 
@@ -82,14 +83,14 @@ function Address({
     }, [ymaps])
 
     const onAddrChange = (suggestion) => {
-        setter('address', suggestion.value)
-        setter('dadata_response', suggestion)
+        updateFlat('address', suggestion.value)
+        updateFlat('dadata_response', suggestion)
     }
     useEffect(() => {
         if (dadata_response?.value) {
-            setter('address', dadata_response?.value)
-            setter('lat', dadata_response?.data?.geo_lat)
-            setter('lng', dadata_response?.data?.geo_lon)
+            updateFlat('address', dadata_response?.value)
+            updateFlat('lat', dadata_response?.data?.geo_lat)
+            updateFlat('lng', dadata_response?.data?.geo_lon)
 
         }
 
@@ -151,14 +152,14 @@ function Address({
             <MyTextInput
                 type='number'
                 value={lat}
-                setter={setter}
+                // setter={setter}
                 title='Широта'
                 name={'lat'}
             />
             <MyTextInput
                 type='number'
                 value={lng}
-                setter={setter}
+                // setter={setter}
                 title='Долгота'
                 name={'lng'}
             />

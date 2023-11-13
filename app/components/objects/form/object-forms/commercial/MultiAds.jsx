@@ -2,14 +2,16 @@ import { Button, FormControlLabel, Stack, Switch } from "@mui/material";
 import MySwitch from "../../MySwitch";
 import MultiAdItem from "./MultiAdItem";
 import { useEffect } from "react";
+import { useObjectFormState } from "@/app/objects/create/store";
 
-function MultiAds({ flat, setter, getter }) {
+function MultiAds({ flat, }) {
 
 
     // const 
-
-    const isMulti = getter('isMulti');
-    const multiAds = getter('multiAds');
+    const setter = useObjectFormState((state) => state.updateFlat);
+    const isMulti = useObjectFormState((state) => state.flat['isMulti']);
+    const multiAds = useObjectFormState((state) => state.flat['multiAds']);
+    
 
     const handleIsMulti = () => {
         if (isMulti) {
@@ -84,8 +86,7 @@ function MultiAds({ flat, setter, getter }) {
                                 key={'multiItem' + index}
                                 item={item}
                                 flat={flat}
-                                setter={setter}
-                                getter={getter}
+                            
                                 index={index}
                                 del_disabled={multiAds.length < 3}
                             // deleteItem={deleteItem}

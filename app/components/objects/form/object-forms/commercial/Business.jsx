@@ -4,7 +4,7 @@ import MyTextInput from "../../MyTextInput";
 import MyDivider from "../../MyDivider";
 import MySelect from "../../MySelect";
 
-function Business({ flat, getter, setter, form_data, flat_object }) {
+function Business({  form_data, flat_object }) {
 
     const specialities = form_data.speciality.filter((item) => {
 
@@ -22,22 +22,20 @@ function Business({ flat, getter, setter, form_data, flat_object }) {
         <MyTextInput
             type="number"
             name={'totalArea'}
-            value={flat.totalArea}
-            setter={setter}
+         
             title={"Общая площадь"}
         />
 
         <MyTextInput
             type="number"
             name={'floor'}
-            value={flat.floor}
-            setter={setter}
+         
             title={"Этаж"}
         />
         <MySelect
             items={form_data.estate_type}
             name={'estateType'}
-            setter={setter}
+         
             title={'Недвижимость'}
 
         />
@@ -46,18 +44,18 @@ function Business({ flat, getter, setter, form_data, flat_object }) {
             title={'Назначение'}
         />
         <MultipleSwitchGroup
-            getter={getter}
+          
             items={chunkedSpecialities}
             name={'speciality'}
-            setter={setter}
+         
             maxCount={flat_object === 20 ? 1 : 5}
 
         />
         <MyTextInput
             type="number"
             name={'monthlyIncome'}
-            value={flat.floor}
-            setter={setter}
+        
+         
             title={"Месячная прибыль (руб.)"}
         />
 

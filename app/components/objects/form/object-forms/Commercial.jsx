@@ -107,7 +107,7 @@ function Commercial({
         return item.commercial === 1
     })
 
-    const conditions = form_data.condition.filter((item) => {
+    const conditions = form_data.condition_type.filter((item) => {
         return item.commercial === 1
     })
 
@@ -125,13 +125,6 @@ function Commercial({
     })
 
 
-    // const getLiftName = (item) => {
-    //     let currentLift = form_data.lift_type.filter((lift) => {
-    //         return Number(lift.id) === Number(item);
-    //     })
-    //     return currentLift[0].name;
-
-    // }
 
     const chunkedInfrastructure = chunkArray(form_data.infrastructure.sort(sortByName), Math.ceil(form_data.infrastructure.length / 4))
     const chunkedSpecialities = chunkArray(specialities.sort(sortByName), Math.ceil(specialities.length / 4));
@@ -143,7 +136,6 @@ function Commercial({
     } else {
         var max_specialities = 0;
     }
-
 
 
 

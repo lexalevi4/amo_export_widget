@@ -2,9 +2,17 @@ import { Grid, Stack } from "@mui/material";
 import MultipleSwitch from "./MultipleSwitch";
 import { useObjectFormState } from "@/app/objects/create/store";
 
-function MultipleSwitchGroup({ name, setter, items, getter, maxCount = 0 }) {
+function MultipleSwitchGroup({ name, setter, items
+    // , getter
+    , maxCount = 0 }) {
     const updateMultyField = useObjectFormState((state) => state.updateMultyField)
-    const state = getter(name)
+
+
+    // const state = getter(name)
+
+    const state = useObjectFormState((state) => state.flat[name]);
+    // const updateFlat = useObjectFormState((state) => state.updateFlat);
+
     const handler = (name, e) => {
         updateMultyField(name, Number(e.target.value))
     }

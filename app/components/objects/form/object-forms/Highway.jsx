@@ -1,7 +1,7 @@
 import { useObjectFormState } from "@/app/objects/create/store";
 import { Box, Button, FormControl, FormControlLabel, InputLabel, MenuItem, OutlinedInput, Select, Stack, Switch, TextField } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-function Highway({ item, index, items, getter, selected }) {
+function Highway({ item, index, items,  selected }) {
 
     const updateMultiItemField = useObjectFormState((state) => state.updateMultiItemField);
     // const multiItemFieldSetDefault = useObjectFormState((state) => state.multiItemFieldSetDefault);

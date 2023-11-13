@@ -1,46 +1,23 @@
 
 
-import { Button, Typography } from "@mui/material";
+import { Autocomplete, Button, Divider, TextField, Typography } from "@mui/material";
 import Link from "next/link";
-// import { checkSession } from "../heplers/heplers";
-// import { cookies } from 'next/headers'
 import { session } from '../heplers/session'
 import { getFormData, sendGetRequest } from "../heplers/backendApiHandler";
-import ObjectCard from "../components/objects/ObjectCard";
 import "@/app/../dist/style.css"
-import ObjectList from "../components/objects/ObjectList";
+import ObjectsTable from "../components/objects/objectsTable/ObjectsTable";
+import LinkObject from "./components/LinkObject";
+import LeadCardObject from "./components/LeadCardObject";
 
 async function getLeadData(id) {
     return sendGetRequest('https://turbobroker.ru/api/get-lead-card?lead_id=' + id)
-
-    // const res = await fetch('https://turbobroker.ru/api/get-lead-card?lead=' + id)
-    // const data = await res.json();
-    // return data;
 }
-// export async function getServerSideProps({ req, res }) {
-//     console.log(req);
-//     // const session = await getSession(req, res);
-//     // session.views = session.views ? session.views + 1 : 1;
-//     // // Also available under req.session:
-//     // // req.session.views = req.session.views ? req.session.views + 1 : 1;
-//     // return {
-//     //   props: {
-//     //     views: session.views,
-//     //   },
-//     // };
-// }
+
 
 async function Page({ searchParams }) {
     const current_session = await session.getAll();
-    // console.log(current_session);
-    // console.log(cookies());
-    // const request = new Request();
 
-    // console.log(context);
-    // console.log(request);
 
-    // const session_checked = await checkSession(searchParams);
-    // console.log(session_checked);
 
     const leadId = Number(searchParams?.lead_id) || 0;
     if (leadId === 0) {
@@ -62,12 +39,21 @@ async function Page({ searchParams }) {
     const formData = await getFormData();
 
 
+    console.log(data.all_objects)
+    // const allObjects = [];
+    // data.all_objects.map(item => {
+    //     // let option = {
+    //     //     category:
+    //     // };
 
+    //     // allObjects.push()
+
+    // })
 
 
     return (<>
 
-        <Typography
+        {/* <Typography
             variant="h6"
         >
             acc_id:{current_session.account_id}
@@ -81,19 +67,48 @@ async function Page({ searchParams }) {
             variant="h3"
         >
             Данные сделки
-        </Typography>
+        </Typography> */}
+
+        <Divider
+            className="mb-10"
+
+        />
+
+        <LinkObject
+            objects={data.all_objects}
+        />
+
+        <Divider
+            className="my-10"
+
+        />
+
+
+
+
+
         <Typography
             variant="h5"
         >Объекты:
         </Typography>
-        <ObjectList
-            formData={formData}
-            objects={data.objects}
-        />
+
+        {
+            data.objects.map((object, index) => {
+                return (
+                    <LeadCardObject
+                        key={'card_object_' + index}
+                        formData={formData}
+                        object={object}
+                    />
+
+
+                )
+            })
+        }
+
+
         <Link
             href={'/objects/create?lead_id=' + leadId}
-        // as={'/static/' + someJsString}
-        // passHref
         >
             <Button>Добавить объект</Button>
         </Link>
@@ -101,7 +116,7 @@ async function Page({ searchParams }) {
             variant="h5"
         >Заявки:
         </Typography>
-        {data.clients.map((client, index) => {
+        {data.clients.map((client) => {
             return (<Typography
                 key={'client' + client.id}
             >

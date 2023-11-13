@@ -8,7 +8,7 @@ import MultipleSwitch from "../../MultipleSwitch";
 import MultipleSwitchGroup from "../../MultipleSwitchGroup";
 
 
-function Garage({ flat, getter, setter, form_data }) {
+function Garage({  form_data }) {
 
 
     const garageInfrastructure = form_data.infrastructure.filter((item) => { return item.garage === 1 });
@@ -27,8 +27,7 @@ function Garage({ flat, getter, setter, form_data }) {
                 items={form_data.garage_type}
                 name={'garage_type'}
                 title={"Тип"}
-                setter={setter}
-                getter={getter}
+            
                 required={true}
             />
 
@@ -36,8 +35,7 @@ function Garage({ flat, getter, setter, form_data }) {
                 items={form_data.garage_garage_type}
                 name={'garage_garage_type'}
                 title={"Тип гаража"}
-                setter={setter}
-                getter={getter}
+             
                 required={true}
             />
 
@@ -48,23 +46,20 @@ function Garage({ flat, getter, setter, form_data }) {
             items={form_data.material.filter((item) => { return item.garage === 1 })}
             name={'material'}
             title={"Материал"}
-            setter={setter}
-            getter={getter}
+        
         />
 
         <MySelect
             items={form_data.garage_status}
             name={'garage_status'}
             title={"Статус"}
-            setter={setter}
-            getter={getter}
+         
         />
 
         <MyTextInput
             type="number"
             name={'totalArea'}
-            value={flat.totalArea}
-            setter={setter}
+         
             title={"Общая площадь"}
         />
 
@@ -76,32 +71,27 @@ function Garage({ flat, getter, setter, form_data }) {
             spacing={2}
         >
             <MySwitch
-                getter={getter}
-                setter={setter}
+             
                 name={'hasLight'}
                 title={'Свет'}
             />
             <MySwitch
-                getter={getter}
-                setter={setter}
+            
                 name={'hasElectricity'}
                 title={'Электричество'}
             />
             <MySwitch
-                getter={getter}
-                setter={setter}
+           
                 name={'hasHeating'}
                 title={'Отопление'}
             />
             <MySwitch
-                getter={getter}
-                setter={setter}
+            
                 name={'hasWater'}
                 title={'Вода'}
             />
             <MySwitch
-                getter={getter}
-                setter={setter}
+             
                 name={'hasExtinguishingSystem'}
                 title={'Пожаротушение'}
             />
@@ -112,8 +102,7 @@ function Garage({ flat, getter, setter, form_data }) {
         />
         <MyTextInput
             name={'buildingName'}
-            value={flat.buildingName}
-            setter={setter}
+         
             title={'Название'}
             width={500}
 
@@ -123,18 +112,16 @@ function Garage({ flat, getter, setter, form_data }) {
             items={form_data.parking}
             name={'parking'}
             title={"Парковка"}
-            getter={getter}
-            setter={setter}
-        // width={200}
+          
         />
         <MyDivider
             title={'Инфраструктура'}
         />
         <MultipleSwitchGroup
-            getter={getter}
+          
             items={chunkedInfrastructure}
             name={'infrastructure'}
-            setter={setter}
+          
             maxCount={0}
         />
        

@@ -1,16 +1,29 @@
 "use client"
 import { useObjectFormState } from "@/app/objects/create/store";
 import { FormControlLabel, Switch } from "@mui/material";
-import { useEffect } from "react";
+import { useMemo } from "react";
+// import { useEffect } from "react";
 
 
-function MySwitch({ title, name, setter, flat, getter }) {
+function MySwitch({ title, name,
+    //  setter
+    //  , flat, getter 
+}) {
 
-    const value = getter(name);
+    // const value = getter(name);
+
+
+    const value = useObjectFormState((state) => state.flat[name]);
+    const updateFlat = useObjectFormState((state) => state.updateFlat);
+
+    // const handleChange = (e) => {
+    //     updateFlat(name, e.target.value)
+    // }
+
 
     const handler = () => {
         let new_value = !value;
-        setter(name, new_value);
+        updateFlat(name, new_value);
         // flat[name] = new_value;
     }
     // useEffect(() => {
@@ -18,23 +31,25 @@ function MySwitch({ title, name, setter, flat, getter }) {
     // }, [value])
 
 
-    return (<>
+    return (
+        useMemo(() => (
+            <>
 
-        <FormControlLabel
-            labelPlacement="start"
-            control={
-                <Switch
+                <FormControlLabel
+                    labelPlacement="start"
+                    control={
+                        <Switch
 
-                    name="name"
-                    id={name + "switch"}
-                    checked={value}
-                    onClick={handler}
-                // onChange={handler}
-                />
-            } label={title} />
+                            name={name}
+                            id={name + "switch"}
+                            checked={value}
+                            onClick={handler}
+                        // onChange={handler}
+                        />
+                    } label={title} />
 
 
-    </>);
+            </>), [value, name]))
 }
 
 export default MySwitch;

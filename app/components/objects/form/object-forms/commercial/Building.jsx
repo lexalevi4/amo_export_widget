@@ -5,11 +5,15 @@ import MyTextInput from "../../MyTextInput";
 import MyDivider from "../../MyDivider";
 import { sortByName } from "@/app/heplers/heplers";
 import Lifts from "./Lifts";
+import { useObjectFormState } from "@/app/objects/create/store";
 
-function Building({ flat, setter, getter, form_data, flat_object }) {
+function Building({ flat,
+    //  setter, getter,
+      form_data, flat_object }) {
 
-    const parkingIsFree = getter('parkingIsFree');
-    const conditions = form_data.condition.filter((item) => {
+    // const parkingIsFree = getter('parkingIsFree');
+    const parkingIsFree = useObjectFormState((state) => state.flat['parkingIsFree']);
+    const conditions = form_data.condition_type.filter((item) => {
         return item.commercial === 1
     })
     const heating_types = form_data.heating_type.filter((item) => {
@@ -22,8 +26,8 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
 
             items={conditions}
             name={'condition'}
-            getter={getter}
-            setter={setter}
+            // getter={getter}
+            // setter={setter}
             title={"Состояние"}
 
         />
@@ -35,13 +39,13 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
                 items={form_data.layout}
 
                 name={'layout'}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
             />
             <MySwitch
 
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 name={'hasFurniture'}
                 title={"Мебель"}
             />
@@ -51,13 +55,13 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
             title={'Вход'}
             items={form_data.input_type}
             name={'inputType'}
-            getter={getter}
-            setter={setter}
+            // getter={getter}
+            // setter={setter}
         />
         <MyTextInput
             width={500}
             name={'availableFrom'}
-            setter={setter}
+            // setter={setter}
             value={flat.availableFrom}
             flat={flat}
             title={"Дата освобождения"}
@@ -66,7 +70,7 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
         <MyTextInput
             type="number"
             name={'taxNumber'}
-            setter={setter}
+            // setter={setter}
             value={flat.taxNumber}
             flat={flat}
             title={"Номер налоговой"}
@@ -82,7 +86,7 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
             width={500}
             // type="number"
             name={'buildingName'}
-            setter={setter}
+            // setter={setter}
             value={flat.buildingName}
             flat={flat}
             title={"Название"}
@@ -96,8 +100,8 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
                 name={'buildingType'}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
             />
 
 
@@ -106,8 +110,8 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
                 items={form_data.building_status_type}
 
                 name={'buildingStatusType'}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 width={200}
             />
 
@@ -125,8 +129,8 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
                 items={form_data.building_class_type.filter((item) => { return item.name !== 'D' })}
 
                 name={'buildingClass'}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 width={150}
             />
 
@@ -135,8 +139,8 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
                 items={form_data.house_line_type}
                 name={'houseLineType'}
                 title={"Линия домов"}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 width={200}
             />
 
@@ -148,7 +152,7 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
                 // width={500}
                 type="number"
                 name={'floorsCount'}
-                setter={setter}
+                // setter={setter}
                 value={flat.floorsCount}
 
                 title={"Количество этажей"}
@@ -158,8 +162,8 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
                 // width={500}
                 type="number"
                 name={'totalArea'}
-                setter={setter}
-                value={flat.totalArea}
+                // setter={setter}
+                // value={flat.totalArea}
 
                 title={"Площадь здания"}
             />
@@ -178,16 +182,16 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
                 items={form_data.parking}
                 name={'parking'}
                 title={"Парковка"}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 width={200}
             />
             <MyTextInput
 
                 name={'parkingPlacesCount'}
-                setter={setter}
+                // setter={setter}
                 title={'Количество мест'}
-                value={flat.parkingPlacesCount}
+                // value={flat.parkingPlacesCount}
                 type="number"
 
             />
@@ -197,16 +201,16 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
                 name={'parkingIsFree'}
                 title={"Бесплатная"}
 
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
             />
             {!parkingIsFree && (
                 <MyTextInput
 
                     name={'parkingPlacesPrice'}
-                    setter={setter}
+                    // setter={setter}
                     title={'Стоимость место/месяц'}
-                    value={flat.parkingPlacesPrice}
+                    // value={flat.parkingPlacesPrice}
                     type="number"
                     width={350}
                 />
@@ -228,9 +232,9 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
 
                 items={heating_types}
                 name={'heatingType'}
-                setter={setter}
+                // setter={setter}
                 title={"Отопление"}
-                getter={getter}
+                // getter={getter}
                 width={200}
             />
 
@@ -238,18 +242,18 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
 
                 items={form_data.communication_ventilation_type}
                 name={'ventilationType'}
-                setter={setter}
+                // setter={setter}
                 title={"Вентиляция"}
-                getter={getter}
+                // getter={getter}
                 width={200}
             />
             <MySelect
 
                 items={form_data.communication_conditioning_type}
                 name={'conditioningType'}
-                setter={setter}
+                // setter={setter}
                 title={"Кондиционирование"}
-                getter={getter}
+                // getter={getter}
                 width={200}
             />
 
@@ -257,10 +261,10 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
 
                 items={form_data.extinguishing_system_type}
                 name={'extinguishingSystemTypes'}
-                setter={setter}
+                // setter={setter}
                 title={"Пожаротушение"}
                 multiple={true}
-                getter={getter}
+                // getter={getter}
             // width={200}
             />
 
@@ -269,8 +273,8 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
 
         <Lifts
             form_data={form_data}
-            getter={getter}
-            setter={setter}
+            // getter={getter}
+            // setter={setter}
         />
 
         <MyDivider
@@ -282,9 +286,9 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
         >
             <MyTextInput
                 name={'landArea'}
-                setter={setter}
+                // setter={setter}
                 title={'Площадь участка'}
-                value={flat.landArea}
+                // value={flat.landArea}
                 type="number"
             />
             <MySelect
@@ -292,10 +296,10 @@ function Building({ flat, setter, getter, form_data, flat_object }) {
 
                 items={form_data.land_area_unit_type}
                 name={'landAreaUnitType'}
-                setter={setter}
+                // setter={setter}
                 title={"Единица"}
                 // multiple={true}
-                getter={getter}
+                // getter={getter}
             // width={200}
             />
             {/* landAreaUnitType */}

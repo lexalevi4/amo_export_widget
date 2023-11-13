@@ -2,11 +2,13 @@ import { Button } from "@mui/material";
 import MetroStation from "./MetroStation";
 import { sortByName } from "@/app/heplers/heplers";
 import Highway from "./Highway";
+import { useObjectFormState } from "@/app/objects/create/store";
 
-function Highways({ setter, getter, flat, form_data }) {
+function Highways({  flat, form_data }) {
 
+    const setter = useObjectFormState((state) => state.updateFlat);
+    const value = useObjectFormState((state) => state.flat['highways']);
 
-    const value = getter('highways')
 
     const selected = [];
     value.map(item => {
@@ -29,7 +31,7 @@ function Highways({ setter, getter, flat, form_data }) {
                 // 'qq'
                 < Highway
                     selected={selected}
-                    getter={getter}
+                  
                     key={'highways-component-' + index}
                     item={item}
                     items={form_data.highway.sort(sortByName)}

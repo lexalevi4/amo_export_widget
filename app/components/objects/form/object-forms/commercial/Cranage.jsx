@@ -1,11 +1,15 @@
 import { Stack, TextField, Typography } from "@mui/material";
 import MySelect from "../../MySelect";
 import { useEffect } from "react";
+import { useObjectFormState } from "@/app/objects/create/store";
 
-function Cranage({ setter, getter, form_data, items = form_data.cranage_type, show_capacity = true }) {
+function Cranage({   form_data, items = form_data.cranage_type, show_capacity = true }) {
 
-    const cranCount = getter('cranCount');
-    const cranTypes = getter('cranTypes')
+
+
+    const setter = useObjectFormState((state) => state.updateFlat);
+    const cranCount = useObjectFormState((state) => state.flat['cranCount']);
+    const cranTypes = useObjectFormState((state) => state.flat['cranTypes']);
 
     const update = (id, field, value) => {
 
@@ -61,10 +65,10 @@ function Cranage({ setter, getter, form_data, items = form_data.cranage_type, sh
             <MySelect
                 items={items}
                 name={'cranTypes'}
-                setter={setter}
+            
                 title={"Крановое оборудование"}
                 multiple={true}
-                getter={getter}
+              
             // width={200}
             />
             {cranCount.length > 0 && (

@@ -20,7 +20,7 @@ function Office({ flat, setter, getter, form_data }) {
         return item.commercial === 1
     })
     const isOccupied = getter('isOccupied');
-    const conditions = form_data.condition.filter((item) => {
+    const conditions = form_data.condition_type.filter((item) => {
         return item.office === 1;
     });
 

@@ -1,12 +1,17 @@
 import { Stack, TextField, Typography } from "@mui/material";
 import MySelect from "../../MySelect";
 import { useEffect } from "react";
+import { useObjectFormState } from "@/app/objects/create/store";
 
-function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_capacity = false }) {
+function Lifts({ 
+    // setter, getter, 
+    form_data, items = form_data.lift_type, show_capacity = false }) {
 
-    const liftsCount = getter('liftsCount');
-    const liftTypes = getter('liftTypes');
-
+    // const liftsCount = getter('liftsCount');
+    // const liftTypes = getter('liftTypes');
+    const setter = useObjectFormState((state) => state.updateFlat);
+    const liftsCount = useObjectFormState((state) => state.flat['liftsCount']);
+    const liftTypes = useObjectFormState((state) => state.flat['liftTypes']);
     
     const getLiftName = (item) => {
         let currentLift = form_data.lift_type.filter((lift) => {
@@ -64,10 +69,10 @@ function Lifts({ setter, getter, form_data, items = form_data.lift_type, show_ca
             <MySelect
                 items={items}
                 name={'liftTypes'}
-                setter={setter}
+                // setter={setter}
                 title={"Лифты"}
                 multiple={true}
-                getter={getter}
+                // getter={getter}
             />
             {liftsCount.length > 0 && (
                 <>
