@@ -9,7 +9,7 @@ export const useObjectFormState = create((set, get) => ({
     updateFlat: (field, value) => set((state) => {
         const flat = get().flat
         flat[field] = value;
-        console.log(flat)
+        // console.log(flat)
         return ({
             flat: flat
         })
@@ -23,7 +23,7 @@ export const useObjectFormState = create((set, get) => ({
             images.push(data[i]);
 
         }
-        console.log(images)
+        // console.log(images)
         flat.images.active = images;
         return ({
             flat: flat
@@ -98,7 +98,7 @@ export const useObjectFormState = create((set, get) => ({
         })
     }),
     delMultiAdItem: (index) => set((state) => {
-        console.log(index);
+        // console.log(index);
         const flat = get().flat
         const multiAds = get().flat.multiAds
         const new_arr = multiAds.slice(0);
@@ -189,8 +189,8 @@ export const useObjectFormState = create((set, get) => ({
     updateMultyField: (name, value) => set((state) => {
         let field = get().flat[name]
         const flat = get().flat
-        console.log(field);
-        console.log(value);
+        // console.log(field);
+        // console.log(value);
         if (field.includes(value)) {
             field = field.filter((item) => { return item !== value })
         } else {

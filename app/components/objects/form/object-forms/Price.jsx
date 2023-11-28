@@ -12,14 +12,14 @@ function Price({
     form_data
 }) {
 
-    const [childrenAllowed, setChildrenAllowed] = useState(flat.childrenAllowed);
-    const [petsAllowed, setPetsAllowed] = useState(flat.petsAllowed);
-    const [mortgageAllowed, setMortgageAllowed] = useState(flat.mortgageAllowed);
-    const [price, setPrice] = useState(flat.price);
-    const [currency, setCurrency] = useState(flat.currency);
-    const [deposit, setDeposit] = useState(flat.deposit);
-    const [fee, setFee] = useState(flat.fee);
-    const [saleType, setSaleType] = useState(flat.saleType)
+    // const [childrenAllowed, setChildrenAllowed] = useState(flat.childrenAllowed);
+    // const [petsAllowed, setPetsAllowed] = useState(flat.petsAllowed);
+    // const [mortgageAllowed, setMortgageAllowed] = useState(flat.mortgageAllowed);
+    // const [price, setPrice] = useState(flat.price);
+    // const [currency, setCurrency] = useState(flat.currency);
+    // const [deposit, setDeposit] = useState(flat.deposit);
+    // const [fee, setFee] = useState(flat.fee);
+    // const [saleType, setSaleType] = useState(flat.saleType)
 
     return (<>
 
@@ -37,8 +37,8 @@ function Price({
                     title={'Тип продажи'}
                     items={form_data.sale_type}
                     name={'saleType'}
-                    setter={setSaleType}
-                    value={saleType}
+                    // setter={setSaleType}
+                    // value={saleType}
 
                 />
             </Box>
@@ -52,15 +52,15 @@ function Price({
                 <MySwitch
                     flat={flat}
                     name={'childrenAllowed'}
-                    value={childrenAllowed}
-                    setter={setChildrenAllowed}
+                    // value={childrenAllowed}
+                    // setter={setChildrenAllowed}
                     title={"Можно с детьми"}
                 />
                 <MySwitch
                     flat={flat}
                     name={'petsAllowed'}
-                    value={petsAllowed}
-                    setter={setPetsAllowed}
+                    // value={petsAllowed}
+                    // setter={setPetsAllowed}
                     title={"Можно с животными"}
                 />
 
@@ -73,26 +73,26 @@ function Price({
         >
             <MyTextInput
                 type='number'
-                value={price}
-                setter={setPrice}
+                // value={price}
+                // setter={setPrice}
                 name={'price'}
                 title={'Цена'}
                 flat={flat}
             />
             <MySelect
-                flat={flat}
+                // flat={flat}
                 items={form_data.currency}
                 name={'currency'}
-                setter={setCurrency}
+                // setter={setCurrency}
                 title={'Валюта'}
-                value={currency}
+                // value={currency}
                 width={150}
             />
             <MySwitch
-                flat={flat}
+                // flat={flat}
                 name={'mortgageAllowed'}
-                value={mortgageAllowed}
-                setter={setMortgageAllowed}
+                // value={mortgageAllowed}
+                // setter={setMortgageAllowed}
                 title={"Возможна ипотека"}
             />
         </Stack>
@@ -101,20 +101,20 @@ function Price({
             <>
                 <MyTextInput
                     type='number'
-                    value={deposit}
-                    setter={setDeposit}
+                    // value={deposit}
+                    // setter={setDeposit}
                     name={'deposit'}
                     title={'Депозит'}
-                    flat={flat}
+                    // flat={flat}
                 />
 
                 <MyTextInput
                     type='number'
-                    value={fee}
-                    setter={setFee}
+                    // value={fee}
+                    // setter={setFee}
                     name={'fee'}
                     title={'Комиссия'}
-                    flat={flat}
+                    // flat={flat}
                 />
             </>
         )}

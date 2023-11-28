@@ -34,6 +34,24 @@ const nextConfig = {
                 port: '',
                 pathname: '/thumb/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'img.turbobroker.ru',
+                port: '',
+                pathname: '/full/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'img.turbobroker.ru',
+                port: '',
+                pathname: '/mid/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'img.turbobroker.ru',
+                port: '',
+                pathname: '/thumb/**',
+            },
         ],
     },
 }

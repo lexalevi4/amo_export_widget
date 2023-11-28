@@ -19,7 +19,7 @@ function MetroLink({
     let width = null;
     const images = [];
     if (station?.div_options !== '' && station?.div_options !== null) {
-        console.log(station.div_options);
+        // console.log(station.div_options);
         let options = JSON.parse(station.div_options);
         width = options.width;
         station.metro = station.metro.split(' ').join('\n')
@@ -31,7 +31,7 @@ function MetroLink({
         })
     }
 
-    console.log(width);
+    // console.log(station);
 
 
     return (
@@ -56,7 +56,7 @@ function MetroLink({
                     />
 
                     {images.map((image, index) => {
-                        console.log(image);
+                        // console.log(image);
                         return (
 
                             <img

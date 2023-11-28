@@ -92,7 +92,7 @@ export const new_object = () => {
         isPenthouse: false,
         vatIncluded: false,
         accessType: '',
-        vat_type: '',
+        vatType: '',
         vat: '',
         heatingType: '',
         buildingType: '',
@@ -107,10 +107,7 @@ export const new_object = () => {
         windowsSunny: false,
         placementType: '',
         condition: '',
-        description: "<p>asdfasdf</p>\
-        <p>asdf</p>\
-        <p>asdf</p>\
-        <p></p>",
+        description: "",
         inputType: '',
         contractType: '',
 
@@ -120,13 +117,6 @@ export const new_object = () => {
         buildingCadNumber: '',
         images: {
             active: [
-                '2cc0dac1-8750-40b4-b4fb-ec2c5758976c.jpg',
-                '8918f587-cd65-4b83-9a63-01963bcca693.jpg',
-                'a0c68c8f-2959-49a6-96b3-8203aa6576da.jpg',
-                'f91cf54b-8f2f-4deb-befe-9a7447e8bd7f.jpg',
-                '7a37b507-c609-483b-8f4d-3016fe45c710.jpg',
-                '42a56582-5026-4564-89ab-0d909ae1d3cd.png'
-
             ],
             inactive: [
 
@@ -134,7 +124,6 @@ export const new_object = () => {
 
 
         },
-        // images: ['1adbb4fe-ef21-4389-b055-9da7068f8787.jpg'],
         video: [],
         isNewBuilding: false,
         deadlineQuarter: '',
@@ -175,9 +164,9 @@ export const new_object = () => {
         waterPipesCount: '',
         power: '',
         speciality: [],
-        garage_type: '',
-        garage_status: '',
-        garage_garage_type: '',
+        garageType: '',
+        garageStatus: '',
+        garageGarageType: '',
         hasLight: false,
         monthlyIncome: '',
         estateType: '',
@@ -205,8 +194,7 @@ export const new_object = () => {
         multiAds: [],
         metro: [],
         highways: [],
-        parkingPurposeType: ''
-
+        parkingPurposeType: '',
 
 
     }

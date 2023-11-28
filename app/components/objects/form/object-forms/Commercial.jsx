@@ -25,20 +25,27 @@ function Commercial({
     flat,
     form_data,
     flat_object,
-    setter,
+    // setter,
     getter
 
 }) {
 
-    console.log(form_data);
+    // console.log(form_data);
 
-    const parkingIsFree = getter('parkingIsFree');
-    const isOccupied = getter('isOccupied');
-    const speciality = getter('speciality');
-    const infrastructure = getter('infrastructure');
-    const liftTypes = getter('liftTypes');
-    const liftsCount = getter('liftsCount');
-    const floorsCount = getter('floorsCount');
+
+    const setter = useObjectFormState((state) => state.updateFlat);
+    // const parkingIsFree = useObjectFormState((state) => state.flat['parkingIsFree']);
+    const speciality = useObjectFormState((state) => state.flat['speciality']);
+    const liftsCount = useObjectFormState((state) => state.flat['liftsCount']);
+    
+
+    // const parkingIsFree = getter('parkingIsFree');
+    // const isOccupied = getter('isOccupied');
+    // const speciality = getter('speciality');
+    // const infrastructure = getter('infrastructure');
+    // const liftTypes = getter('liftTypes');
+    // const liftsCount = getter('liftsCount');
+    // const floorsCount = getter('floorsCount');
 
 
     // const updateMultyField = useObjectFormState((state) => state.updateMultyField)
@@ -47,10 +54,10 @@ function Commercial({
     //     updateMultyField(name, Number(e.target.value))
     // }
 
-    useEffect(() => {
-        console.log(speciality)
+    // useEffect(() => {
+    //     console.log(speciality)
 
-    }, [speciality])
+    // }, [speciality])
 
 
     // useEffect(() => {
@@ -147,8 +154,7 @@ function Commercial({
         {Number(flat_object) === 9 && (
             <Garage
                 flat={flat}
-                setter={setter}
-                getter={getter}
+          
                 form_data={form_data}
             />
 
@@ -157,8 +163,7 @@ function Commercial({
         {(Number(flat_object) === 19 || flat_object === 20) && (
             <Business
                 flat={flat}
-                setter={setter}
-                getter={getter}
+
                 form_data={form_data}
                 flat_object={flat_object}
             />
@@ -169,8 +174,7 @@ function Commercial({
         {(Number(flat_object) === 17) && (
             <Building
                 flat={flat}
-                setter={setter}
-                getter={getter}
+             
                 form_data={form_data}
                 flat_object={flat_object}
             />
@@ -181,8 +185,7 @@ function Commercial({
         {(Number(flat_object) === 21) && (
             <CommercialLand
                 flat={flat}
-                setter={setter}
-                getter={getter}
+         
                 form_data={form_data}
 
             />
@@ -191,8 +194,7 @@ function Commercial({
         {(Number(flat_object) === 10) && (
             <Office
                 flat={flat}
-                setter={setter}
-                getter={getter}
+
                 form_data={form_data}
 
             />
@@ -201,8 +203,7 @@ function Commercial({
         {(Number(flat_object) === 13) && (
             <FreeAppointment
                 flat={flat}
-                setter={setter}
-                getter={getter}
+         
                 form_data={form_data}
 
             />
@@ -212,8 +213,7 @@ function Commercial({
         {(Number(flat_object) === 15) && (
             <Industry
                 flat={flat}
-                setter={setter}
-                getter={getter}
+         
                 form_data={form_data}
 
             />
@@ -222,8 +222,7 @@ function Commercial({
         {(Number(flat_object) === 12) && (
             <Warehouse
                 flat={flat}
-                setter={setter}
-                getter={getter}
+            
                 form_data={form_data}
 
             />
@@ -232,8 +231,7 @@ function Commercial({
         {(Number(flat_object) === 11) && (
             <ShoppingArea
                 flat={flat}
-                setter={setter}
-                getter={getter}
+             
                 form_data={form_data}
 
             />
@@ -246,8 +244,7 @@ function Commercial({
         />
         <MultiAds
             flat={flat}
-            setter={setter}
-            getter={getter}
+       
         />
 
     </>);

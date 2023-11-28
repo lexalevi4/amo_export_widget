@@ -8,15 +8,22 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LoadingTb from "@/app/components/Loading";
 import ObjectsTable from "@/app/components/objects/objectsTable/ObjectsTable";
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useObjectSearchFormState } from "@/app/objects/store";
 
 function FiltersTableRow({ filter, formData }) {
     const [open, setOpen] = useState(false);
     const [active, setActive] = useState(filter.active === 1);
-    const filterData = JSON.parse(filter.filter);
-    console.log(filter);
+    const [filterData, setFilterData] = useState(JSON.parse(filter.filter));
+    const [deleted, setDeleted] = useState(false);
+    // const [currentFilter, setCurrentFilter] = useState(JSON.parse(filter.filter))
+    // console.log(filter);
     // console.log(filter.totalCount);
     const setState = useClientsState((state) => state.setState)
+    const filterUpdated = useClientsState((state) => state.filterUpdated)
+    const currentFilterId = useClientsState((state) => state.currentFilterId)
+
 
     const [objects, setObjects] = useState([]);
     const [objectsIsLoading, setObjectsIsLoading] = useState(true)
@@ -29,6 +36,56 @@ function FiltersTableRow({ filter, formData }) {
     const [soso, setSoso] = useState(filter.count.filter((item => item.status === 3))[0]?.count || 0)
 
 
+
+
+    // const editModalIsOpen = useClientsState((state) => state.editModalIsOpen);
+
+    const setClientState = useClientsState((state) => state.setState);
+    const currentFilter = useClientsState((state) => state.currentFilter);
+
+    // const defaultSearch = useObjectSearchFormState((state) => state.defaultSearch);
+    const setSearch = useObjectSearchFormState((state) => state.setSearch);
+
+    const handleEditOpen = () => {
+        // console.log(filterData);
+        // let field = get().search[name].slice(0);
+        let data = {};
+        Object.assign(data, filterData);
+        setSearch(data);
+        setClientState('editModalIsOpen', true);
+        setClientState('currentFilterId', filter.id);
+    }
+
+    // useEffect(() => {
+    //     console.log(currentFilter)
+    // }, [currentFilter])
+
+
+    useEffect(() => {
+
+        if (filterUpdated === 1) {
+            if (currentFilterId === filter.id) {
+                setOpen(false);
+                console.log(currentFilter);
+                // try {
+                setFilterData(JSON.parse(currentFilter.filter_data));
+                console.log(currentFilter);
+
+                setUnsorted(currentFilter.filter_counts.count.filter((item => item.status === 0))[0]?.count || 0);
+                setYes(currentFilter.filter_counts.count.filter((item => item.status === 1))[0]?.count || 0);
+                setNo(currentFilter.filter_counts.count.filter((item => item.status === 2))[0]?.count || 0);
+                setSoso(currentFilter.filter_counts.count.filter((item => item.status === 3))[0]?.count || 0);
+
+                setState('filterUpdated', 0);
+                // } catch (e) {
+
+                // }
+
+
+            }
+        }
+
+    }, [filterUpdated])
 
     const getObjects = async () => {
         setObjectsIsLoading(true);
@@ -159,6 +216,14 @@ function FiltersTableRow({ filter, formData }) {
         await fetch('/api/client/filter-active?id=' + filter.id)
     }
 
+    const handleDelete = async () => {
+        if (window.confirm('удалить?')) {
+            await fetch('/api/client/delete-filter?id=' + filter.id)
+            setDeleted(true);
+        }
+    }
+
+
 
     const setObjectStatus = (objectId, filterId, newStatus) => {
 
@@ -203,6 +268,11 @@ function FiltersTableRow({ filter, formData }) {
     }
 
 
+    if (deleted) {
+        return (<>
+        </>)
+
+    }
 
     return (<>
         <TableRow
@@ -235,6 +305,23 @@ function FiltersTableRow({ filter, formData }) {
                     checked={active}
                     onChange={handleActive}
                 />
+                <IconButton aria-label="update"
+                    onClick={handleEditOpen}
+                    title="Редактировать">
+                    <EditIcon
+                        color="primary"
+                    />
+                </IconButton>
+
+                <IconButton aria-label="delete" title="Удалить"
+                    onClick={handleDelete}
+                >
+                    <DeleteIcon
+
+                        color="error"
+                    />
+                </IconButton>
+
                 <Typography
                     className="font-bold mb-3"
                 >
@@ -341,6 +428,9 @@ function FiltersTableRow({ filter, formData }) {
                     { name: 'Этажность', data: [filterData.minFloorsCount, filterData.maxFloorsCount,] },
                 ])}
             </TableCell>
+            {/* <TableCell>
+                
+            </TableCell> */}
         </TableRow >
         <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
@@ -370,7 +460,7 @@ function FiltersTableRow({ filter, formData }) {
                                 <Button
                                     disabled={objectsIsLoading}
                                     color="success"
-                                    
+
                                     variant={status === 1 ? "contained" : 'outlined'}
                                     data-onclickparam={1}
                                     onClick={handleChangeFilterStatus}

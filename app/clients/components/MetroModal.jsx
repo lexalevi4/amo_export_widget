@@ -3,7 +3,7 @@ import { AppBar, Button, Dialog, Toolbar } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
 import { useMemo } from "react";
 
-function MetroModal({ state, isOpen, handleClose, formData, }) {
+function MetroModal({ state, isOpen, handleClose, formData, topDiff = 0, leftDiff = 0 }) {
 
     const handleBrunchClick = () => { }
     const handleStationClick = () => { }
@@ -12,6 +12,7 @@ function MetroModal({ state, isOpen, handleClose, formData, }) {
             <>
                 <Dialog
                     // fullScreen
+                    fullScreen
                     maxWidth={'xl'}
                     keepMounted
                     open={isOpen}
@@ -19,9 +20,11 @@ function MetroModal({ state, isOpen, handleClose, formData, }) {
                     onClose={handleClose}
 
                 >
-                    {console.log('metr')}
+
 
                     <MetroMap
+                        topDiff={topDiff}
+                        leftDiff={leftDiff}
                         brunches={state.brunches}
                         handleBrunchClick={handleBrunchClick}
                         handleStationClick={handleStationClick}

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import EasyYandexS3 from "easy-yandex-s3";
+import { sendPostFormData } from "@/app/heplers/backendApiHandler";
 const { randomUUID } = require('crypto');
 // const imagemagick = require('imagemagick');
 // import { imagemagick } from 'imagemagick'
@@ -58,6 +59,8 @@ export async function POST(req, response) {
     const result = [];
     let i = 0;
 
+    // await sendPostFormData(process.env.API_URL + 'api/add-images',formData);
+
     for (const formDataEntryValue of formDataEntryValues) {
         if (typeof formDataEntryValue === "object" && "arrayBuffer" in formDataEntryValue) {
 
@@ -70,6 +73,26 @@ export async function POST(req, response) {
             const newFilename = randomUUID() + '.' + ext;
 
             const buffer = Buffer.from(await file.arrayBuffer());
+
+            // const form = new FormData();
+            // form.append('file', buffer, newFilename);
+            // // const salt = await getSalt();
+            // // const sign = await getSign(salt);
+            // // console.log('asdfasdf')
+            // // console.log(url)
+            // // console.log(formData)
+            // const req = await fetch(url, {
+            //     method: 'POST',
+            //     body: formData,
+            //     // headers: {
+            //     //     "Content-Type": "application/json",
+            //     //     "Accept": "application/json",
+            //     //     'auth': getSessionId() + ':' + sign.sign + ':' + salt + ':' + sign.timestamp
+            //     // },
+            // })
+
+
+
             const mid = await resize(buffer, newFilename, ext, 'mid', 400, 400, s3);
             console.log(mid)
             const thumb = await resize(buffer, newFilename, ext, 'thumb', 200, 200, s3);

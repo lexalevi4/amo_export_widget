@@ -15,14 +15,20 @@ import Description from "./form/object-forms/Description";
 import MyDivider from "./form/MyDivider";
 import Images from "./form/Images";
 import { useObjectFormState } from "@/app/objects/create/store";
-import Metro from "./form/object-forms/Metro";
-import Highways from "./form/object-forms/Highways";
+
 import { useRouter } from "next/navigation";
+import Price from "./form/object-forms/Price";
+import dynamic from "next/dynamic";
 // import { headers } from "next/server";
 
 
-function ObjectFormZustand({ form_data, flat_for_update = null }) {
+function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0 }) {
     const router = useRouter();
+    // Call this function whenever you want to
+    // refresh props!
+    // const refreshData = () => {
+    // router.replace(router.asPath);
+    // }
 
     const loading = useObjectFormState((state) => state.loading);
     const setFlat = useObjectFormState((state) => state.setFlat);
@@ -34,23 +40,29 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
     const category = useObjectFormState((state) => state.flat.category)
     const object = useObjectFormState((state) => state.flat.object);
     const flat_data = useObjectFormState((state) => state.flat)
+    const deal_type = useObjectFormState((state) => state.flat.deal_type)
 
 
 
     useEffect(() => {
-        setFlat(flat_for_update);
+        // setFlat(flat_for_update);
         setFormData(form_data);
     }, [])
 
     useEffect(() => {
-        console.log(formData)
-    }, [formData])
+        setFlat(flat_for_update);
+        // setFormData(form_data);
+    }, [flat_for_update])
+
+    // useEffect(() => {
+    // console.log(formData)
+    // }, [formData])
 
 
 
     const [object_menu_items, setObject_menu_items] = useState([]);
-    const [saveError, setSaveError] = useState(false);
-    const [saveErrorMessage, setSaveErrorMessage] = useState('');
+    // const [saveError, setSaveError] = useState(false);
+    // const [saveErrorMessage, setSaveErrorMessage] = useState('');
 
 
 
@@ -84,12 +96,12 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
             })
             if (filtered.length === 0) {
                 updateFlat('object', '');
-                console.log('empty')
-                console.log(object_menu_items)
-                console.log(object_menu_items.length)
-                console.log(Number(object));
+                // console.log('empty')
+                // console.log(object_menu_items)
+                // console.log(object_menu_items.length)
+                // console.log(Number(object));
             } else {
-                console.log('not empty')
+                // console.log('not empty')
             }
             setObject_menu_items(
                 new_menu
@@ -100,11 +112,14 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
     if (loading) {
         return <></>
     }
+    // if (!window) {
+    //     return <></>
+    // }
 
 
-    const getter = (name) => {
-        return useObjectFormState((state) => state.flat[name])
-    }
+    // const getter = (name) => {
+    //     return useObjectFormState((state) => state.flat[name])
+    // }
 
     const save = async () => {
         setSaveError(false);
@@ -124,7 +139,12 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                 method: 'POST',
                 body: data,
             }).then(res => res.json())
-                .then(data => { console.log(data) })
+                .then(data => {
+                    console.log(data)
+                    if (data.result) {
+                        goBack()
+                    }
+                })
             // setImages_disabled(false);
         } catch (e) {
             setSaveError(true);
@@ -133,6 +153,18 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
             // console
         }
 
+    }
+
+
+    const goBack = () => {
+        if (leadId > 0) {
+            router.push('/lead-card?lead_id=' + leadId)
+        } else if (flat.lead_id > 0) {
+            router.push('/lead-card?lead_id=' + flat.lead_id)
+
+        } else {
+            router.back()
+        }
     }
 
     return (<>
@@ -144,8 +176,8 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                 title={"Тип сделки"}
                 name={"deal_type"}
                 value={flat.deal_type}
-                // getter={getter}
-                setter={updateFlat}
+            // getter={getter}
+            // setter={updateFlat}
 
             />
 
@@ -156,9 +188,9 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                         items={formData.category}
                         title={"Категория"}
                         name={"category"}
-                        value={flat.category}
-                        // getter={getter}
-                        setter={updateFlat}
+                    // value={flat.category}
+                    // getter={getter}
+                    // setter={updateFlat}
 
                     />
                     {flat.category !== null && (
@@ -187,8 +219,9 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
 
 
                 <Address
-                    setter={updateFlat}
+                    // setter={updateFlat}
                     flat={flat}
+                // address={flat.address }
                 />
             </YMaps >
 
@@ -197,8 +230,8 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
             {Number(category) === 2 && (
                 <MyTextInput
                     name={'kpName'}
-                    value={flat.kpName}
-                    setter={updateFlat}
+                    // value={flat.kpName}
+                    // setter={updateFlat}
                     title={'Название коттеджного посёлка'}
                     width={500}
                 />
@@ -208,14 +241,14 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
             {Number(category) === 3 && (
                 <MyTextInput
                     name={'buildingName'}
-                    value={flat.buildingName}
-                    setter={updateFlat}
+                    // value={flat.buildingName}
+                    // setter={updateFlat}
                     title={'Название здания'}
                     width={500}
                 />
             )}
             <Divider />
-
+            {/* 
             <Metro
                 flat={flat}
                 form_data={form_data}
@@ -229,13 +262,13 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                 form_data={form_data}
                 getter={getter}
                 setter={updateFlat}
-            />
+            /> */}
 
             {Number(category) === 1 && (
                 <FlatSale
                     flat={flat}
-                    getter={getter}
-                    setter={updateFlat}
+                    // getter={getter}
+                    // setter={updateFlat}
                     form_data={formData}
                     object={object}
                 // deal_type={deal_type}
@@ -248,8 +281,8 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                     flat_object={object}
                     flat={flat}
                     form_data={formData}
-                    getter={getter}
-                    setter={updateFlat}
+                // getter={getter}
+                // setter={updateFlat}
                 />
             )}
 
@@ -258,8 +291,8 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                     flat_object={object}
                     flat={flat}
                     form_data={formData}
-                    getter={getter}
-                    setter={updateFlat}
+                // getter={getter}
+                // setter={updateFlat}
                 // deal_type={deal_type}
                 />
             )}
@@ -276,11 +309,14 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
 
             />
 
-            <Description
-                flat={flat}
-                setter={updateFlat}
-                getter={getter}
-            />
+            {window !== undefined && (
+                <Description
+                    flat={flat}
+                // setter={updateFlat}
+                // getter={getter}
+                />
+            )}
+
 
 
             <MyDivider
@@ -291,7 +327,15 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
             <Images
                 // className="mb-10"
                 setter={addImages}
-                getter={getter}
+            // getter={getter}
+            />
+            <MyDivider
+                title={"Условия"}
+
+            />
+            <Price
+                deal_type={deal_type}
+                form_data={formData}
             />
 
 
@@ -310,7 +354,9 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
                 </Button>
 
                 <Button
-                    onClick={() => router.back()}
+                    onClick={
+                        goBack
+                    }
                     variant="contained"
                     color="error"
                 >
@@ -323,4 +369,6 @@ function ObjectFormZustand({ form_data, flat_for_update = null }) {
     </>);
 }
 
-export default ObjectFormZustand;
+
+// export default ObjectFormZustand;
+export default dynamic(() => Promise.resolve(ObjectFormZustand), { ssr: false })

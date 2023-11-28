@@ -1,9 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from "react";
-import { debounce } from '@mui/material/utils';
 import { AddressSuggestions } from "react-dadata";
-import { Placemark, YMaps, Map, RulerControl, ZoomControl, useYMaps } from "@pbe/react-yandex-maps";
-// import { dadata_key } from "@/app/params/params";
+import { useYMaps } from "@pbe/react-yandex-maps";
 import MyTextInput from "./MyTextInput";
 import { Stack, Typography } from "@mui/material";
 import '../../../../dist/style.css'
@@ -11,8 +9,13 @@ import { useObjectFormState } from "@/app/objects/create/store";
 
 
 function Address({
+    // flat = { flat },
+    // address
     // setter
 }) {
+
+    const flat = useObjectFormState((state) => state.flat);
+    // console.log(flat);
 
 
     const ymaps = useYMaps();
@@ -20,8 +23,10 @@ function Address({
     const [map, setMap] = useState(null);
 
     const lat = useObjectFormState((state) => state.flat.lat);
+    const flatId = useObjectFormState((state) => state.flat.id);
     const lng = useObjectFormState((state) => state.flat.lng);
     const address = useObjectFormState((state) => state.flat.address);
+    const [dadata_address, setDadataAddress] = useState(useObjectFormState((state) => state.flat.dadata));
     const dadata_response = useObjectFormState((state) => state.flat.dadata_response);
 
     const mapRef = useRef(null);
@@ -39,6 +44,10 @@ function Address({
         return dadata.suggestions[0];
     }
 
+    // useEffect(() => {
+    // let new_addr = useObjectFormState((state) => state.flat.address);
+    // setDadataAddress(new_addr)
+    // }, [flat, address])
 
     useEffect(() => {
 
@@ -61,8 +70,9 @@ function Address({
             let dadata = await geocode(coords[0], coords[1]);
             updateFlat('address', dadata.value)
             updateFlat('dadata_response', dadata)
-            let addr_field = document.querySelector('.react-dadata__input');
-            addr_field.value = dadata.value;
+            setDadataAddress(dadata)
+            // let addr_field = document.querySelector('.react-dadata__input');
+            // addr_field.value = dadata.value;
 
         });
         setMap(
@@ -80,13 +90,15 @@ function Address({
             }
         }
 
-    }, [ymaps])
+    }, [ymaps, flat])
 
     const onAddrChange = (suggestion) => {
         updateFlat('address', suggestion.value)
         updateFlat('dadata_response', suggestion)
+        setDadataAddress(suggestion)
     }
     useEffect(() => {
+        // console.log(dadata_response)
         if (dadata_response?.value) {
             updateFlat('address', dadata_response?.value)
             updateFlat('lat', dadata_response?.data?.geo_lat)
@@ -120,7 +132,7 @@ function Address({
             }
         }
 
-    }, [lat, lng, ymaps, map])
+    }, [lat, lng, ymaps, map, flatId])
 
 
     return (<>
@@ -143,6 +155,10 @@ function Address({
                     style={{
                         height: 56
                     }}
+
+
+
+                    value={dadata_address}
                     defaultQuery={address}
                     onChange={onAddrChange}
                     delay={300}

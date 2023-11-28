@@ -83,7 +83,7 @@ function MetroModal({ isOpen, handleClose, topDiff = 0, leftDiff = 0 }) {
                 onClose={handleClose}
 
             >
-                {console.log('metr')}
+                
 
                 <MetroMap
                     topDiff={topDiff}

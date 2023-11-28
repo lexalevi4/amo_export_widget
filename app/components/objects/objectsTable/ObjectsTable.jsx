@@ -5,8 +5,8 @@ import LoadingTb from "../../Loading";
 import { useMemo } from "react";
 import ReportPlotModal from "./ReportPlotModal";
 
-function ObjectsTable({ objects, formData, isLoading = false, isFilter = false, filterId = 0, setObjectStatus = () => { } }) {
-    console.log(formData);
+function ObjectsTable({ objects, formData, isLoading = false, isFilter = false, filterId = 0, setObjectStatus = () => { }, isLeadCard = false }) {
+    // console.log(formData);
 
 
 
@@ -85,6 +85,7 @@ function ObjectsTable({ objects, formData, isLoading = false, isFilter = false, 
                             objects.map((flat) => {
                                 return (
                                     <ObjectsTableRow
+                                        isLeadCard={isLeadCard}
                                         flat={flat}
                                         formData={formData}
                                         key={'flat-row-' + flat.id}

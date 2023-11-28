@@ -1,5 +1,5 @@
 'use client'
-import { Paper, Table, TableBody, TableContainer } from "@mui/material";
+import { Divider, Paper, Table, TableBody, TableContainer } from "@mui/material";
 import FiltersTableRow from "./FiltersTableRow";
 import dynamic from "next/dynamic";
 import { useClientsState } from "../store";
@@ -10,9 +10,11 @@ import HighwaysModal from "./HighwaysModal";
 import AddrobjsModal from "./AddrobjsModal";
 import MapModal from "./MapModal";
 import { YMaps } from "@pbe/react-yandex-maps";
-function FiltersTable({ filters, formData }) {
+import CreateClientModal from "@/app/lead-card/components/CreateClientModal";
+function FiltersTable({ filters, formData, leadId = 0 }) {
 
     // const setFormData = useClientsState
+    const [currentFilters, setCurrentFilters] = useState(filters);
     const setFormData = useClientsState((state) => state.setFormData)
     const setState = useClientsState((state) => state.setState)
 
@@ -29,6 +31,27 @@ function FiltersTable({ filters, formData }) {
     const polygonsIsOpen = useClientsState((state) => state.polygonsIsOpen)
     const addrobjsIsOpen = useClientsState((state) => state.addrobjsIsOpen)
 
+    const updatedAll = useClientsState((state) => state.updatedAll)
+
+
+
+
+    const getFilters = async () => {
+        const data = await fetch('/api/client/get-filters-by-lead?leadId=' + leadId);
+        const res = await data.json();
+        setCurrentFilters(res.clients);
+        setState('updatedAll', false);
+    }
+
+    useEffect(() => {
+        if (updatedAll) {
+            getFilters()
+        }
+    }, [updatedAll])
+
+    const handleEditOpen = (filter) => {
+
+    }
 
 
     const closeMetro = () => {
@@ -42,12 +65,18 @@ function FiltersTable({ filters, formData }) {
 
     return (<>
 
+        <CreateClientModal
+            formData={formData}
+            leadId={leadId}
+
+        />
+        <Divider className="my-5" />
         <TableContainer component={Paper}
             elevation={10}
         >
             <Table>
                 <TableBody>
-                    {filters.map(filter => {
+                    {currentFilters.map(filter => {
                         return (
                             <FiltersTableRow
                                 formData={formData}
@@ -61,6 +90,11 @@ function FiltersTable({ filters, formData }) {
             </Table>
 
         </TableContainer>
+
+        {/* {leadId > 0 && */}
+
+        {/* } */}
+
 
         <MetroModal
             formData={formData}
@@ -86,19 +120,19 @@ function FiltersTable({ filters, formData }) {
             isOpen={addrobjsIsOpen}
             state={addrobjs}
         />
-        <YMaps
+        {/* <YMaps
             query={{
                 load: "package.full",
                 lang: "ru_RU",
                 // apikey: "e105999a-b1c1-4234-963f-21e492dca418"
             }}
-        >
-            <MapModal
-                state={polygons}
-                isOpen={polygonsIsOpen}
-                handleClose={() => setState('polygonsIsOpen', false)}
-            />
-        </YMaps>
+        > */}
+        <MapModal
+            state={polygons}
+            isOpen={polygonsIsOpen}
+            handleClose={() => setState('polygonsIsOpen', false)}
+        />
+        {/* </YMaps> */}
     </>);
 }
 

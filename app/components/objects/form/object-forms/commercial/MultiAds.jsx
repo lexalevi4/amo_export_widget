@@ -30,7 +30,7 @@ function MultiAds({ flat, }) {
     ];
     useEffect(() => {
         if (isMulti) {
-            console.log('Включаем')
+            // console.log('Включаем')
             if (multiAds.length === 0) {
                 setter('multiAds', defaultItems)
             }

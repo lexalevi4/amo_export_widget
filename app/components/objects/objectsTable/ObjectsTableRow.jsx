@@ -8,9 +8,11 @@ import Images from "./Images";
 import { Map, Placemark, RulerControl, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
 import { printMetro, secToStr } from "@/app/heplers/tableHelper";
 import PriceAnalizeTabs from "./PriceAnalizeTabs";
+import Link from "next/link";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-
-function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStatus }) {
+function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStatus, isLeadCard }) {
     const [open, setOpen] = useState(false);
     const [visible, setVisible] = useState(true);
     // console.log(flat.images)
@@ -19,6 +21,13 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
     const handleFilterStatusChange = (e) => {
         setObjectStatus(flat.id, filterId, Number(e.target.dataset.onclickparam));
         setVisible(false);
+
+    }
+    const handleDelete = async () => {
+        if (window.confirm('Удалить объект?')) {
+            // setVisible(false)
+            await fetch('/api/object/delete?id=' + object.id);
+        }
 
     }
 
@@ -211,7 +220,7 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                                         }}
                                     // width={100}
                                     >Шоссе</TableCell>
-                                    
+
                                     <TableCell>🚗 до МКАД</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -231,10 +240,10 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                                                 }}
                                                 width={100}
                                             >
-                                               
+
                                                 {current_highway.name}
                                             </TableCell>
-                                            <TableCell>{(highway.distance/1000).toFixed(1)} км.</TableCell>
+                                            <TableCell>{(highway.distance / 1000).toFixed(1)} км.</TableCell>
                                         </TableRow>
                                     )
                                 })}
@@ -301,12 +310,37 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
 
             </TableCell>
             <TableCell align="right">
-                <a
-                    href={flat.link}
-                    target="_blank"
-                >
-                    Ссылка
-                </a>
+                {isLeadCard && (
+                    <>
+                        <a
+                            // prefetch={false}
+                            href={'/objects/update?id=' + flat.id}
+                        >
+                            <IconButton aria-label="update" title="Редактировать">
+                                <EditIcon
+                                    color="primary"
+                                />
+                            </IconButton>
+                        </a>
+                        <IconButton aria-label="delete" title="Удалить"
+                            onClick={handleDelete}
+                        >
+                            <DeleteIcon
+
+                                color="error"
+                            />
+                        </IconButton>
+                    </>
+                )}
+                {!isLeadCard && (
+                    <a
+                        href={flat.link}
+                        target="_blank"
+                    >
+                        Ссылка
+                    </a>
+                )}
+
             </TableCell>
         </TableRow>
         {isFilter && (
@@ -402,13 +436,15 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                                             images={flat.list_images}
                                         />
                                         <Typography
+                                            dangerouslySetInnerHTML={ { __html: flat.description } }
                                             style={{
                                                 whiteSpace: 'pre-line'
                                             }}
                                         // className="pre-line"
                                         >
-                                            {/* dangerouslySetInnerHTML={{ __html: nl2br(flat.description) }} */}
-                                            {flat.description}
+                                            {/* {flat.lead_id > 0 ? "" : flat.description} */}
+
+                                            {/* {flat.description} */}
                                         </Typography>
                                         {/* {flat.list_images.map(image => {
                                             return (<>

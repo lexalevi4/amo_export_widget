@@ -60,6 +60,28 @@ export const sendGetRequest = async (url, data = {}) => {
 
 }
 
+
+export const sendPostFormData = async (url,formData)=>{
+    // const salt = await getSalt();
+    // const sign = await getSign(salt);
+    // console.log('asdfasdf')
+    // console.log(url)
+    // console.log(formData)
+    const req = await fetch(url, {
+        method: 'POST',
+        body: formData,
+        // headers: {
+            // "Content-Type": "application/json",
+            // "Accept": "application/json",
+            // 'auth': getSessionId() + ':' + sign.sign + ':' + salt + ':' + sign.timestamp
+        // },
+    });
+    // console.log('asdfasdfsfgsdfg')
+    return await req.json();
+
+}
+
+
 export const sendPostRequest = async (url, data = []) => {
 
     // console.log(headers().getAll())

@@ -1,13 +1,12 @@
 
 
-import { Autocomplete, Button, Divider, TextField, Typography } from "@mui/material";
-import Link from "next/link";
+import { Divider, Typography } from "@mui/material";
 import { session } from '../heplers/session'
 import { getFormData, sendGetRequest } from "../heplers/backendApiHandler";
 import "@/app/../dist/style.css"
-import ObjectsTable from "../components/objects/objectsTable/ObjectsTable";
 import LinkObject from "./components/LinkObject";
-import LeadCardObject from "./components/LeadCardObject";
+import dynamic from "next/dynamic";
+import CardTabs from "./components/CardTabs";
 
 async function getLeadData(id) {
     return sendGetRequest('https://turbobroker.ru/api/get-lead-card?lead_id=' + id)
@@ -15,6 +14,8 @@ async function getLeadData(id) {
 
 
 async function Page({ searchParams }) {
+
+
     const current_session = await session.getAll();
 
 
@@ -40,34 +41,10 @@ async function Page({ searchParams }) {
 
 
     console.log(data.all_objects)
-    // const allObjects = [];
-    // data.all_objects.map(item => {
-    //     // let option = {
-    //     //     category:
-    //     // };
-
-    //     // allObjects.push()
-
-    // })
 
 
     return (<>
 
-        {/* <Typography
-            variant="h6"
-        >
-            acc_id:{current_session.account_id}
-        </Typography>
-        <Typography
-            variant="h6"
-        >
-            user_id:{current_session.user_id}
-        </Typography>
-        <Typography
-            variant="h3"
-        >
-            Данные сделки
-        </Typography> */}
 
         <Divider
             className="mb-10"
@@ -75,6 +52,8 @@ async function Page({ searchParams }) {
         />
 
         <LinkObject
+            leadId={leadId}
+            value={data.current_object}
             objects={data.all_objects}
         />
 
@@ -82,50 +61,17 @@ async function Page({ searchParams }) {
             className="my-10"
 
         />
+        <CardTabs
+            feeds={data.feeds}
+            objects={data.objects}
+            clients={data.clients}
+            leadId={leadId}
+            formData={formData}
+        />
 
 
-
-
-
-        <Typography
-            variant="h5"
-        >Объекты:
-        </Typography>
-
-        {
-            data.objects.map((object, index) => {
-                return (
-                    <LeadCardObject
-                        key={'card_object_' + index}
-                        formData={formData}
-                        object={object}
-                    />
-
-
-                )
-            })
-        }
-
-
-        <Link
-            href={'/objects/create?lead_id=' + leadId}
-        >
-            <Button>Добавить объект</Button>
-        </Link>
-        <Typography
-            variant="h5"
-        >Заявки:
-        </Typography>
-        {data.clients.map((client) => {
-            return (<Typography
-                key={'client' + client.id}
-            >
-                {client.id}
-            </Typography>)
-        })}
-        <Button>Добавить заявку</Button>
 
     </>)
 }
-
-export default Page
+export default dynamic(() => Promise.resolve(Page), { ssr: false })
+// export default Page

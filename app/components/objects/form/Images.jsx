@@ -8,12 +8,13 @@ import { useObjectFormState } from "@/app/objects/create/store";
 import MyDivider from "./MyDivider";
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 
-function Images({ setter, getter }) {
+function Images({ }) {
     const sortImages = useObjectFormState((state) => state.sortImages);
     const activeImages = useObjectFormState((state) => state.flat.images.active);
     const inactiveImages = useObjectFormState((state) => state.flat.images.inactive);
     const moveImages = useObjectFormState((state) => state.moveImages);
     const [showInactive, setShowInactive] = useState(false);
+    const setter = useObjectFormState((state) => state.updateFlat);
 
     // const images = getter('images');
     const [files, setFiles] = useState(null);

@@ -17,8 +17,11 @@ function SearchSelect({ width = 300, name, title, items, multiple = false, requi
 
             }
         >
-            <InputLabel id={name + "-name-label"}>{title}</InputLabel>
+            <InputLabel
+                size="small"
+                id={name + "-name-label"}>{title}</InputLabel>
             <Select
+                size="small"
                 required={required}
                 multiple={multiple}
                 // displayEmpty={true}

@@ -1,3 +1,4 @@
+'use client'
 import LoadingTb from "./app/components/Loading";
 
 export default function Loading() {

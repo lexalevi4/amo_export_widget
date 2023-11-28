@@ -22,6 +22,28 @@ function MapSearchModal({ isOpen, setIsOpen }) {
         setNestedIsOpen(false);
     }
 
+    useEffect(() => {
+        if (currentMap && searchPolygons.length === 0) {
+            var worker = true;
+            while (worker) {
+                worker = false;
+                currentMap.geoObjects.each(function (item) {
+                    if (item.geometry.getType() == "Polygon") {
+                        currentMap.geoObjects.remove(item)
+                        worker = true;
+                    }
+                })
+            }
+            // map.geoObjects.each(function (item) {
+            //     if (item.geometry.getType() == "Polygon") {
+            //         map.geoObjects.remove(item)
+            //     }
+            // })
+            // setSearchParam('polygons', [])
+        }
+
+    }, [searchPolygons])
+
 
 
     // useEffect(() => {

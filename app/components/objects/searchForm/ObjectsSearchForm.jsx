@@ -2,16 +2,13 @@
 
 import { useObjectSearchFormState } from "@/app/objects/store";
 import { Button, Divider, Fade, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, Paper, Popper, Radio, RadioGroup, Stack, TextField, Typography } from "@mui/material";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { serialize } from '@/app/heplers/clientHelpers'
 import SearchRadioGroup from "./formComponents/SearchRadioGroup";
 import SearchSelect from "./formComponents/SearchSelect";
 import { AddressSuggestions } from "react-dadata";
 import '../../../../dist/style.css'
 import Addrobjs from "./formComponents/Addrobjs";
-import { Label } from "@mui/icons-material";
 import SearchButtonsGroup from "./formComponents/SearchButtonsGroup";
 import DualTextField from "./formComponents/DualTextField";
 import MetroModal from "./formComponents/MetroModal";
@@ -20,10 +17,11 @@ import { YMaps } from "@pbe/react-yandex-maps";
 import DistrictsModal from "./formComponents/DistrictsModal";
 import HighwaysModal from "./formComponents/HighwaysModal";
 import SearchTextField from "./formComponents/SearchTextField";
+import { useClientsState } from "@/app/clients/store";
 
 // import { useSearchParams } from 'next/navigation'
 
-function ObjectsSearchForm({ formData }) {
+function ObjectsSearchForm({ formData, leadId = 0 }) {
 
     const search = useObjectSearchFormState((state) => state.search)
     const params = useObjectSearchFormState((state) => state.params)
@@ -63,16 +61,22 @@ function ObjectsSearchForm({ formData }) {
     const setActiveSearch = useObjectSearchFormState((state) => state.setActiveSearch);
     const changePageType = useObjectSearchFormState((state) => state.changePageType);
 
-    const [address, setAddress] = useState('');
-
-    const dadataRef = useRef('');
+    const filterId = useClientsState((state) => state.currentFilterId);
 
 
+    const setClientState = useClientsState((state) => state.setState);
+    const setUpdatedFilter = useClientsState((state) => state.setUpdatedFilter);
+    const setUpdatedAll = useClientsState((state) => state.setUpdatedAll)
 
-    const handleSaveFilterClick = (e) => {
-        setSaveFilterAnchorEl(e.currentTarget);
-        setSaveFilterOpen(!saveFilterOpen);
+    const closeForm = () => {
+        setClientState('editModalIsOpen', false);
     }
+
+
+    // const handleSaveFilterClick = (e) => {
+    //     setSaveFilterAnchorEl(e.currentTarget);
+    //     setSaveFilterOpen(!saveFilterOpen);
+    // }
     const handleSetFilterName = (e) => {
         setFilterName(e.target.value)
     }
@@ -82,12 +86,27 @@ function ObjectsSearchForm({ formData }) {
         let data = new FormData();
         data.append('search', JSON.stringify(search));
         data.append('name', filterName);
+        data.append('leadId', leadId);
+        data.append('filterId', filterId);
+        // filterId
+
         try {
             await fetch('/api/client/saveFilter', {
                 method: 'POST',
                 body: data,
-            }).then(res => res.json())
-            // .then(data => { setObjects(data.objects) })
+            }).then(async (res) => {
+                data = await res.json();
+                console.log(data);
+                if (data.is_new) {
+                    setUpdatedAll()
+                    // setClientState('updatedAll', true)
+
+                } else {
+                    setUpdatedFilter(data);
+                }
+
+            })
+            // .then(data => { console.log(data) })
             // .then(() => setObjectsIsLoading(false))
         } catch (e) {
         }
@@ -95,6 +114,9 @@ function ObjectsSearchForm({ formData }) {
 
     }
 
+    useEffect(() => {
+        console.log(search)
+    }, [search])
 
 
     // console.log(params.get('rooms'))
@@ -299,7 +321,7 @@ function ObjectsSearchForm({ formData }) {
                                 name={'isNewBuilding'}
                                 title={'Готовность'}
                             />
-                             <SearchRadioGroup
+                            <SearchRadioGroup
                                 items={formData.isApartments}
                                 name={'isApartments'}
                                 title={'Статус'}
@@ -340,7 +362,7 @@ function ObjectsSearchForm({ formData }) {
                         name={'price_type'}
                         title={'Тип цены'}
                     />
-                    
+
 
 
 
@@ -483,7 +505,7 @@ function ObjectsSearchForm({ formData }) {
 
             >
                 <Grid
-                    fullWidth
+                    // fullWidth
                     container
                     className="text-center"
                     style={{
@@ -646,43 +668,68 @@ function ObjectsSearchForm({ formData }) {
 
             > */}
 
-            <Button
-                className="my-10"
-                variant="contained"
-                disabled={isloading}
-                onClick={updateObjects}
-            // onClick={() => setIsLoading(true)}
-            >
-                Искать
-            </Button>
-            {/* </Link> */}
-            {/* <Link
+            {leadId === 0 && (
+                <>
+                    <Button
+                        className="my-10"
+                        variant="contained"
+                        disabled={isloading}
+                        onClick={updateObjects}
+                    // onClick={() => setIsLoading(true)}
+                    >
+                        Искать
+                    </Button>
+                    {/* </Link> */}
+                    {/* <Link
                 href={'/objects?' + serialize(search)}
                 replace
                 prefetch={false}
 
             > */}
 
-            <Button
-                className="my-10"
-                variant="contained"
-                disabled={isloading}
-                onClick={changePageType}
+                    <Button
+                        className="my-10"
+                        variant="contained"
+                        disabled={isloading}
+                        onClick={changePageType}
 
-            >
-                {pageType === 'list' ? 'На карте' : 'Списком'}
-            </Button>
+                    >
+                        {pageType === 'list' ? 'На карте' : 'Списком'}
+                    </Button>
+                </>
+            )}
+
             {/* </Link> */}
+            {leadId > 0 && (<>
 
-            <Button
-                className="my-10"
-                variant="contained"
-                onClick={handleSaveFilterClick}
-            // disabled={isloading}
-            >
-                Создать подборку
-            </Button>
-            <Popper open={saveFilterOpen} anchorEl={saveFilteranchorEl} placement={'right-end'} transition>
+
+                <Button
+                    className="my-10"
+                    variant="contained"
+                    // onClick={handleSaveFilterClick}
+                    onClick={saveFilter}
+                // disabled={isloading}
+                >
+                    Сохранить
+                </Button>
+
+                <Button
+                    color="error"
+                    className="my-10"
+                    variant="contained"
+                    onClick={closeForm}
+                // disabled={isloading}
+                >
+                    Отмена
+                </Button>
+
+            </>)}
+
+            <Popper
+                style={{
+                    zIndex: 9999
+                }}
+                open={saveFilterOpen} anchorEl={saveFilteranchorEl} placement={'right-end'} transition>
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={350}>
                         <Paper

@@ -55,7 +55,7 @@ export async function GET(req, response) {
     // const formData = await req.formData()
     // console.log(formData);
     // const account = formData.get('account')
-    const account = 31165334;
+    const account = 26530375;
     // const area = formData.get('system[area]')
     // const card_id = formData.get('page[code]')
     // console.log(area)
@@ -67,7 +67,7 @@ export async function GET(req, response) {
     // const token = headers().get('x-auth-token');
     // console.log(token);
 
-    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcmVhbHR5d2lkZ2V0LmFtb2NybS5ydSIsImF1ZCI6Imh0dHBzOlwvXC90dXJib2Jyb2tlci5ydSIsImp0aSI6ImIwOGRiNzQ0LTI5YjctNGY2MS1hYTJhLTZhYTk3ZmE3OTMwYiIsImlhdCI6MTY5OTg2MzA1MiwibmJmIjoxNjk5ODYzMDUyLCJleHAiOjE2OTk4NjQ4NTIsImFjY291bnRfaWQiOjMxMTY1MzM0LCJzdWJkb21haW4iOiJyZWFsdHl3aWRnZXQiLCJjbGllbnRfdXVpZCI6IjE2MzBlMTcyLTg3ZDAtNGRlOS1iY2M5LWY0NjBiMjY1NjM2MSIsInVzZXJfaWQiOjE0MzM4MDAsImlzX2FkbWluIjp0cnVlfQ.3jIbjDrnPvq56_uXDGJBOM-zMxP6yucHH760MJJWvHw';
+    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvNzk3MDk5My5hbW9jcm0ucnUiLCJhdWQiOiJodHRwczpcL1wvdHVyYm9icm9rZXIucnUiLCJqdGkiOiIwZDA0NTRiMS1mMGVhLTQwZWUtOTcxOC02MDczMDg4MjIzZGYiLCJpYXQiOjE3MDExNjQyNjEsIm5iZiI6MTcwMTE2NDI2MSwiZXhwIjoxNzAxMTY2MDYxLCJhY2NvdW50X2lkIjoyNjUzMDM3NSwic3ViZG9tYWluIjoiNzk3MDk5MyIsImNsaWVudF91dWlkIjoiY2Y1OWMzZGYtZjU0Ny00MmI0LWI0MWMtMmJmNjY2NjNmNjY2IiwidXNlcl9pZCI6MzQyMTcwMiwiaXNfYWRtaW4iOnRydWV9.FK9JbdwoQdWYpWUx4CAtae-9t3aiS65LqY3YL69aOL4';
     let result = [];
     let page = '/error';
 

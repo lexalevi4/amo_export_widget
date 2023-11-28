@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import MetroLink from "./MetroLink";
 
 function MetroMap({ brunches, handleBrunchClick, handleStationClick, formData, state, topDiff, leftDiff }) {
-    console.log(formData);
+    // console.log(formData);
     return (
         <div
             id='metro_content'

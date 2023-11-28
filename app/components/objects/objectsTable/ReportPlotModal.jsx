@@ -28,7 +28,7 @@ function ReportPlotModal({ mobile = false }) {
 
 
     useEffect(() => {
-        console.log(reportPlotRequest)
+        // console.log(reportPlotRequest)
         // let request = JSON.parse(reportPlotRequest)
         if (reportPlotRequest?.report_id > 0 && !reportPlotModalIsIpen) {
             setReportPlotIsCanceled(false);

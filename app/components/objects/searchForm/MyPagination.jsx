@@ -15,10 +15,10 @@ function MyPagination({ count, page, handlePage }) {
     const search_updated = useObjectSearchFormState((state) => state.search_updated)
     const [page_link, setPage_link] = useState('');
 
-    useEffect(() => {
-        console.log(page)
-
-    }, [page])
+    // useEffect(() => {
+        // console.log(page)
+// 
+    // }, [page])
 
     useEffect(() => {
         setPage_link(buildLink());

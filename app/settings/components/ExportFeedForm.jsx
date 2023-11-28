@@ -227,8 +227,8 @@ function ExportFeedForm({ feed, }) {
                                     }}
                             >
                                 < TextField
-                                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                                    type="number"
+                                    // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                                    // type="number"
 
                                     // type='numeric'
                                     label={'id аккаунта'}

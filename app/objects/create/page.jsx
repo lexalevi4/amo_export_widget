@@ -25,7 +25,7 @@ async function CreateObject({ searchParams }) {
     const form_data = await getFormData();
     // console.log(form_data);
 
-    const flat = { ...new_object(), leadId: leadId, id: 0 };
+    const flat = { ...new_object(), lead_id: leadId, id: 0 };
 
 
 
@@ -40,6 +40,7 @@ async function CreateObject({ searchParams }) {
             <ObjectFormZustand
                 form_data={form_data}
                 flat_for_update={flat}
+                leadId={leadId}
             />
             {/* </StyledEngineProvider> */}
         </>);
