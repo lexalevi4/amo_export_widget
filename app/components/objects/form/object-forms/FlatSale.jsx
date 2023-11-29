@@ -1,6 +1,6 @@
 
 import MyButtonsGroup from "../MyButtonsGroup";
-import { Box, FormLabel, Stack } from "@mui/material";
+import { Box, FormLabel, Stack, Typography } from "@mui/material";
 import MyTextInput from "../MyTextInput";
 import MySwitch from "../MySwitch";
 import MySelect from "../MySelect";
@@ -114,6 +114,23 @@ function FlatSale({
             />
 
         </Stack>
+        <Stack
+            direction={'row'}
+            spacing={2}
+        >
+            <MyTextInput
+
+                name={'roomsArea'}
+                setter={setter}
+                value={flat.roomsArea}
+                title={'Площадь комнат'}
+            />
+            <Typography>
+                + для обозначения смежных комнат<br />
+                - для раздельных комнат.
+            </Typography>
+        </Stack>
+
 
         <Stack
             direction="row" spacing={2}

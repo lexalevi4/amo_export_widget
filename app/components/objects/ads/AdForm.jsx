@@ -22,8 +22,8 @@ function AdForm({ feeds, object, formData, ad, handleShowForm, updateData = () =
     const [feedFormatSettings, setFeedFormatSettings] = useState(ad.feedFormatSettings)
 
 
-    console.log(endDate);
-    console.log(dayjs(ad.end_date))
+    // console.log(endDate);
+    // console.log(dayjs(ad.end_date))
 
     const handleFeedActive = (e) => {
         if (activeFeeds.includes(Number(e.target.value))) {
@@ -48,9 +48,9 @@ function AdForm({ feeds, object, formData, ad, handleShowForm, updateData = () =
 
     // }, [activeFeeds, startDate, endDate, feedSettings])
 
-    useEffect(() => {
-        console.log(feedSettings);
-    }, [feedSettings, activeFeeds])
+    // useEffect(() => {
+    //     console.log(feedSettings);
+    // }, [feedSettings, activeFeeds])
 
     const handleStartDate = (value) => {
         setStartDate(value)
@@ -78,7 +78,7 @@ function AdForm({ feeds, object, formData, ad, handleShowForm, updateData = () =
             startDate: startDate !== null ? startDate.valueOf() / 1000 : null,
             endDate: endDate !== null ? endDate.valueOf() / 1000 : null,
         })
-        console.log(feedSettings);
+        // console.log(feedSettings);
         let request = {
             id: ad.id,
             object_id: object.id,
@@ -90,7 +90,7 @@ function AdForm({ feeds, object, formData, ad, handleShowForm, updateData = () =
             // endDate: endDate.getTime() || null
         }
 
-        console.log(request);
+        // console.log(request);
         let data = new FormData();
         data.append('data', JSON.stringify(request));
         try {
@@ -101,7 +101,7 @@ function AdForm({ feeds, object, formData, ad, handleShowForm, updateData = () =
             }).then(res => res.json())
                 .then(data => {
                     setAds(data);
-                    console.log(data)
+                    // console.log(data)
                 })
             // }
         } catch (e) {

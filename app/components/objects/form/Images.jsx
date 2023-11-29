@@ -1,4 +1,4 @@
-import { Box, FormControlLabel, Grid, LinearProgress, Stack, Switch } from "@mui/material";
+import { Box, FormControlLabel, Grid, LinearProgress, Stack, Switch, Typography } from "@mui/material";
 import { MuiFileInput } from "mui-file-input";
 import { useState } from "react";
 import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -15,6 +15,7 @@ function Images({ }) {
     const moveImages = useObjectFormState((state) => state.moveImages);
     const [showInactive, setShowInactive] = useState(false);
     const setter = useObjectFormState((state) => state.updateFlat);
+    const [imagesError, setImagesError] = useState('');
 
     // const images = getter('images');
     const [files, setFiles] = useState(null);
@@ -26,13 +27,36 @@ function Images({ }) {
         return res;
     }
 
+
     const handleUpload = async (value) => {
+
+        const maxFilesSize = 26214400; //25 МБ
+        const maxFilesCount = 50;
         setImages_disabled(true)
+        setImagesError('');
+        let fileSize = 0;
+        let filesCount = 0;
 
         let data = new FormData();
         for (const file of value) {
+            filesCount++;
+            fileSize += file.size;
+            // console.log(file.size);
+
             data.append('files[]', file, file.name);
         }
+        // console.log(fileSize);
+        // if (filesCount > maxFilesCount) {
+        //     setImagesError('За раз можно загрузить не более 50 файлов')
+        //     setImages_disabled(false)
+        //     return;
+        // }
+        // if (fileSize > maxFilesSize) {
+        //     setImagesError('За раз можно загрузить не более 25 МБ')
+        //     setImages_disabled(false)
+        //     return;
+        // }
+        // setImages_disabled(false)
         try {
             await fetch('/api/object/images', {
                 method: 'POST',
@@ -93,13 +117,33 @@ function Images({ }) {
                 </Box>
             )
         }
+        <Typography
+            variant="body2"
+            color={'primary'}
+            className="my-0"
+        >
+
+            До 50 файлов объёмом до 25МБ:
+        </Typography>
         <MuiFileInput
             multiple
+            // inputProps={{ accept: '.png, .jpeg, .jpg' }}
 
             disabled={images_disabled}
             value={files}
             onChange={handleUpload}
         />
+        {imagesError !== '' && (
+            <Typography
+                variant="body2"
+                color={'error'}
+            // className="my-0"
+            >
+
+                {imagesError}
+            </Typography>
+        )}
+
         {inactiveImages.length > 0 && (
             // showInactive
             <>

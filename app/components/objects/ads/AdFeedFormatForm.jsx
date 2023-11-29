@@ -18,7 +18,7 @@ function AdFeedFormatForm({ feeds, object, activeFeeds, handleFeedActive, formDa
     const stations = formData.metro.sort((a, b) => sortByName(a, b, 'metro'));
     const all_highways = formData.highway.sort((a, b) => sortByName(a, b, 'name'));
 
-    console.log(currentFeedFormat);
+    // console.log(currentFeedFormat);
 
     const fetchZk = useMemo(
         () =>

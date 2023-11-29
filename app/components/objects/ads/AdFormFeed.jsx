@@ -1,6 +1,6 @@
-import { FormControlLabel, Switch, TextField, Stack, Select, MenuItem, Paper } from "@mui/material";
+import { FormControlLabel, Switch, TextField, Stack, Select, MenuItem, Paper, Typography } from "@mui/material";
 
-import { useEffect, useState } from "react";
+import { useEffect,  useState } from "react";
 
 function AdFormFeed({ feed, activeFeeds, handleFeedActive, feedSettings, setFeedSettings, currentFeed }) {
 
@@ -46,17 +46,39 @@ function AdFormFeed({ feed, activeFeeds, handleFeedActive, feedSettings, setFeed
 
     }
 
-    const [promo, setPromo] = useState(currentFeed.promo);
-    const [bet, setBet] = useState(currentFeed.bet)
+    const [promo, setPromo] = useState(currentFeed?.promo || '');
+    const [bet, setBet] = useState(currentFeed?.bet || '')
+    const [title, setTitle] = useState(currentFeed?.title || '')
 
 
+    // const updateFeedSettings = useMemo(
+    //     () =>
+    //         debounce(async () => {
+    //             let newSettings = [];
+    //             let settings = {
+    //                 bet: bet,
+    //                 promo: promo,
+    //                 title: title
+    //             }
+    //             feedSettings.map(item => {
+    //                 if (item.id === feed.id) {
+    //                     newSettings.push({ id: item.id, ...settings })
+    //                 } else {
+    //                     newSettings.push(item)
+    //                 }
+    //             })
+    //             setFeedSettings(newSettings)
 
+    //         }, 200),
+    //     [],
+    // );
 
     const updateFeedSettings = () => {
         let newSettings = [];
         let settings = {
             bet: bet,
             promo: promo,
+            title: title
         }
         feedSettings.map(item => {
             if (item.id === feed.id) {
@@ -70,7 +92,9 @@ function AdFormFeed({ feed, activeFeeds, handleFeedActive, feedSettings, setFeed
 
     useEffect(() => {
         updateFeedSettings()
-    }, [bet, promo])
+        // console.log(promo)
+        // console.log(feed)
+    }, [bet, promo, title])
 
 
 
@@ -126,7 +150,7 @@ function AdFormFeed({ feed, activeFeeds, handleFeedActive, feedSettings, setFeed
                                     })}
 
                                 </Select>
-                                {promo === 'top' && (
+                                {promo === 'top' && feed.format === 1 && (
                                     <TextField
                                         style={{
                                             width: 300
@@ -138,9 +162,34 @@ function AdFormFeed({ feed, activeFeeds, handleFeedActive, feedSettings, setFeed
                                     />
                                 )}
                             </Stack>
+
+
                         )}
 
+                        {
+                            (feed.format === 1 && (promo === 'top' || promo === 'premium')) && (<>
+                                <TextField
+                                    className="my-2"
+                                    style={{
+                                        width: 450
+                                    }}
+                                    
+                                    label='Загаловок'
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
 
+                                />
+                                {title.length > 0 && (title.length > 33 || title.length < 8) && (
+                                    <Typography
+                                        color={'error'}
+                                    >
+                                        Длина заголовка должна быть от 8 до 33 символов
+
+                                    </Typography>
+                                )}
+
+                            </>)
+                        }
 
 
                     </Stack>

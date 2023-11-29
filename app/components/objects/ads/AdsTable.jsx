@@ -7,7 +7,7 @@ import AdsTableRow from "./AdsTableRow";
 function AdsTable({ object, feeds, formData }) {
 
 
-    console.log(object.ads);
+    // console.log(object.ads);
     const [showForm, setShowForm] = useState(false)
     const [ads, setAds] = useState(object.ads);
     const promoTypes = {
@@ -61,7 +61,7 @@ function AdsTable({ object, feeds, formData }) {
                 let newFeed = {
                     zhk: null,
                     house: null,
-
+                    title:'',
                     id: feedFormat.id
                 };
 

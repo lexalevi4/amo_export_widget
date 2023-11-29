@@ -50,6 +50,7 @@ function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0 }) {
     }, [])
 
     useEffect(() => {
+        console.log(flat_for_update)
         setFlat(flat_for_update);
         // setFormData(form_data);
     }, [flat_for_update])
@@ -61,8 +62,8 @@ function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0 }) {
 
 
     const [object_menu_items, setObject_menu_items] = useState([]);
-    // const [saveError, setSaveError] = useState(false);
-    // const [saveErrorMessage, setSaveErrorMessage] = useState('');
+    const [saveError, setSaveError] = useState(false);
+    const [saveErrorMessage, setSaveErrorMessage] = useState('');
 
 
 
@@ -320,8 +321,15 @@ function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0 }) {
 
 
             <MyDivider
-                title={"Фото"}
+                title={"Фото/Видео"}
 
+            />
+            <MyTextInput
+                name={'video'}
+                // value={flat.buildingName}
+                // setter={updateFlat}
+                title={'Видео'}
+                width={500}
             />
 
             <Images

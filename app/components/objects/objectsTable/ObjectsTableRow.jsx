@@ -25,8 +25,8 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
     }
     const handleDelete = async () => {
         if (window.confirm('Удалить объект?')) {
-            // setVisible(false)
-            await fetch('/api/object/delete?id=' + object.id);
+            setVisible(false)
+            await fetch('/api/object/delete?id=' + flat.id);
         }
 
     }

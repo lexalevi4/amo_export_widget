@@ -59,6 +59,51 @@ export async function POST(req, response) {
     const result = [];
     let i = 0;
 
+    let filesSize = 0;
+    let filesCount = 0;
+    const maxFilesSize = 26214400; //25 МБ
+    const maxFilesCount = 50;
+    const exts = [
+        'jpg',
+        'png',
+        'jpeg'
+    ]
+
+    for (const formDataEntryValue of formDataEntryValues) {
+        if (typeof formDataEntryValue === "object" && "arrayBuffer" in formDataEntryValue) {
+            let file = formDataEntryValue;
+            filesCount++;
+            filesSize += file.size;
+
+            let ext = file.name
+                .split('.')
+                .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
+                .slice(1)
+                .join('.');
+
+            // console.log(ext)
+            if (!exts.includes(ext)){
+                // console.log('filter');
+                return NextResponse.json(result);
+            }
+
+            // if (ext !== 'jpg' || ext !== 'png' || ext !== 'jpeg') {
+                
+            // }
+
+        }
+    }
+    if (filesSize > maxFilesSize) {
+        return NextResponse.json(result);
+    }
+    if (filesCount > maxFilesCount) {
+        return NextResponse.json(result);
+    }
+
+    // console.log(filesSize);
+    // console.log(filesCount);
+    // return NextResponse.json(result);
+
     // await sendPostFormData(process.env.API_URL + 'api/add-images',formData);
 
     for (const formDataEntryValue of formDataEntryValues) {

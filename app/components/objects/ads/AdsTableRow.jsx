@@ -10,10 +10,10 @@ function AdsTableRow({ ad, formData, object, feeds, setAds }) {
     const [activeFeeds, setActiveFeeds] = useState(ad.activeFeeds)
     const [startDate, setStartDate] = useState(ad.start_date)
     const [endDate, setEndDate] = useState(ad.end_date)
-    const [active, setActive] = useState(ad.active)
+    const [active, setActive] = useState(Boolean(ad.active))
     const [delDisabled, setDelDisabled] = useState(false)
 
-    console.log(ad);
+    // console.log(ad);
 
     const handleShowForm = () => {
         setShowForm(!showForm)

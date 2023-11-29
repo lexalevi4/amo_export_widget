@@ -5,8 +5,9 @@ import MySwitch from "../../MySwitch";
 import MyDivider from "../../MyDivider";
 import { chunkArray, sortByName } from "@/app/heplers/heplers";
 import MultipleSwitchGroup from "../../MultipleSwitchGroup";
+import { useObjectFormState } from "@/app/objects/create/store";
 
-function Office({ flat, setter, getter, form_data }) {
+function Office({ flat,  form_data }) {
 
 
     const chunkedInfrastructure = chunkArray(form_data.infrastructure.sort(sortByName), Math.floor(form_data.infrastructure.length / 3))
@@ -14,12 +15,13 @@ function Office({ flat, setter, getter, form_data }) {
     const materials = form_data.material.filter((item) => {
         return item.commercial === 1
     })
-    const parkingIsFree = getter('parkingIsFree');
+    const parkingIsFree =  useObjectFormState((state) => state.flat.parkingIsFree)
+    const isOccupied =  useObjectFormState((state) => state.flat.isOccupied)
 
     const heating_types = form_data.heating_type.filter((item) => {
         return item.commercial === 1
     })
-    const isOccupied = getter('isOccupied');
+    
     const conditions = form_data.condition_type.filter((item) => {
         return item.office === 1;
     });
@@ -40,8 +42,8 @@ function Office({ flat, setter, getter, form_data }) {
                 type="number"
 
                 name={'totalArea'}
-                value={flat.totalArea}
-                setter={setter}
+                
+                
                 title={"Общая площадь"}
 
             />
@@ -50,8 +52,7 @@ function Office({ flat, setter, getter, form_data }) {
                 type="number"
 
                 name={'minArea'}
-                value={flat.minArea}
-                setter={setter}
+                
                 title={"Минимальная площадь"}
 
             />
@@ -66,16 +67,14 @@ function Office({ flat, setter, getter, form_data }) {
 
                 type='number'
                 name={'floor'}
-                setter={setter}
-                value={flat.floor}
+            
                 title={'Этаж'}
             />
 
             <MyTextInput
                 type='number'
                 name={'floorsCount'}
-                setter={setter}
-                value={flat.floorsCount}
+              
                 title={'Этажность'}
             />
 
@@ -94,8 +93,7 @@ function Office({ flat, setter, getter, form_data }) {
                 items={form_data.layout}
 
                 name={'layout'}
-                getter={getter}
-                setter={setter}
+               
             />
 
             <MyTextInput
@@ -103,8 +101,7 @@ function Office({ flat, setter, getter, form_data }) {
                 title={'Высота потолков'}
 
                 name={'ceilingHeight'}
-                value={flat.ceilingHeight}
-                setter={setter}
+
             />
 
         </Stack>
@@ -118,20 +115,19 @@ function Office({ flat, setter, getter, form_data }) {
         >
             <MyTextInput
                 // width={350}
-                value={flat.waterPipesCount}
+                v
 
                 name={'waterPipesCount'}
-                setter={setter}
+              
                 title={"Мокрых точек"}
                 type="number"
 
             />
             <MyTextInput
                 // width={350}
-                value={flat.power}
-
+               
                 name={'power'}
-                setter={setter}
+               
                 title={"Мощность (кВт)"}
                 type="number"
 
@@ -147,16 +143,14 @@ function Office({ flat, setter, getter, form_data }) {
 
                 items={conditions}
                 name={'condition'}
-                getter={getter}
-                setter={setter}
+              
                 title={"Состояние"}
 
             />
             <MySwitch
 
                 name={'hasFurniture'}
-                getter={getter}
-                setter={setter}
+              
                 title={"Мебель"}
 
             />
@@ -169,8 +163,7 @@ function Office({ flat, setter, getter, form_data }) {
 
 
                 name={'isOccupied'}
-                getter={getter}
-                setter={setter}
+               
                 title={isOccupied ? "Помещение занято до " : "Помещение занято"}
 
             />
@@ -183,8 +176,7 @@ function Office({ flat, setter, getter, form_data }) {
                         items={form_data.month}
 
                         name={'freeMonth'}
-                        getter={getter}
-                        setter={setter}
+                       
                     />
 
                     <MySelect
@@ -193,8 +185,7 @@ function Office({ flat, setter, getter, form_data }) {
                         items={form_data.year}
 
                         name={'freeYear'}
-                        getter={getter}
-                        setter={setter}
+                       
                     />
                 </>
 
@@ -203,8 +194,7 @@ function Office({ flat, setter, getter, form_data }) {
         <MySelect
             items={form_data.access_type}
             name={'accessType'}
-            getter={getter}
-            setter={setter}
+         
             title={"Вход"}
         />
         <Stack
@@ -215,16 +205,16 @@ function Office({ flat, setter, getter, form_data }) {
                 type="number"
 
                 name={'taxNumber'}
-                value={flat.taxNumber}
-                setter={setter}
+               
+              
                 title={"Номер налоговой"}
 
             />
             <MySwitch
                 flat={flat}
-                getter={getter}
+                
                 name={'isLegalAddressProvided'}
-                setter={setter}
+                
                 title={"Юридический адрес предоставляется"}
 
             />
@@ -242,8 +232,7 @@ function Office({ flat, setter, getter, form_data }) {
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
                 name={'buildingType'}
-                getter={getter}
-                setter={setter}
+              
             />
 
             <MySelect
@@ -251,8 +240,7 @@ function Office({ flat, setter, getter, form_data }) {
                 items={form_data.building_class_type}
 
                 name={'buildingClass'}
-                getter={getter}
-                setter={setter}
+              
                 width={150}
             />
 
@@ -267,8 +255,7 @@ function Office({ flat, setter, getter, form_data }) {
                 items={form_data.building_status_type}
 
                 name={'buildingStatusType'}
-                getter={getter}
-                setter={setter}
+               
                 width={200}
             />
 
@@ -278,7 +265,7 @@ function Office({ flat, setter, getter, form_data }) {
 
                 name={'buildingTotalArea'}
                 value={flat.buildingTotalArea}
-                setter={setter}
+                
             />
         </Stack>
 
@@ -291,8 +278,7 @@ function Office({ flat, setter, getter, form_data }) {
 
                 items={materials}
                 name={'material'}
-                getter={getter}
-                setter={setter}
+              
                 title={'Материал'}
             />
 
@@ -301,8 +287,7 @@ function Office({ flat, setter, getter, form_data }) {
                 title={'Год постройки'}
 
                 name={'buildYear'}
-                value={flat.buildYear}
-                setter={setter}
+              
             />
 
 
@@ -318,9 +303,9 @@ function Office({ flat, setter, getter, form_data }) {
 
                 items={heating_types}
                 name={'heatingType'}
-                setter={setter}
+              
                 title={"Отопление"}
-                getter={getter}
+                
                 width={200}
             />
 
@@ -328,18 +313,18 @@ function Office({ flat, setter, getter, form_data }) {
 
                 items={form_data.communication_ventilation_type}
                 name={'ventilationType'}
-                setter={setter}
+                
                 title={"Вентиляция"}
-                getter={getter}
+              
                 width={200}
             />
             <MySelect
 
                 items={form_data.communication_conditioning_type}
                 name={'conditioningType'}
-                setter={setter}
+                
                 title={"Кондиционирование"}
-                getter={getter}
+                
                 width={200}
             />
 
@@ -347,10 +332,10 @@ function Office({ flat, setter, getter, form_data }) {
 
                 items={form_data.extinguishing_system_type}
                 name={'extinguishingSystemTypes'}
-                setter={setter}
+              
                 title={"Пожаротушение"}
                 multiple={true}
-                getter={getter}
+             
             // width={200}
             />
 
@@ -359,8 +344,7 @@ function Office({ flat, setter, getter, form_data }) {
         <MySelect
             items={form_data.access_type}
             name={'accessType'}
-            getter={getter}
-            setter={setter}
+          
             title={"Вход"}
         />
 
@@ -373,16 +357,15 @@ function Office({ flat, setter, getter, form_data }) {
                 items={form_data.parking}
                 name={'parking'}
                 title={"Парковка"}
-                getter={getter}
-                setter={setter}
+             
                 width={200}
             />
             <MyTextInput
 
                 name={'parkingPlacesCount'}
-                setter={setter}
+                
                 title={'Количество мест'}
-                value={flat.parkingPlacesCount}
+                
                 type="number"
 
             />
@@ -392,16 +375,15 @@ function Office({ flat, setter, getter, form_data }) {
                 name={'parkingIsFree'}
                 title={'Бесплатная'}
 
-                getter={getter}
-                setter={setter}
+               
             />
             {!parkingIsFree && (
                 <MyTextInput
 
                     name={'parkingPlacesPrice'}
-                    setter={setter}
+                    
                     title={'Стоимость место/месяц'}
-                    value={flat.parkingPlacesPrice}
+                    
                     type="number"
                     width={350}
                 />
@@ -416,7 +398,7 @@ function Office({ flat, setter, getter, form_data }) {
             <MyTextInput
 
                 name={'developer'}
-                setter={setter}
+             
                 title={'Застройщик'}
                 value={flat.developer}
                 // type="number"
@@ -426,9 +408,9 @@ function Office({ flat, setter, getter, form_data }) {
             <MyTextInput
 
                 name={'managementCompany'}
-                setter={setter}
+              
                 title={'Управляющая компания'}
-                value={flat.managementCompany}
+               
                 // type="number"
                 width={300}
 
@@ -446,7 +428,7 @@ function Office({ flat, setter, getter, form_data }) {
         >
             <MyTextInput
                 name={'landArea'}
-                setter={setter}
+              
                 title={'Площадь участка'}
                 value={flat.landArea}
                 type="number"
@@ -456,10 +438,10 @@ function Office({ flat, setter, getter, form_data }) {
 
                 items={form_data.land_area_unit_type}
                 name={'landAreaUnitType'}
-                setter={setter}
+              
                 title={"Единица"}
                 // multiple={true}
-                getter={getter}
+               
             // width={200}
             />
             {/* landAreaUnitType */}
@@ -471,10 +453,10 @@ function Office({ flat, setter, getter, form_data }) {
             title={'Инфраструктура'}
         />
         <MultipleSwitchGroup
-            getter={getter}
+            
             items={chunkedInfrastructure}
             name={'infrastructure'}
-            setter={setter}
+            
         // maxCount={flat_object === 20 ? 1 : 5}
 
         />

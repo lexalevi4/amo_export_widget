@@ -124,7 +124,7 @@ export const new_object = () => {
 
 
         },
-        video: [],
+        video: '',
         isNewBuilding: false,
         deadlineQuarter: '',
         deadlineYear: '',
@@ -195,6 +195,22 @@ export const new_object = () => {
         metro: [],
         highways: [],
         parkingPurposeType: '',
+        roomsArea: '',
+        hasGracePeriod: false,
+        agentBonus: '',
+        agentBonusPaymentType: '',
+        leaseType: '',
+        utilitiesTermsIncludedInPrice: true,
+        utilitiesTermsPrice: '',
+        flowMetersNotIncludedInPrice: false,
+        leaseTermType: '',
+        prepayMonths: '',
+        // includedOptionsOperationalCosts:false,
+        includedOptionsUtilityCharges: false,
+        minLeaseTerm: ''
+        // agentFee:''
+
+
 
 
     }
