@@ -1,8 +1,9 @@
 import { useObjectFormState } from "@/app/objects/create/store";
-import { FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
+import { FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
 import { useMemo } from "react";
 
 function MySelect({ items, title, name,
+    requiredMessage = "Обязательное",
     //  setter, 
     width = 300, multiple = false, required = false }) {
 
@@ -65,8 +66,18 @@ function MySelect({ items, title, name,
                             ))
                     }
                 </Select>
+                {required && (
+                    <FormHelperText
+                        color="error"
+                        style={{
+                            color: 'red'
+                        }}
+                    >
+                        {requiredMessage}
+                    </FormHelperText>
+                )}
             </FormControl >
-        ), [value, name,items]))
+        ), [value, name, items]))
 }
 
 export default MySelect;

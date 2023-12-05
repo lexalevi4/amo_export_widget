@@ -44,7 +44,7 @@ function ShoppingArea({ flat, form_data }) {
         >
             <MyTextInput
                 type="number"
-
+                required={true}
                 name={'totalArea'}
              
                 title={"Общая площадь"}
@@ -70,12 +70,13 @@ function ShoppingArea({ flat, form_data }) {
 
                 type='number'
                 name={'floor'}
-              
+                required={true}
                 title={'Этаж'}
             />
 
             <MyTextInput
                 type='number'
+                required={true}
                 name={'floorsCount'}
             
                 title={'Этажность'}
@@ -155,7 +156,7 @@ function ShoppingArea({ flat, form_data }) {
 
                 items={conditions}
                 name={'condition'}
-              
+                required={true}
                 title={"Состояние"}
 
             />
@@ -206,7 +207,7 @@ function ShoppingArea({ flat, form_data }) {
         <MySelect
             items={form_data.input_type}
             name={'inputType'}
-        
+            required={true}
             title={"Вход"}
         />
         <Stack
@@ -245,6 +246,7 @@ function ShoppingArea({ flat, form_data }) {
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
                 name={'buildingType'}
+                required={true}
               
             />
 
@@ -260,7 +262,7 @@ function ShoppingArea({ flat, form_data }) {
             <MySelect
                 title={'Тип помещения'}
                 items={form_data.placement_type}
-
+                required={true}
                 name={'placementType'}
               
             // width={150}
@@ -300,7 +302,7 @@ function ShoppingArea({ flat, form_data }) {
 
                 items={materials}
                 name={'material'}
-              
+                required={true}
                 title={'Материал'}
             />
 

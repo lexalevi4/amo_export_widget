@@ -25,15 +25,16 @@ function Garage({  form_data }) {
         >
             <MySelect
                 items={form_data.garage_type}
-                name={'garage_type'}
+                name={'garageType'}
                 title={"Тип"}
+                
             
                 required={true}
             />
 
             <MySelect
                 items={form_data.garage_garage_type}
-                name={'garage_garage_type'}
+                name={'garageGarageType'}
                 title={"Тип гаража"}
              
                 required={true}
@@ -46,12 +47,13 @@ function Garage({  form_data }) {
             items={form_data.material.filter((item) => { return item.garage === 1 })}
             name={'material'}
             title={"Материал"}
+            required={true}
         
         />
 
         <MySelect
             items={form_data.garage_status}
-            name={'garage_status'}
+            name={'garageStatus'}
             title={"Статус"}
          
         />
@@ -61,6 +63,7 @@ function Garage({  form_data }) {
             name={'totalArea'}
          
             title={"Общая площадь"}
+            required={true}
         />
 
         <MyDivider

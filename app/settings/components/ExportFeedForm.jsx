@@ -25,6 +25,8 @@ function ExportFeedForm({ feed, }) {
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
 
+    const linkPrefix = "https://b.turbobroker.ru/feed?code=";
+    // const current_format = formats.filter(item=>item.id===feed.format)[0];
 
 
 
@@ -111,7 +113,7 @@ function ExportFeedForm({ feed, }) {
     }
 
     const copyLink = () => {
-        navigator.clipboard.writeText(feed.link);
+        navigator.clipboard.writeText(linkPrefix + feed.link);
         setAlert('Скопировано')
         setSnackbarOpen(true);
     }
@@ -244,7 +246,7 @@ function ExportFeedForm({ feed, }) {
                     <Paper
                         className="mt-5"
                         component="form"
-                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 750 }}
+                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 850 }}
                     >
                         <IconButton
                             onClick={copyLink}
@@ -252,11 +254,11 @@ function ExportFeedForm({ feed, }) {
                             <ContentCopyIcon />
                         </IconButton>
                         <InputBase
-                            value={feed.link}
+                            value={linkPrefix + feed.link}
                             sx={{ ml: 1, flex: 1 }}
                         />
                         <Link
-                            href={feed.link}
+                            href={linkPrefix + feed.link}
                             target="_blank"
                         >
                             <IconButton title="Открыть в браузере" type="button" sx={{ p: '10px' }} aria-label="search">

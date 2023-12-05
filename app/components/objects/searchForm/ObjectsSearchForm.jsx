@@ -775,18 +775,18 @@ function ObjectsSearchForm({ formData, leadId = 0 }) {
 
 
 
-        <YMaps
+        {/* <YMaps
             query={{
                 load: "package.full",
                 lang: "ru_RU",
                 // apikey: "e105999a-b1c1-4234-963f-21e492dca418"
             }}
-        >
+        > */}
             <MapSearchModal
                 isOpen={mapOpen}
                 setIsOpen={setMapOpen}
             />
-        </YMaps>
+        {/* </YMaps> */}
 
     </>);
 }

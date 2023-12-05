@@ -1,9 +1,11 @@
 "use client"
 import { useObjectFormState } from "@/app/objects/create/store";
-import { Box, FormControl,  TextField } from "@mui/material";
+import { Box, FormControl, FormHelperText, TextField } from "@mui/material";
 import { useMemo } from "react";
 
 function MyTextInput({ title, name,
+    required = false,
+    requiredMessage = 'Обязательное',
     // value,
     type = 'text', width = null }) {
 
@@ -42,6 +44,16 @@ function MyTextInput({ title, name,
                             value={value}
                             onChange={handler}
                         />
+                        {required && (
+                            <FormHelperText
+                                color="error"
+                                style={{
+                                    color: 'red'
+                                }}
+                            >
+                                {requiredMessage}
+                            </FormHelperText>
+                        )}
                     </FormControl>
                 </Box >
             </>), [value, name]))

@@ -20,6 +20,7 @@ function AdForm({ feeds, object, formData, ad, handleShowForm, updateData = () =
     const [endDate, setEndDate] = useState(ad.end_date > 0 ? dayjs(ad.end_date * 1000) : null);
     const [feedSettings, setFeedSettings] = useState(ad.feedSettings)
     const [feedFormatSettings, setFeedFormatSettings] = useState(ad.feedFormatSettings)
+    const [saving, setSaving] = useState(false);
 
 
     // console.log(endDate);
@@ -65,6 +66,13 @@ function AdForm({ feeds, object, formData, ad, handleShowForm, updateData = () =
     }
 
 
+    useEffect(()=>{
+
+        if (saving){
+            saveAd();
+        }
+
+    },[saving])
 
 
 
@@ -201,8 +209,9 @@ function AdForm({ feeds, object, formData, ad, handleShowForm, updateData = () =
                 <Button
                     // color="success"
                     variant="contained"
-                    // disabled={pipelinesButtonDisabled}
-                    onClick={saveAd}
+                    disabled={saving}
+                    // onClick={saveAd}
+                    onClick={()=>setSaving(true)}
                     className="mr-8"
                 >
                     Сохранить

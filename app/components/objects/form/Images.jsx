@@ -14,7 +14,7 @@ function Images({ }) {
     const inactiveImages = useObjectFormState((state) => state.flat.images.inactive);
     const moveImages = useObjectFormState((state) => state.moveImages);
     const [showInactive, setShowInactive] = useState(false);
-    const setter = useObjectFormState((state) => state.updateFlat);
+    const updateFlat = useObjectFormState((state) => state.updateFlat);
     const [imagesError, setImagesError] = useState('');
 
     // const images = getter('images');
@@ -27,6 +27,20 @@ function Images({ }) {
         return res;
     }
 
+
+    const setter = (data) => {
+
+        const active = activeImages.slice(0);
+        const inactive = inactiveImages.slice(0);
+        data.map(image=>{
+            active.push(image);
+        })
+        updateFlat('images',{
+            active:active,
+            inactive:inactive
+        });      
+
+    }
 
     const handleUpload = async (value) => {
 
@@ -127,7 +141,7 @@ function Images({ }) {
         </Typography>
         <MuiFileInput
             multiple
-            // inputProps={{ accept: '.png, .jpeg, .jpg' }}
+            inputProps={{ accept: '.png, .jpeg, .jpg' }}
 
             disabled={images_disabled}
             value={files}

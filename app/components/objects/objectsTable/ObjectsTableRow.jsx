@@ -52,7 +52,12 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
         })
         // console.log(current_obj)
 
-        return current_obj[0].name
+
+        try {
+            return current_obj[0].name
+        } catch (e) {
+            return "";
+        }
 
     }
 
@@ -436,7 +441,7 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                                             images={flat.list_images}
                                         />
                                         <Typography
-                                            dangerouslySetInnerHTML={ { __html: flat.description } }
+                                            dangerouslySetInnerHTML={{ __html: flat.description }}
                                             style={{
                                                 whiteSpace: 'pre-line'
                                             }}

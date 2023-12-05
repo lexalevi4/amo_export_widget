@@ -46,7 +46,7 @@ function CommercialLand({ flat, setter, getter, form_data }) {
                 name={'landArea'}
               
                 title={'Площадь участка'}
-                
+                required={true}
                 type="number"
             />
             <MySelect
@@ -66,6 +66,7 @@ function CommercialLand({ flat, setter, getter, form_data }) {
 
                 name={'landType'}
                 items={landTypes}
+                required={true}
                 
             />
             <MySwitch
@@ -80,6 +81,7 @@ function CommercialLand({ flat, setter, getter, form_data }) {
             <MySelect
                 title={'Категория земель'}
                 name={'landCategory'}
+                required={true}
                 items={form_data.land_category}
             
             />

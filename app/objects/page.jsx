@@ -7,6 +7,7 @@ import { Paper, Typography } from "@mui/material";
 import ObjectsTable from "../components/objects/objectsTable/ObjectsTable";
 import 'react-dadata/dist/react-dadata.css';
 import Objects from "../components/objects/Objects";
+import MapProvidedObjectSearchForm from "../components/objects/searchForm/MapProvidedObjectsSearchForm";
 
 
 async function Flats(searchParams) {
@@ -30,7 +31,7 @@ async function Flats(searchParams) {
 
 
 
-        <ObjectsSearchForm
+        <MapProvidedObjectSearchForm
             // searchParams={searchParams}
             formData={formData}
         />

@@ -24,9 +24,9 @@ import MultiAds from "./commercial/MultiAds";
 function Commercial({
     flat,
     form_data,
-    flat_object,
+    // ,
     // setter,
-    getter
+    // getter
 
 }) {
 
@@ -37,6 +37,7 @@ function Commercial({
     // const parkingIsFree = useObjectFormState((state) => state.flat['parkingIsFree']);
     const speciality = useObjectFormState((state) => state.flat['speciality']);
     const liftsCount = useObjectFormState((state) => state.flat['liftsCount']);
+    const flat_object = useObjectFormState((state) => state.flat['object']);
     
 
     // const parkingIsFree = getter('parkingIsFree');
@@ -160,7 +161,7 @@ function Commercial({
 
         )}
 
-        {(Number(flat_object) === 19 || flat_object === 20) && (
+        {(Number(flat_object) === 19 || Number(flat_object) === 20) && (
             <Business
                 flat={flat}
 
@@ -238,14 +239,14 @@ function Commercial({
 
         )}
 
-        <MyDivider
+        {/* <MyDivider
             title={"МультиОбъявление"}
 
-        />
-        <MultiAds
+        /> */}
+        {/* <MultiAds
             flat={flat}
        
-        />
+        /> */}
 
     </>);
 }

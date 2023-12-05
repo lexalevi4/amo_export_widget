@@ -22,13 +22,13 @@ function Warehouse({ flat, form_data }) {
     })
     const parkingIsFree = useObjectFormState((state) => state.flat['parkingIsFree']);
     const isOccupied = useObjectFormState((state) => state.flat['isOccupied']);
-    
-    
+
+
 
     const heating_types = form_data.heating_type.filter((item) => {
         return item.commercial === 1
     })
-    
+
 
     const conditions = form_data.condition_type.filter((item) => {
         return item.industry === 1;
@@ -46,7 +46,7 @@ function Warehouse({ flat, form_data }) {
                 type="number"
 
                 name={'totalArea'}
-              
+                required={true}
                 title={"Общая площадь"}
 
             />
@@ -55,7 +55,7 @@ function Warehouse({ flat, form_data }) {
                 type="number"
 
                 name={'minArea'}
-              
+
                 title={"Минимальная площадь"}
 
             />
@@ -67,17 +67,18 @@ function Warehouse({ flat, form_data }) {
             spacing={2}
         >
             <MyTextInput
-
+                required={true}
                 type='number'
                 name={'floor'}
-             
+
                 title={'Этаж'}
             />
 
             <MyTextInput
                 type='number'
+                required={true}
                 name={'floorsCount'}
-              
+
                 title={'Этажность'}
             />
 
@@ -89,10 +90,10 @@ function Warehouse({ flat, form_data }) {
             spacing={2}
         >
             <MySelect
-
+                required={true}
                 items={conditions}
                 name={'condition'}
-              
+
                 title={"Состояние"}
 
             />
@@ -101,7 +102,7 @@ function Warehouse({ flat, form_data }) {
                 title={'Материал пола'}
                 items={form_data.floor_material}
                 name={'floorMaterialType'}
-              
+
             />
         </Stack>
 
@@ -111,25 +112,25 @@ function Warehouse({ flat, form_data }) {
         >
             <MyTextInput
                 // width={350}
-               
+
 
                 name={'waterPipesCount'}
-              
+
                 title={"Мокрых точек"}
                 type="number"
 
             />
             <MyTextInput
                 // width={350}
-                
+
 
                 name={'power'}
-               
+
                 title={"Мощность (кВт)"}
                 type="number"
 
             />
-            
+
         </Stack>
 
         <Stack
@@ -140,7 +141,7 @@ function Warehouse({ flat, form_data }) {
 
 
                 name={'isOccupied'}
-              
+
                 title={isOccupied ? "Помещение занято до " : "Помещение занято"}
 
             />
@@ -153,7 +154,7 @@ function Warehouse({ flat, form_data }) {
                         items={form_data.month}
 
                         name={'freeMonth'}
-                     
+
                     />
 
                     <MySelect
@@ -162,7 +163,7 @@ function Warehouse({ flat, form_data }) {
                         items={form_data.year}
 
                         name={'freeYear'}
-                     
+
                     />
                 </>
 
@@ -181,9 +182,9 @@ function Warehouse({ flat, form_data }) {
                 // width={100}
                 title={'Планировка'}
                 items={form_data.layout}
-
+                required={true}
                 name={'layout'}
-              
+
             />
 
             <MyTextInput
@@ -191,8 +192,8 @@ function Warehouse({ flat, form_data }) {
                 title={'Высота потолков'}
 
                 name={'ceilingHeight'}
-               
-               
+
+
             />
 
 
@@ -206,7 +207,7 @@ function Warehouse({ flat, form_data }) {
 
 
                 name={'hasSafeCustody'}
-             
+
                 title={"Ответ. хранение"}
 
             />
@@ -214,7 +215,7 @@ function Warehouse({ flat, form_data }) {
 
 
                 name={'isCustoms'}
-             
+
                 title={"Таможня"}
 
             />
@@ -222,7 +223,7 @@ function Warehouse({ flat, form_data }) {
 
 
                 name={'hasTransportServices'}
-              
+
                 title={"Транспортные услуги"}
 
             />
@@ -232,7 +233,7 @@ function Warehouse({ flat, form_data }) {
             title={'Сетка колонн'}
 
             name={'columnGrid'}
-          
+
         />
         <MyDivider
             title={'Здание'}
@@ -245,7 +246,7 @@ function Warehouse({ flat, form_data }) {
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
                 name={'buildingType'}
-              
+
             />
 
             <MySelect
@@ -253,7 +254,7 @@ function Warehouse({ flat, form_data }) {
                 items={form_data.building_class_type}
 
                 name={'buildingClass'}
-             
+
                 width={150}
             />
 
@@ -268,7 +269,7 @@ function Warehouse({ flat, form_data }) {
                 items={form_data.building_status_type}
 
                 name={'buildingStatusType'}
-              
+
                 width={200}
             />
 
@@ -277,7 +278,7 @@ function Warehouse({ flat, form_data }) {
                 title={'Площадь здания'}
 
                 name={'buildingTotalArea'}
-              
+
             />
         </Stack>
 
@@ -290,7 +291,7 @@ function Warehouse({ flat, form_data }) {
 
                 items={materials}
                 name={'material'}
-              
+                required={true}
                 title={'Материал'}
             />
 
@@ -299,7 +300,7 @@ function Warehouse({ flat, form_data }) {
                 title={'Год постройки'}
 
                 name={'buildYear'}
-             
+
             />
 
 
@@ -315,9 +316,9 @@ function Warehouse({ flat, form_data }) {
 
                 items={heating_types}
                 name={'heatingType'}
-              
+
                 title={"Отопление"}
-              
+
                 width={200}
             />
 
@@ -325,18 +326,18 @@ function Warehouse({ flat, form_data }) {
 
                 items={form_data.communication_ventilation_type}
                 name={'ventilationType'}
-              
+
                 title={"Вентиляция"}
-                
+
                 width={200}
             />
             <MySelect
 
                 items={form_data.communication_conditioning_type}
                 name={'conditioningType'}
-               
+
                 title={"Кондиционирование"}
-                
+
                 width={200}
             />
 
@@ -344,10 +345,10 @@ function Warehouse({ flat, form_data }) {
 
                 items={form_data.extinguishing_system_type}
                 name={'extinguishingSystemTypes'}
-               
+
                 title={"Пожаротушение"}
                 multiple={true}
-                
+
             // width={200}
             />
 
@@ -356,11 +357,11 @@ function Warehouse({ flat, form_data }) {
         <MySelect
             items={form_data.access_type}
             name={'accessType'}
-          
+
             title={"Вход"}
         />
 
-       
+
         <Stack
             direction={"row"}
             spacing={2}
@@ -368,9 +369,9 @@ function Warehouse({ flat, form_data }) {
             <MyTextInput
 
                 name={'developer'}
-              
+
                 title={'Застройщик'}
-              
+
                 // type="number"
                 width={300}
 
@@ -378,9 +379,9 @@ function Warehouse({ flat, form_data }) {
             <MyTextInput
 
                 name={'managementCompany'}
-               
+
                 title={'Управляющая компания'}
-               
+
                 // type="number"
                 width={300}
 
@@ -392,7 +393,7 @@ function Warehouse({ flat, form_data }) {
         <Lifts
             items={form_data.lift_type.filter(item => item.industry === 1)}
             form_data={form_data}
-          
+
             show_capacity={true}
 
         />
@@ -400,11 +401,11 @@ function Warehouse({ flat, form_data }) {
         <Cranage
             // items={form_data.lift_type.filter(item => item.industry === 1)}
             form_data={form_data}
-          
+
             show_capacity={true}
 
         />
- <MyDivider
+        <MyDivider
             title={'Парковка'}
         />
         <Stack
@@ -416,22 +417,22 @@ function Warehouse({ flat, form_data }) {
                 items={form_data.parking_location_type}
                 name={'parkingLocationType'}
                 title={"Расположение"}
-              
+
                 width={200}
             />
-             <MySelect
+            <MySelect
                 items={form_data.parking_purpose_type}
                 name={'parkingPurposeType'}
                 title={"Назначение"}
-             
+
                 width={200}
             />
             <MyTextInput
 
                 name={'parkingPlacesCount'}
-               
+
                 title={'Количество мест'}
-               
+
                 type="number"
 
             />
@@ -441,17 +442,17 @@ function Warehouse({ flat, form_data }) {
                 name={'parkingIsFree'}
                 title={'Бесплатная'}
 
-            
+
             />
             {!parkingIsFree && (
                 <MyTextInput
 
                     name={'parkingPlacesPrice'}
-                  
+
                     title={'Стоимость въезда'}
-                  
+
                     type="number"
-                    // width={350}
+                // width={350}
                 />
             )
             }
@@ -466,9 +467,9 @@ function Warehouse({ flat, form_data }) {
         >
             <MyTextInput
                 name={'landArea'}
-              
+
                 title={'Площадь участка'}
-               
+
                 type="number"
             />
             <MySelect
@@ -476,10 +477,10 @@ function Warehouse({ flat, form_data }) {
 
                 items={form_data.land_area_unit_type}
                 name={'landAreaUnitType'}
-               
+
                 title={"Единица"}
-                // multiple={true}
-              
+            // multiple={true}
+
             // width={200}
             />
             {/* landAreaUnitType */}
@@ -490,10 +491,10 @@ function Warehouse({ flat, form_data }) {
             title={'Инфраструктура'}
         />
         <MultipleSwitchGroup
-           
+
             items={chunkedInfrastructure}
             name={'infrastructure'}
-           
+
         // maxCount={flat_object === 20 ? 1 : 5}
 
         />

@@ -1,9 +1,10 @@
-import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Stack, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, InputLabel, MenuItem, OutlinedInput, Paper, Select, Stack, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSettingsState } from "../store";
 import ExportPipelineRow from "./ExportPipelineRow";
 import { useState } from "react";
 import ExportFeedForm from "./ExportFeedForm";
+import Link from "next/link";
 
 function ExportTab({ }) {
     const pipelines = useSettingsState((state) => state.settings.pipelines);
@@ -83,6 +84,36 @@ function ExportTab({ }) {
                 <Typography>Фиды</Typography>
             </AccordionSummary>
             <AccordionDetails>
+                <Paper
+                    className="my-3 p-5"
+                    elevation={10}
+                >
+                    <Typography
+                        variant="h6"
+
+                    >
+                        Валидаторы
+                    </Typography>
+                    <Typography>
+                        <Link
+                            target="_blank"
+                            href={"https://www.cian.ru/nd/validator/?"}
+
+                        >
+                            Cian
+                        </Link>
+                    </Typography>
+                    <Typography>
+                        <Link
+                            target="_blank"
+                            href={"https://autoload.avito.ru/format/xmlcheck/"}
+                            
+                        >
+                            Avito
+                        </Link>
+                    </Typography>
+
+                </Paper>
                 {feeds.map((feed) => {
 
                     return (<ExportFeedForm

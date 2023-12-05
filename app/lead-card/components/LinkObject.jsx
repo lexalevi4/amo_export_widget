@@ -23,7 +23,7 @@ function LinkObject({ objects, value, leadId }) {
                 body: data,
             }).then(res => res.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                 })
             // }
         } catch (e) {

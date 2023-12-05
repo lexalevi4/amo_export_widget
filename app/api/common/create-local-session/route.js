@@ -67,7 +67,7 @@ export async function GET(req, response) {
     // const token = headers().get('x-auth-token');
     // console.log(token);
 
-    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvNzk3MDk5My5hbW9jcm0ucnUiLCJhdWQiOiJodHRwczpcL1wvdHVyYm9icm9rZXIucnUiLCJqdGkiOiIwZDA0NTRiMS1mMGVhLTQwZWUtOTcxOC02MDczMDg4MjIzZGYiLCJpYXQiOjE3MDExNjQyNjEsIm5iZiI6MTcwMTE2NDI2MSwiZXhwIjoxNzAxMTY2MDYxLCJhY2NvdW50X2lkIjoyNjUzMDM3NSwic3ViZG9tYWluIjoiNzk3MDk5MyIsImNsaWVudF91dWlkIjoiY2Y1OWMzZGYtZjU0Ny00MmI0LWI0MWMtMmJmNjY2NjNmNjY2IiwidXNlcl9pZCI6MzQyMTcwMiwiaXNfYWRtaW4iOnRydWV9.FK9JbdwoQdWYpWUx4CAtae-9t3aiS65LqY3YL69aOL4';
+    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvNzk3MDk5My5hbW9jcm0ucnUiLCJhdWQiOiJodHRwczpcL1wvdHVyYm9icm9rZXIucnUiLCJqdGkiOiI4MGQ0ODFiMy1iZWQzLTQ0YjktYmFiNi1hZjgwNmE2ZjA0YzEiLCJpYXQiOjE3MDE2MjMxNzEsIm5iZiI6MTcwMTYyMzE3MSwiZXhwIjoxNzAxNjI0OTcxLCJhY2NvdW50X2lkIjoyNjUzMDM3NSwic3ViZG9tYWluIjoiNzk3MDk5MyIsImNsaWVudF91dWlkIjoiNzU4OWJmMzAtYWEyZi00YjU3LTgwMjQtZDlkYjRiZmE0MzI1IiwidXNlcl9pZCI6MzQyMTcwMiwiaXNfYWRtaW4iOnRydWV9.1MbreAQoClay_HtQspRlLB8Yvq_pxCTQn_5lWzT8Q_Q';
     let result = [];
     let page = '/error';
 

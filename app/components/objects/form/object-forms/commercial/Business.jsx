@@ -8,15 +8,16 @@ function Business({  form_data, flat_object }) {
 
     const specialities = form_data.speciality.filter((item) => {
 
-        if (flat_object === 19) {
+        if (Number(flat_object) === 19) {
             return item.rent === 1
         }
-        if (flat_object === 20) {
+        if (Number(flat_object) === 20) {
             return item.ready === 1
         }
 
     })
     const chunkedSpecialities = chunkArray(specialities.sort(sortByName), Math.floor(specialities.length / 4));
+    console.log(chunkedSpecialities);
 
     return (<>
         <MyTextInput
@@ -37,6 +38,7 @@ function Business({  form_data, flat_object }) {
             name={'estateType'}
          
             title={'Недвижимость'}
+            
 
         />
 
@@ -48,7 +50,7 @@ function Business({  form_data, flat_object }) {
             items={chunkedSpecialities}
             name={'speciality'}
          
-            maxCount={flat_object === 20 ? 1 : 5}
+            maxCount={Number(flat_object) === 20 ? 1 : 5}
 
         />
         <MyTextInput

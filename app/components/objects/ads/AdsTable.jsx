@@ -1,6 +1,6 @@
 import { Button, Divider, FormControlLabel, IconButton, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import AdForm from "./AdForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import AdsTableRow from "./AdsTableRow";
 
@@ -10,6 +10,32 @@ function AdsTable({ object, feeds, formData }) {
     // console.log(object.ads);
     const [showForm, setShowForm] = useState(false)
     const [ads, setAds] = useState(object.ads);
+    const [duplicatedFeeds, setDuplicatedFeeds] = useState(false)
+
+
+    useEffect(() => {
+        let duplicated = false;
+        feeds.map(feed => {
+            let current = 0;
+            ads.map(ad => {
+                if (ad.active == 1) {
+                    if (ad.activeFeeds.includes(feed.id)) {
+                        current++;
+                    }
+                    if (current > 1) {
+                        duplicated = true;
+
+                    }
+                }
+                return true;
+            })
+            return true;
+        })
+
+        setDuplicatedFeeds(duplicated);
+
+    }, [ads])
+
     const promoTypes = {
         1: [
             { value: 'noPromotion', name: 'Без продвижения' },
@@ -61,7 +87,7 @@ function AdsTable({ object, feeds, formData }) {
                 let newFeed = {
                     zhk: null,
                     house: null,
-                    title:'',
+                    title: '',
                     id: feedFormat.id
                 };
 
@@ -168,6 +194,15 @@ function AdsTable({ object, feeds, formData }) {
 
         {ads.length > 0 && (
             <>
+                {duplicatedFeeds && (
+                    <Typography
+                        className="my-2"
+                        color={'error'}
+                        variant="h5"
+                    >
+                        Фиды дублируются в разных объявлениях!
+                    </Typography>
+                )}
                 <TableContainer>
                     <Table>
                         <TableBody>

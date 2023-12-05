@@ -12,7 +12,7 @@ function FreeAppointment({ flat,
     form_data }) {
 
 
-    
+
     const parkingIsFree = useObjectFormState((state) => state.flat['parkingIsFree']);
     const isOccupied = useObjectFormState((state) => state.flat['isOccupied']);
 
@@ -49,7 +49,7 @@ function FreeAppointment({ flat,
         >
             <MyTextInput
                 type="number"
-
+                required={true}
                 name={'totalArea'}
                 title={"Общая площадь"}
 
@@ -69,13 +69,14 @@ function FreeAppointment({ flat,
             spacing={2}
         >
             <MyTextInput
-
+                required={true}
                 type='number'
                 name={'floor'}
                 title={'Этаж'}
             />
 
             <MyTextInput
+                required={true}
                 type='number'
                 name={'floorsCount'}
                 title={'Этажность'}
@@ -94,7 +95,7 @@ function FreeAppointment({ flat,
                 // width={100}
                 title={'Планировка'}
                 items={form_data.layout}
-
+                required={true}
                 name={'layout'}
             />
 
@@ -147,7 +148,7 @@ function FreeAppointment({ flat,
 
                 items={conditions}
                 name={'condition'}
-
+                required={true}
                 title={"Состояние"}
 
             />
@@ -198,7 +199,7 @@ function FreeAppointment({ flat,
         <MySelect
             items={form_data.input_type}
             name={'inputType'}
-
+            required={true}
             title={"Вход"}
         />
         <Stack
@@ -235,6 +236,7 @@ function FreeAppointment({ flat,
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
                 name={'buildingType'}
+                required={true}
 
             />
 

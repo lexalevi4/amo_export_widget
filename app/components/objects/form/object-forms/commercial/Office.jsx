@@ -7,7 +7,7 @@ import { chunkArray, sortByName } from "@/app/heplers/heplers";
 import MultipleSwitchGroup from "../../MultipleSwitchGroup";
 import { useObjectFormState } from "@/app/objects/create/store";
 
-function Office({ flat,  form_data }) {
+function Office({ flat, form_data }) {
 
 
     const chunkedInfrastructure = chunkArray(form_data.infrastructure.sort(sortByName), Math.floor(form_data.infrastructure.length / 3))
@@ -15,13 +15,13 @@ function Office({ flat,  form_data }) {
     const materials = form_data.material.filter((item) => {
         return item.commercial === 1
     })
-    const parkingIsFree =  useObjectFormState((state) => state.flat.parkingIsFree)
-    const isOccupied =  useObjectFormState((state) => state.flat.isOccupied)
+    const parkingIsFree = useObjectFormState((state) => state.flat.parkingIsFree)
+    const isOccupied = useObjectFormState((state) => state.flat.isOccupied)
 
     const heating_types = form_data.heating_type.filter((item) => {
         return item.commercial === 1
     })
-    
+
     const conditions = form_data.condition_type.filter((item) => {
         return item.office === 1;
     });
@@ -42,8 +42,8 @@ function Office({ flat,  form_data }) {
                 type="number"
 
                 name={'totalArea'}
-                
-                
+
+                required={true}
                 title={"Общая площадь"}
 
             />
@@ -52,7 +52,7 @@ function Office({ flat,  form_data }) {
                 type="number"
 
                 name={'minArea'}
-                
+
                 title={"Минимальная площадь"}
 
             />
@@ -64,17 +64,17 @@ function Office({ flat,  form_data }) {
             spacing={2}
         >
             <MyTextInput
-
+                required={true}
                 type='number'
                 name={'floor'}
-            
+
                 title={'Этаж'}
             />
 
             <MyTextInput
                 type='number'
                 name={'floorsCount'}
-              
+                required={true}
                 title={'Этажность'}
             />
 
@@ -91,9 +91,9 @@ function Office({ flat,  form_data }) {
                 // width={100}
                 title={'Планировка'}
                 items={form_data.layout}
-
+                required={true}
                 name={'layout'}
-               
+
             />
 
             <MyTextInput
@@ -115,19 +115,19 @@ function Office({ flat,  form_data }) {
         >
             <MyTextInput
                 // width={350}
-                v
+                // v
 
                 name={'waterPipesCount'}
-              
+
                 title={"Мокрых точек"}
                 type="number"
 
             />
             <MyTextInput
                 // width={350}
-               
+
                 name={'power'}
-               
+
                 title={"Мощность (кВт)"}
                 type="number"
 
@@ -143,14 +143,14 @@ function Office({ flat,  form_data }) {
 
                 items={conditions}
                 name={'condition'}
-              
+                required={true}
                 title={"Состояние"}
 
             />
             <MySwitch
 
                 name={'hasFurniture'}
-              
+
                 title={"Мебель"}
 
             />
@@ -163,7 +163,7 @@ function Office({ flat,  form_data }) {
 
 
                 name={'isOccupied'}
-               
+
                 title={isOccupied ? "Помещение занято до " : "Помещение занято"}
 
             />
@@ -176,7 +176,7 @@ function Office({ flat,  form_data }) {
                         items={form_data.month}
 
                         name={'freeMonth'}
-                       
+
                     />
 
                     <MySelect
@@ -185,7 +185,7 @@ function Office({ flat,  form_data }) {
                         items={form_data.year}
 
                         name={'freeYear'}
-                       
+
                     />
                 </>
 
@@ -194,7 +194,7 @@ function Office({ flat,  form_data }) {
         <MySelect
             items={form_data.access_type}
             name={'accessType'}
-         
+            required={true}
             title={"Вход"}
         />
         <Stack
@@ -205,16 +205,16 @@ function Office({ flat,  form_data }) {
                 type="number"
 
                 name={'taxNumber'}
-               
-              
+
+
                 title={"Номер налоговой"}
 
             />
             <MySwitch
                 flat={flat}
-                
+
                 name={'isLegalAddressProvided'}
-                
+
                 title={"Юридический адрес предоставляется"}
 
             />
@@ -232,7 +232,8 @@ function Office({ flat,  form_data }) {
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
                 name={'buildingType'}
-              
+                required={true}
+
             />
 
             <MySelect
@@ -240,7 +241,7 @@ function Office({ flat,  form_data }) {
                 items={form_data.building_class_type}
 
                 name={'buildingClass'}
-              
+
                 width={150}
             />
 
@@ -255,7 +256,7 @@ function Office({ flat,  form_data }) {
                 items={form_data.building_status_type}
 
                 name={'buildingStatusType'}
-               
+
                 width={200}
             />
 
@@ -265,7 +266,7 @@ function Office({ flat,  form_data }) {
 
                 name={'buildingTotalArea'}
                 value={flat.buildingTotalArea}
-                
+
             />
         </Stack>
 
@@ -278,7 +279,7 @@ function Office({ flat,  form_data }) {
 
                 items={materials}
                 name={'material'}
-              
+
                 title={'Материал'}
             />
 
@@ -287,7 +288,7 @@ function Office({ flat,  form_data }) {
                 title={'Год постройки'}
 
                 name={'buildYear'}
-              
+
             />
 
 
@@ -303,9 +304,9 @@ function Office({ flat,  form_data }) {
 
                 items={heating_types}
                 name={'heatingType'}
-              
+
                 title={"Отопление"}
-                
+
                 width={200}
             />
 
@@ -313,18 +314,18 @@ function Office({ flat,  form_data }) {
 
                 items={form_data.communication_ventilation_type}
                 name={'ventilationType'}
-                
+
                 title={"Вентиляция"}
-              
+
                 width={200}
             />
             <MySelect
 
                 items={form_data.communication_conditioning_type}
                 name={'conditioningType'}
-                
+
                 title={"Кондиционирование"}
-                
+
                 width={200}
             />
 
@@ -332,10 +333,10 @@ function Office({ flat,  form_data }) {
 
                 items={form_data.extinguishing_system_type}
                 name={'extinguishingSystemTypes'}
-              
+
                 title={"Пожаротушение"}
                 multiple={true}
-             
+
             // width={200}
             />
 
@@ -344,7 +345,7 @@ function Office({ flat,  form_data }) {
         <MySelect
             items={form_data.access_type}
             name={'accessType'}
-          
+            required={true}
             title={"Вход"}
         />
 
@@ -357,15 +358,15 @@ function Office({ flat,  form_data }) {
                 items={form_data.parking}
                 name={'parking'}
                 title={"Парковка"}
-             
+
                 width={200}
             />
             <MyTextInput
 
                 name={'parkingPlacesCount'}
-                
+
                 title={'Количество мест'}
-                
+
                 type="number"
 
             />
@@ -375,15 +376,15 @@ function Office({ flat,  form_data }) {
                 name={'parkingIsFree'}
                 title={'Бесплатная'}
 
-               
+
             />
             {!parkingIsFree && (
                 <MyTextInput
 
                     name={'parkingPlacesPrice'}
-                    
+
                     title={'Стоимость место/месяц'}
-                    
+
                     type="number"
                     width={350}
                 />
@@ -398,7 +399,7 @@ function Office({ flat,  form_data }) {
             <MyTextInput
 
                 name={'developer'}
-             
+
                 title={'Застройщик'}
                 value={flat.developer}
                 // type="number"
@@ -408,9 +409,9 @@ function Office({ flat,  form_data }) {
             <MyTextInput
 
                 name={'managementCompany'}
-              
+
                 title={'Управляющая компания'}
-               
+
                 // type="number"
                 width={300}
 
@@ -428,7 +429,7 @@ function Office({ flat,  form_data }) {
         >
             <MyTextInput
                 name={'landArea'}
-              
+
                 title={'Площадь участка'}
                 value={flat.landArea}
                 type="number"
@@ -438,10 +439,10 @@ function Office({ flat,  form_data }) {
 
                 items={form_data.land_area_unit_type}
                 name={'landAreaUnitType'}
-              
+
                 title={"Единица"}
-                // multiple={true}
-               
+            // multiple={true}
+
             // width={200}
             />
             {/* landAreaUnitType */}
@@ -453,10 +454,10 @@ function Office({ flat,  form_data }) {
             title={'Инфраструктура'}
         />
         <MultipleSwitchGroup
-            
+
             items={chunkedInfrastructure}
             name={'infrastructure'}
-            
+
         // maxCount={flat_object === 20 ? 1 : 5}
 
         />

@@ -1,9 +1,11 @@
 "use client"
 import { useObjectFormState } from "@/app/objects/create/store";
-import { Button, ButtonGroup, FormControl, FormLabel } from "@mui/material";
+import { Button, ButtonGroup, FormControl, FormHelperText, FormLabel } from "@mui/material";
 import { useMemo } from "react";
 
 function MyButtonsGroup({ title, name, items,
+    required = false,
+    requiredMessage = 'Обязательное',
     // , setter, getter,
     // value,
     multipe = false
@@ -64,6 +66,17 @@ function MyButtonsGroup({ title, name, items,
                         })
                     }
                 </ButtonGroup>
+                {required && (
+                    <FormHelperText
+                        color="error"
+                        style={{
+                            color: 'red'
+                        }}
+                    >
+                        {requiredMessage}
+                    </FormHelperText>
+                )}
+
             </FormControl>
         ), [value, name, items]))
 }

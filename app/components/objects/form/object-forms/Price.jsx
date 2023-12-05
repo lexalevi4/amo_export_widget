@@ -48,15 +48,33 @@ function Price({
                     width: 300
                 }}
             >
-                <MyButtonsGroup
-                    flat={flat}
-                    title={'Тип продажи'}
-                    items={form_data.sale_type}
-                    name={'saleType'}
-                // setter={setSaleType}
-                // value={saleType}
 
-                />
+                {/*  */}
+                {Number(category) !== 3 && (
+                    <MyButtonsGroup
+                        flat={flat}
+                        title={'Тип продажи'}
+                        items={form_data.sale_type}
+                        name={'saleType'}
+                    // setter={setSaleType}
+                    // value={saleType}
+
+                    />
+                )}
+
+                {Number(category) === 3 && (
+                    <MyButtonsGroup
+                        flat={flat}
+                        title={'Тип продажи'}
+                        items={form_data.contract_type}
+                        name={'contractType'}
+                        required={true}
+                    // setter={setSaleType}
+                    // value={saleType}
+
+                    />
+                )}
+
             </Box>
         )}
 
@@ -91,6 +109,7 @@ function Price({
                 type='number'
                 // value={price}
                 // setter={setPrice}
+                required={true}
                 name={'price'}
                 title={'Цена'}
                 flat={flat}
@@ -152,6 +171,7 @@ function Price({
                     // flat={flat}
                     items={form_data.vat_type}
                     name={'vatType'}
+                    required={true}
                     // setter={setCurrency}
                     title={'НДС'}
                 // value={currency}
@@ -212,6 +232,7 @@ function Price({
                             // setter={setDeposit}
                             name={'deposit'}
                             title={'Депозит'}
+                            required={true}
                         // flat={flat}
                         />
 
@@ -220,6 +241,7 @@ function Price({
                             // value={fee}
                             // setter={setFee}
                             name={'fee'}
+                            required={true}
                             title={'Комиссия'}
                         // flat={flat}
                         />
@@ -234,6 +256,7 @@ function Price({
                             name={'leaseTermType'}
                             // setter={setCurrency}
                             title={'Срок аренды'}
+                            required={true}
                         // value={currency}
                         // width={150}
                         />
@@ -250,6 +273,7 @@ function Price({
                                 // flat={flat}
                                 items={form_data.lease_type}
                                 name={'leaseType'}
+                                required={true}
                                 // setter={setCurrency}
                                 title={'Тип аренды'}
                             // value={currency}

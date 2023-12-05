@@ -34,6 +34,8 @@ function Address({
 
     const dragEnd = (e) => {
         let coords = e.originalEvent.target.geometry.getCoordinates()
+        console.log(e);
+        console.log(coords);
         updateFlat('lat', coords[0])
         updateFlat('lng', coords[1])
 
@@ -134,6 +136,9 @@ function Address({
 
     }, [lat, lng, ymaps, map, flatId])
 
+    const updateAddrString = (e) => {
+        updateFlat('address', e.target.value)
+    }
 
     return (<>
         <Typography
@@ -155,8 +160,15 @@ function Address({
                     style={{
                         height: 56
                     }}
+                    // onAddrChange={test}
+                    inputProps={
+                        {
+                            onChange: updateAddrString
+                        }
 
+                    }
 
+                    httpCache
 
                     value={dadata_address}
                     defaultQuery={address}

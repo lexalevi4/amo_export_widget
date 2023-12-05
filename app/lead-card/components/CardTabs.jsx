@@ -9,8 +9,9 @@ import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import { YMaps } from "@pbe/react-yandex-maps";
+import LeadsTable from "./LeadsTable";
 
-function CardTabs({ objects, clients, formData, leadId, feeds }) {
+function CardTabs({ objects, clients, formData, leadId, feeds, leads }) {
     // const [activeTab, setActiveTab] = useState(1);
 
     // const handleChange = (event, newValue) => {
@@ -18,100 +19,103 @@ function CardTabs({ objects, clients, formData, leadId, feeds }) {
     // };
 
     return (<>
-
-        <Tabs
-            defaultValue={1}
-            // value={activeTab}
-            // onChange={handleChange}
-            // indicatorColor="secondary"
-            // textColor="inherit"
-            variant="fullWidth"
-        // aria-label="full width tabs example"
+        <YMaps
+            query={{
+                load: "package.full",
+                lang: "ru_RU",
+                apikey: "d75321b0-ad40-4b10-9d56-3fb3a34883a1"
+            }}
         >
-            <TabList
+            <Tabs
+                defaultValue={1}
+                // value={activeTab}
+                // onChange={handleChange}
+                // indicatorColor="secondary"
+                // textColor="inherit"
                 variant="fullWidth"
-                style={{
-                    // display:"flex",
-                    // position:'absolute',
-                    // overflow: "auto",
-                    // width: '100%',
-                    // maxWidth: 1000
-                }}
-                sx={{
-                    '--ListItem-radius': '0px',
-                    borderRadius: 0,
-                    [`& .${tabClasses.root}`]: {
-                        fontWeight: 'lg',
-                        flex: 1,
-                        bgcolor: 'background.body',
-                        position: 'relative',
-                        [`&.${tabClasses.selected}`]: {
-                            color: 'primary.500',
-                        },
-                        [`&.${tabClasses.selected}:before`]: {
-                            content: '""',
-                            display: 'block',
-                            position: 'absolute',
-                            bottom: -1,
-                            width: '100%',
-                            height: 2,
-                            bgcolor: 'primary.400',
-                        },
-                        [`&.${tabClasses.focusVisible}`]: {
-                            outlineOffset: '-3px',
-                        },
-                    },
-                }}
-
+            // aria-label="full width tabs example"
             >
-
-                <Tab
-                    label="Объекты"
-                    value={1}
-                >Объекты</Tab>
-                <Tab
-                    label="Заявки"
-                    value={2}
-                >Заявки</Tab>
-                <Tab
-                    label="Звонки"
-                    value={3}
-                >Звонки</Tab>
-            </TabList>
-
-
-            <TabPanel value={1}>
-                <Objects
-                    feeds={feeds}
-                    objects={objects}
-                    formData={formData}
-                    leadId={leadId}
-                />
-            </TabPanel>
-
-            <TabPanel value={2}>
-                <YMaps
-                    query={{
-                        load: "package.full",
-                        lang: "ru_RU",
-                        // apikey: "e105999a-b1c1-4234-963f-21e492dca418"
+                <TabList
+                    variant="fullWidth"
+                    style={{
+                        // display:"flex",
+                        // position:'absolute',
+                        // overflow: "auto",
+                        // width: '100%',
+                        // maxWidth: 1000
                     }}
+                    sx={{
+                        '--ListItem-radius': '0px',
+                        borderRadius: 0,
+                        [`& .${tabClasses.root}`]: {
+                            fontWeight: 'lg',
+                            flex: 1,
+                            bgcolor: 'background.body',
+                            position: 'relative',
+                            [`&.${tabClasses.selected}`]: {
+                                color: 'primary.500',
+                            },
+                            [`&.${tabClasses.selected}:before`]: {
+                                content: '""',
+                                display: 'block',
+                                position: 'absolute',
+                                bottom: -1,
+                                width: '100%',
+                                height: 2,
+                                bgcolor: 'primary.400',
+                            },
+                            [`&.${tabClasses.focusVisible}`]: {
+                                outlineOffset: '-3px',
+                            },
+                        },
+                    }}
+
                 >
+
+                    <Tab
+                        label="Объекты"
+                        value={1}
+                    >Объекты</Tab>
+                    <Tab
+                        label="Заявки"
+                        value={2}
+                    >Заявки</Tab>
+                    <Tab
+                        label="Звонки"
+                        value={3}
+                    >Звонки</Tab>
+                </TabList>
+
+
+                <TabPanel value={1}>
+                    <Objects
+                        feeds={feeds}
+                        objects={objects}
+                        formData={formData}
+                        leadId={leadId}
+                    />
+                </TabPanel>
+
+                <TabPanel value={2}>
+
                     <FIltersTable
                         leadId={leadId}
                         filters={clients}
                         formData={formData}
 
                     />
-                </YMaps>
 
-            </TabPanel>
-            <TabPanel value={3}>
-                <Typography variant="h5">
-                    Тут будут звонки
-                </Typography>
-            </TabPanel>
-        </Tabs>
+
+                </TabPanel>
+                <TabPanel value={3}>
+                    <LeadsTable
+                        formData={formData}
+                        leadId={leadId}
+                        leads={leads}
+                    />
+                </TabPanel>
+            </Tabs>
+        </YMaps>
     </>);
 }
 

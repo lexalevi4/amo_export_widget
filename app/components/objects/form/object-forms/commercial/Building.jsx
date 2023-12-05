@@ -54,6 +54,7 @@ function Building({ flat,
         <MySelect
             title={'Вход'}
             items={form_data.input_type}
+
             name={'inputType'}
             // getter={getter}
             // setter={setter}
@@ -100,6 +101,7 @@ function Building({ flat,
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
                 name={'buildingType'}
+                required={true}
                 // getter={getter}
                 // setter={setter}
             />
@@ -154,7 +156,7 @@ function Building({ flat,
                 name={'floorsCount'}
                 // setter={setter}
                 value={flat.floorsCount}
-
+                required={true}
                 title={"Количество этажей"}
             />
 
@@ -164,7 +166,7 @@ function Building({ flat,
                 name={'totalArea'}
                 // setter={setter}
                 // value={flat.totalArea}
-
+                required={true}
                 title={"Площадь здания"}
             />
         </Stack>

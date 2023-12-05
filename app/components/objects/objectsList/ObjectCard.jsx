@@ -497,7 +497,7 @@ function ObjectCard({ object, formData }) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogContent className="p-0">
-                    <YMaps>
+                    {/* <YMaps> */}
                         <Map defaultState={mapState}
                             width={'80vw'}
                             height={'65vh'}
@@ -507,7 +507,7 @@ function ObjectCard({ object, formData }) {
                             <RulerControl options={{ float: "right" }} />
                             <ZoomControl options={{ size: "small", float: "right" }} />
                         </Map>
-                    </YMaps>
+                    {/* </YMaps> */}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setMapOpen(false)} autoFocus>

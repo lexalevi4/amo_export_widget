@@ -1,5 +1,5 @@
 
-import {  Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import MyTextInput from "../MyTextInput";
 import MySwitch from "../MySwitch";
 import MySelect from "../MySelect";
@@ -13,16 +13,17 @@ function Suburban({
     // setter,
     // getter,
     // deal_type,
-    flat_object
+
 
 }) {
 
+    const flat_object = useObjectFormState((state) => state.flat['object']);
     const setter = useObjectFormState((state) => state.updateFlat);
     // const setter = useObjectFormState((state) => state.updateFlat);
     // state.flat.address
-    const hasWater = useObjectFormState((state) => state.hasWater);
-    const hasGas = useObjectFormState((state) => state.hasGas);
-    const hasDrainage = useObjectFormState((state) => state.hasDrainage);
+    const hasWater = useObjectFormState((state) => state.flat['hasWater']);
+    const hasGas = useObjectFormState((state) => state.flat['hasGas']);
+    const hasDrainage = useObjectFormState((state) => state.flat['hasDrainage']);
 
 
 
@@ -68,6 +69,7 @@ function Suburban({
                 setter={setter}
                 // value={flat.landArea}
                 title={'Площадь участка (сот.)'}
+                required={true}
             />
 
             <MyTextInput
@@ -86,15 +88,17 @@ function Suburban({
 
                 name={'landType'}
                 items={landTypes}
-                // getter={getter}
-                // setter={setter}
+                required={true}
+            // getter={getter}
+            // setter={setter}
             />
             <MySelect
                 title={'Категория земель'}
                 name={'landCategory'}
                 items={form_data.land_category}
-                // getter={getter}
-                // setter={setter}
+                required={true}
+            // getter={getter}
+            // setter={setter}
             />
         </Stack>
         <Stack spacing={2} direction={"row"}>
@@ -138,6 +142,7 @@ function Suburban({
                         // setter={setter}
                         // value={flat.totalArea}
                         title={'Площадь дома'}
+                        required={true}
                     />
                     <MyTextInput
                         type='number'
@@ -145,6 +150,7 @@ function Suburban({
                         // setter={setter}
                         // value={flat.bedroomsCount}
                         title={'Количество спален'}
+                        required={true}
                     />
                     <MyTextInput
 
@@ -153,6 +159,7 @@ function Suburban({
                         // setter={setter}
                         // value={flat.floorsCount}
                         title={'Этажность'}
+                        required={true}
                     />
                 </Stack>
 
@@ -165,6 +172,7 @@ function Suburban({
                             // setter={setter}
                             // value={flat.shareAmount}
                             title={'Размер доли'}
+                            required={true}
                         />
                     )
                 }
@@ -177,8 +185,9 @@ function Suburban({
                         items={conditions}
                         name={'condition'}
                         title={"Состояние"}
-                        // getter={getter}
-                        // setter={setter}
+                        required={true}
+                    // getter={getter}
+                    // setter={setter}
                     />
 
                     <MySelect
@@ -187,6 +196,7 @@ function Suburban({
                         // getter={getter}
                         // setter={setter}
                         title={"Ремонт"}
+                        required={true}
                     />
 
                 </Stack>
@@ -207,7 +217,8 @@ function Suburban({
                         name={'material'}
                         // setter={setter}
                         title={"Материал"}
-                        // getter={getter}
+                        required={true}
+                    // getter={getter}
                     />
                 </Stack>
 
@@ -331,8 +342,8 @@ function Suburban({
                     items={water_types}
                     flat={flat}
                     name={'waterType'}
-                    // getter={getter}
-                    // setter={setter}
+                // getter={getter}
+                // setter={setter}
                 />
             )}
 
@@ -352,8 +363,8 @@ function Suburban({
                     items={gas_types}
                     flat={flat}
                     name={'gasType'}
-                    // getter={getter}
-                    // setter={setter}
+                // getter={getter}
+                // setter={setter}
                 />
             )}
 
@@ -375,16 +386,16 @@ function Suburban({
                     items={drainage_types}
 
                     name={'drainageType'}
-                    // getter={getter}
-                    // setter={setter}
+                // getter={getter}
+                // setter={setter}
                 />
             )}
 
         </Stack>
 
         <FurnitureTechnics
-            // setter={setter}
-            // getter={getter}
+        // setter={setter}
+        // getter={getter}
         />
 
 

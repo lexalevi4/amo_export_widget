@@ -10,13 +10,14 @@ import FurnitureTechnics from "./FurnitureTechnics";
 
 function FlatSale({
     form_data,
-    object,
+    // object,
     setter,
     getter,
     flat
 }) {
 
 
+    const object = useObjectFormState((state) => state.flat['object']);
     const deal_type = useObjectFormState((state) => state.flat.deal_type)
     const isNewBuilding = useObjectFormState((state) => state.flat.isNewBuilding)
 
@@ -36,9 +37,9 @@ function FlatSale({
                 title={'Тип недвижимости'}
                 items={form_data.apartments}
                 name={'isApartments'}
-                setter={setter}
-                value={flat.isApartments}
-                getter={getter}
+            // setter={setter}
+            // value={flat.isApartments}
+            // getter={getter}
 
             />
         </Box>
@@ -46,13 +47,14 @@ function FlatSale({
         <MyButtonsGroup
             // flat={flat}
             classname='mt-5'
-            title='Количество комнат'
+            title='Количество комнат *'
             items={form_data.rooms}
-            setter={setter}
+            // setter={setter}
             // value={flat.rooms}
             name={'rooms'}
-            getter={getter}
+            // getter={getter}
             multipe={false}
+            required={true}
         />
 
 
@@ -61,9 +63,10 @@ function FlatSale({
                 // flat={flat}
                 type='number'
                 name={'roomsForSale'}
-                setter={setter}
-                value={flat.roomsForSale}
+                // setter={setter}
+                // value={flat.roomsForSale}
                 title={'Комнат продаётся'}
+                required={true}
             />
         )}
 
@@ -72,17 +75,18 @@ function FlatSale({
                 // flat={flat}
                 type='number'
                 name={'shareAmount'}
-                setter={setter}
-                value={flat.shareAmount}
+                // setter={setter}
+                // value={flat.shareAmount}
                 title={'Размер доли'}
+                required={true}
             />
         )}
         <MyTextInput
             flat={flat}
             // type='number'
             name={'cadNumber'}
-            setter={setter}
-            value={flat.cadNumber}
+            // setter={setter}
+            // value={flat.cadNumber}
             title={'Кадастровый номер'}
         />
 
@@ -93,25 +97,33 @@ function FlatSale({
             <MyTextInput
                 type='number'
                 name={'totalArea'}
-                setter={setter}
-                value={flat.totalArea}
+                // setter={setter}
+                // value={flat.totalArea}
                 title={'Общая площадь'}
+                required={true}
             />
 
             <MyTextInput
                 type='number'
                 name={'livingArea'}
-                setter={setter}
-                value={flat.livingArea}
+                // setter={setter}
+                // value={flat.livingArea}
                 title={'Жилая площадь'}
             />
             <MyTextInput
                 type='number'
                 name={'kitchenArea'}
-                setter={setter}
-                value={flat.kitchenArea}
+                // setter={setter}
+                // value={flat.kitchenArea}
                 title={'Площадь кухни'}
+                required={true}
+                requiredMessage={"Обязательное кроме студий"}
             />
+
+            <Typography>
+                Сумма жилой и кухни должна быть<br />
+                 меньше общей минимум на 6кв.
+            </Typography>
 
         </Stack>
         <Stack
@@ -121,8 +133,8 @@ function FlatSale({
             <MyTextInput
 
                 name={'roomsArea'}
-                setter={setter}
-                value={flat.roomsArea}
+                // setter={setter}
+                // value={flat.roomsArea}
                 title={'Площадь комнат'}
             />
             <Typography>
@@ -139,24 +151,26 @@ function FlatSale({
             <MyTextInput
                 type='number'
                 name={'floor'}
-                setter={setter}
-                value={flat.floor}
+                // setter={setter}
+                // value={flat.floor}
                 title={'Этаж'}
+                required={true}
             />
 
             <MyTextInput
                 type='number'
                 name={'floorsCount'}
-                setter={setter}
-                value={flat.floorsCount}
+                // setter={setter}
+                // value={flat.floorsCount}
                 title={'Этажность'}
+                required={true}
             />
 
             <MySwitch
                 getter={getter}
                 name={'isPenthouse'}
-                value={flat.isPenthouse}
-                setter={setter}
+                // value={flat.isPenthouse}
+                // setter={setter}
                 title={"Пентхаус"}
             />
 
@@ -168,17 +182,19 @@ function FlatSale({
             <MySelect
                 items={form_data.plan}
                 name={'plan'}
-                setter={setter}
-                getter={getter}
+                // setter={setter}
+                // getter={getter}
                 title={"Планировка"}
+                required={true}
+                requiredMessage={"Обязательное от 2к"}
             // value={plan}
             />
             <MySwitch
                 // flat={flat}
                 name={'isEuroFlat'}
                 // value={isEuroFlat}
-                setter={setter}
-                getter={getter}
+                // setter={setter}
+                // getter={getter}
                 title={"ЕвроПланировка"}
             />
 
@@ -187,9 +203,10 @@ function FlatSale({
             // flat={flat}
             items={form_data.repair}
             name={'repair'}
-            setter={setter}
-            getter={getter}
+            // setter={setter}
+            // getter={getter}
             title={"Ремонт"}
+            required={true}
         // value={repair}
         />
 
@@ -203,8 +220,8 @@ function FlatSale({
                 // flat={flat}
                 type='number'
                 name={'balconiesCount'}
-                setter={setter}
-                value={flat.balconiesCount}
+                // setter={setter}
+                // value={flat.balconiesCount}
                 title={'Балконы'}
             />
 
@@ -212,8 +229,8 @@ function FlatSale({
                 // flat={flat}
                 type='number'
                 name={'loggiasCount'}
-                setter={setter}
-                value={flat.loggiasCount}
+                // setter={setter}
+                // value={flat.loggiasCount}
                 title={'Лоджии'}
             />
 
@@ -228,8 +245,8 @@ function FlatSale({
                 // flat={flat}
                 type='number'
                 name={'combinedWcsCount'}
-                setter={setter}
-                value={flat.combinedWcsCount}
+                // setter={setter}
+                // value={flat.combinedWcsCount}
                 title={'Совмешённые СУ'}
             />
 
@@ -237,24 +254,24 @@ function FlatSale({
                 // flat={flat}
                 type='number'
                 name={'separateWcsCount'}
-                setter={setter}
-                value={flat.separateWcsCount}
+                // setter={setter}
+                // value={flat.separateWcsCount}
                 title={'Раздельные СУ'}
             />
             <MySwitch
                 // flat={flat}
                 name={'hasBathtub'}
                 // value={hasBathtub}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 title={"Ванна"}
             />
             <MySwitch
                 // flat={flat}
                 name={'hasShower'}
                 // value={hasShower}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 title={"Душ"}
             />
 
@@ -276,22 +293,22 @@ function FlatSale({
             <MySwitch
                 // flat={flat}
                 name={'windowsYard'}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 title={"Во двор"}
             />
             <MySwitch
                 // flat={flat}
                 name={'windowsStreet'}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 title={"На улицу"}
             />
             <MySwitch
                 // flat={flat}
                 name={'windowsSunny'}
-                getter={getter}
-                setter={setter}
+                // getter={getter}
+                // setter={setter}
                 title={"На солнечную сторону"}
             />
 
@@ -314,8 +331,8 @@ function FlatSale({
                     title={'Готовность'}
                     items={form_data.newBuilding}
                     name={'isNewBuilding'}
-                    setter={setter}
-                    getter={getter}
+                // setter={setter}
+                // getter={getter}
 
                 />
             </Box>
@@ -327,8 +344,8 @@ function FlatSale({
                 // flat={flat}
                 type='number'
                 name={'buildYear'}
-                setter={setter}
-                value={flat.buildYear}
+                // setter={setter}
+                // value={flat.buildYear}
                 title={'Год постройки'}
             />
 
@@ -346,8 +363,8 @@ function FlatSale({
                         width={100}
                         items={form_data.deadlineQuarter}
                         name={'deadlineQuarter'}
-                        setter={setter}
-                        getter={getter}
+                        // setter={setter}
+                        // getter={getter}
                         title={'Квартал'}
                     />
 
@@ -355,15 +372,15 @@ function FlatSale({
                         width={300}
                         items={form_data.deadlineYear}
                         name={'deadlineYear'}
-                        setter={setter}
-                        getter={getter}
+                        // setter={setter}
+                        // getter={getter}
                         title={'Год'}
                     />
 
                     <MySwitch
                         name={'isComplete'}
-                        setter={setter}
-                        getter={getter}
+                        // setter={setter}
+                        // getter={getter}
                         title={"Сдан"}
                     />
 
@@ -376,9 +393,10 @@ function FlatSale({
         <MySelect
             items={form_data.material.filter((item) => item.main === 1)}
             name={'material'}
-            setter={setter}
-            getter={getter}
+            // setter={setter}
+            // getter={getter}
             title={"Материал"}
+            required={true}
 
         />
 
@@ -389,7 +407,7 @@ function FlatSale({
             <MyTextInput
                 type='number'
                 name={'passengerLiftsCount'}
-                setter={setter}
+                // setter={setter}
                 value={flat.passengerLiftsCount}
                 title={'Пассажирские лифты'}
             />
@@ -398,7 +416,7 @@ function FlatSale({
 
                 type='number'
                 name={'cargoLiftsCount'}
-                setter={setter}
+                // setter={setter}
                 value={flat.cargoLiftsCount}
                 title={'Грузовые лифты'}
             />
@@ -410,15 +428,15 @@ function FlatSale({
 
             items={form_data.parking}
             name={'parking'}
-            setter={setter}
-            getter={getter}
+            // setter={setter}
+            // getter={getter}
             title={"Парковка"}
 
         />
 
         <FurnitureTechnics
-            setter={setter}
-            getter={getter}
+        // setter={setter}
+        // getter={getter}
         />
 
 

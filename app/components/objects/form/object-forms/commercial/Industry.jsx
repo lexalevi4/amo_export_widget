@@ -45,7 +45,7 @@ function Industry({ form_data }) {
         >
             <MyTextInput
                 type="number"
-
+                required={true}
                 name={'totalArea'}
 
                 title={"Общая площадь"}
@@ -71,14 +71,14 @@ function Industry({ form_data }) {
 
                 type='number'
                 name={'floor'}
-
+                required={true}
                 title={'Этаж'}
             />
 
             <MyTextInput
                 type='number'
                 name={'floorsCount'}
-
+                required={true}
                 title={'Этажность'}
             />
 
@@ -93,7 +93,7 @@ function Industry({ form_data }) {
 
                 items={conditions}
                 name={'condition'}
-
+                required={true}
                 title={"Состояние"}
 
             />
@@ -246,7 +246,7 @@ function Industry({ form_data }) {
                 title={'Тип здания'}
                 items={form_data.building_type.sort(sortByName)}
                 name={'buildingType'}
-
+                required={true}
             />
 
             <MySelect
@@ -291,7 +291,7 @@ function Industry({ form_data }) {
 
                 items={materials}
                 name={'material'}
-
+                required={true}
                 title={'Материал'}
             />
 
@@ -357,7 +357,7 @@ function Industry({ form_data }) {
         <MySelect
             items={form_data.access_type}
             name={'accessType'}
-
+            required={true}
             title={"Вход"}
         />
 

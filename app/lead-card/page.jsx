@@ -17,10 +17,13 @@ async function Page({ searchParams }) {
 
 
     const current_session = await session.getAll();
+    // console.log('lead_card ' + id)
 
 
 
     const leadId = Number(searchParams?.lead_id) || 0;
+
+    console.log('lead_card ' + leadId)
     if (leadId === 0) {
         return <>
             <Typography>
@@ -29,7 +32,7 @@ async function Page({ searchParams }) {
         </>
     }
     const data = await getLeadData(leadId);
-    console.log(data);
+    // console.log(data);
     if (!current_session?.account_id) {
         return (<>
             <Typography>
@@ -40,7 +43,7 @@ async function Page({ searchParams }) {
     const formData = await getFormData();
 
 
-    console.log(data.all_objects)
+    // console.log(data.all_objects)
 
 
     return (<>
@@ -65,6 +68,7 @@ async function Page({ searchParams }) {
             feeds={data.feeds}
             objects={data.objects}
             clients={data.clients}
+            leads={data.leads}
             leadId={leadId}
             formData={formData}
         />

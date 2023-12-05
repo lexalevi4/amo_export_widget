@@ -72,36 +72,41 @@ export async function POST(req, response) {
     for (const formDataEntryValue of formDataEntryValues) {
         if (typeof formDataEntryValue === "object" && "arrayBuffer" in formDataEntryValue) {
             let file = formDataEntryValue;
-            filesCount++;
-            filesSize += file.size;
+
 
             let ext = file.name
                 .split('.')
                 .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
                 .slice(1)
                 .join('.');
-
-            // console.log(ext)
-            if (!exts.includes(ext)){
-                // console.log('filter');
-                return NextResponse.json(result);
+            if (exts.includes(ext.toLowerCase())) {
+                filesCount++;
+                filesSize += file.size;
             }
 
+            // console.log(ext)
+
+
             // if (ext !== 'jpg' || ext !== 'png' || ext !== 'jpeg') {
-                
+
             // }
 
         }
     }
+
+    console.log(filesSize);
+    console.log(filesCount);
     if (filesSize > maxFilesSize) {
+        console.log('maxSize')
         return NextResponse.json(result);
     }
     if (filesCount > maxFilesCount) {
+        console.log('maxCount')
         return NextResponse.json(result);
     }
 
-    // console.log(filesSize);
-    // console.log(filesCount);
+    console.log(filesSize);
+    console.log(filesCount);
     // return NextResponse.json(result);
 
     // await sendPostFormData(process.env.API_URL + 'api/add-images',formData);
@@ -115,47 +120,34 @@ export async function POST(req, response) {
                 .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
                 .slice(1)
                 .join('.')
-            const newFilename = randomUUID() + '.' + ext;
+            if (exts.includes(ext.toLowerCase())) {
+                // console.log('filter');
+                const newFilename = randomUUID() + '.' + ext;
 
-            const buffer = Buffer.from(await file.arrayBuffer());
-
-            // const form = new FormData();
-            // form.append('file', buffer, newFilename);
-            // // const salt = await getSalt();
-            // // const sign = await getSign(salt);
-            // // console.log('asdfasdf')
-            // // console.log(url)
-            // // console.log(formData)
-            // const req = await fetch(url, {
-            //     method: 'POST',
-            //     body: formData,
-            //     // headers: {
-            //     //     "Content-Type": "application/json",
-            //     //     "Accept": "application/json",
-            //     //     'auth': getSessionId() + ':' + sign.sign + ':' + salt + ':' + sign.timestamp
-            //     // },
-            // })
+                const buffer = Buffer.from(await file.arrayBuffer());
 
 
+                const mid = await resize(buffer, newFilename, ext, 'mid', 400, 400, s3);
+                console.log(mid)
+                const thumb = await resize(buffer, newFilename, ext, 'thumb', 200, 200, s3);
+                console.log(thumb)
+                const upload = await s3.Upload(
+                    {
+                        buffer: buffer,
+                        name: newFilename,
+                    },
+                    '/full/'
+                )
+                await upload.Location;
+                result.push(newFilename)
+            }
 
-            const mid = await resize(buffer, newFilename, ext, 'mid', 400, 400, s3);
-            console.log(mid)
-            const thumb = await resize(buffer, newFilename, ext, 'thumb', 200, 200, s3);
-            console.log(thumb)
-            const upload = await s3.Upload(
-                {
-                    buffer: buffer,
-                    name: newFilename,
-                },
-                '/full/'
-            )
-            await upload.Location;
-            result.push(newFilename)
             // mid.then(console.log);
 
 
         }
     }
+    console.log(result);
 
     return NextResponse.json(result);
 

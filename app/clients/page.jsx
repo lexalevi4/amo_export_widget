@@ -1,8 +1,9 @@
 
 import { getFormData, sendPostRequest } from "../heplers/backendApiHandler";
 
-import { Paper, Typography } from "@mui/material";
-import FiltersTable from "./components/FIltersTable";
+// import { Paper, Typography } from "@mui/material";
+// import FiltersTable from "./components/FIltersTable";
+import ClientsPageComponent from "./components/ClientsPageComponent";
 
 
 
@@ -16,8 +17,8 @@ async function Clients(searchParams) {
 
     return (
         <>
-            <FiltersTable
-                filters={data.filters}
+            <ClientsPageComponent
+                data={data}
                 formData={formData}
 
             />

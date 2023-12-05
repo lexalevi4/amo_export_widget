@@ -26,7 +26,8 @@ export async function POST(req, response) {
     try {
 
 
-        const cached = await client.get(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded)
+        // const cached = await client.get(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded)
+        const cached = false
         if (cached) {
             try {
                 await client.quit();
