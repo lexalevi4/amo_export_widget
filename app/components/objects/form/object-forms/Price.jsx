@@ -2,7 +2,7 @@
 import MyTextInput from "../MyTextInput";
 import MySwitch from "../MySwitch";
 import MySelect from "../MySelect";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import MyButtonsGroup from "../MyButtonsGroup";
 import { useObjectFormState } from "@/app/objects/create/store";
 import { useEffect } from "react";
@@ -28,10 +28,17 @@ function Price({
     const utilitiesTermsIncludedInPrice = useObjectFormState((state) => state.flat.utilitiesTermsIncludedInPrice);
     const category = useObjectFormState((state) => state.flat.category);
     const deal_type = useObjectFormState((state) => state.flat.deal_type);
+    const isNewBuilding = useObjectFormState((state) => state.flat.isNewBuilding)
+    const cplModerationPersonType = useObjectFormState((state) => state.flat.cplModerationPersonType)
     useEffect(() => {
         console.log(utilitiesTermsIncludedInPrice)
 
     }, [utilitiesTermsIncludedInPrice])
+
+    const cplItems = [
+        { id: 1, "name": "Частное лицо" },
+        { id: 2, "name": "Юридическое лицо" },
+    ]
 
 
     console.log(utilitiesTermsIncludedInPrice)
@@ -77,6 +84,77 @@ function Price({
 
             </Box>
         )}
+
+        {isNewBuilding && (<>
+            <Typography>Данные собственника</Typography>
+            <Box
+                sx={{
+                    width: 500
+                }}
+            >
+                <MyButtonsGroup
+                    // flat={flat}
+                    title={'Тип'}
+                    items={cplItems}
+                    name={'cplModerationPersonType'}
+                    required={true}
+                    requiredMessage="Для циана"
+                // setter={setSaleType}
+                // value={saleType}
+
+                />
+            </Box>
+            <Stack
+                direction={'row'}
+                spacing={2}
+            >
+                {Number(cplModerationPersonType) === 1 && (
+                    <>
+                        <MyTextInput
+                            name={'cplModerationFirstName'}
+                            title={'Имя'}
+                            required={true}
+                            requiredMessage="Для циана"
+                        />
+                        <MyTextInput
+                            name={'cplModerationSecondName'}
+                            title={'Отчество'}
+                            required={true}
+                            requiredMessage="Для циана"
+                        />
+                        <MyTextInput
+                            name={'cplModerationLastName'}
+                            title={'Фамилия'}
+                            required={true}
+                            requiredMessage="Для циана"
+                        />
+                    </>
+                )}
+                {Number(cplModerationPersonType) === 2 && (
+                    <>
+                        <MyTextInput
+                            name={'cplModerationInn'}
+                            title={'ИНН'}
+                            required={true}
+                            requiredMessage="Для циана"
+                        />
+                    </>
+                )}
+
+            </Stack>
+
+
+            <MyTextInput
+
+                width={500}
+                name={'cplModerationRosreestrRegistrationNumber'}
+                title={'Номер регистрации ДДУ в Росреестре'}
+                required={true}
+                requiredMessage="Для циана для объектов, купленных после 1 марта 2023 года"
+            />
+
+
+        </>)}
 
         {Number(deal_type) === 2 && Number(category) !== 3 && (
             <Stack
@@ -231,7 +309,7 @@ function Price({
                             // value={deposit}
                             // setter={setDeposit}
                             name={'deposit'}
-                            title={'Депозит'}
+                            title={'Депозит (рублей)'}
                             required={true}
                         // flat={flat}
                         />
@@ -242,7 +320,8 @@ function Price({
                             // setter={setFee}
                             name={'fee'}
                             required={true}
-                            title={'Комиссия'}
+                            requiredMessage="авито от 0 до 200, циан до 100"
+                            title={'Комиссия (%) '}
                         // flat={flat}
                         />
                     </Stack>

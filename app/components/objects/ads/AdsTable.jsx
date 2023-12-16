@@ -11,10 +11,35 @@ function AdsTable({ object, feeds, formData }) {
     const [showForm, setShowForm] = useState(false)
     const [ads, setAds] = useState(object.ads);
     const [duplicatedFeeds, setDuplicatedFeeds] = useState(false)
+    const [activeAdsCount, setActiveAdsCount] = useState(0);
+
+
+    const updateActive = (id) => {
+        let new_ads = [];
+        let current_ads = ads.slice(0);
+        current_ads.map(ad => {
+
+            if (ad.id === id) {
+                new_ads.push({ ...ad, active: !ad.active });
+            } else {
+                new_ads.push(ad);
+            }
+        })
+        setAds(new_ads);
+    }
 
 
     useEffect(() => {
         let duplicated = false;
+        let activeAds = 0;
+
+        ads.map(ad => {
+            if (ad.active == 1) {
+                activeAds++;
+            }
+            return true;
+        })
+
         feeds.map(feed => {
             let current = 0;
             ads.map(ad => {
@@ -31,6 +56,7 @@ function AdsTable({ object, feeds, formData }) {
             })
             return true;
         })
+        setActiveAdsCount(activeAds);
 
         setDuplicatedFeeds(duplicated);
 
@@ -185,6 +211,17 @@ function AdsTable({ object, feeds, formData }) {
 
     }
 
+    const handleCreate = () => {
+        if (activeAdsCount > 0) {
+            if (window.confirm('У объекта есть актинвные объявления. Точно нужно создать ещё?')) {
+                handleShowForm();
+            }
+        } else {
+            handleShowForm();
+        }
+
+    }
+
     const handleShowForm = () => {
         setShowForm(!showForm)
     }
@@ -200,7 +237,9 @@ function AdsTable({ object, feeds, formData }) {
                         color={'error'}
                         variant="h5"
                     >
-                        Фиды дублируются в разных объявлениях!
+                        Фиды дублируются в разных объявлениях!<br />
+                        Объявления будут продублированы или заблокированы!<br />
+                        Уберите дублирующиеся фиды или удалите/отключите лишнее объявление.
                     </Typography>
                 )}
                 <TableContainer>
@@ -215,6 +254,7 @@ function AdsTable({ object, feeds, formData }) {
                                         object={object}
                                         ad={ad}
                                         setAds={setAds}
+                                        updateActive={updateActive}
                                     />
 
                                 )
@@ -230,10 +270,12 @@ function AdsTable({ object, feeds, formData }) {
 
         {!showForm && (
             <Button
-                onClick={handleShowForm}
+                
+                onClick={handleCreate}
                 className="my-2"
                 variant="contained"
-            >Создать объявление</Button>
+                color="secondary"
+            >Создать новое объявление</Button>
         )}
 
         <Divider

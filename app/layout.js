@@ -41,10 +41,10 @@ export default function RootLayout({ children }) {
 
 
   return (
-    <html lang="en">
+    <html lang="ru">
       <body id='root' className={inter.className}>
         {/* <StyledEngineProvider injectFirst> */}
-        <Suspense fallback={<LoadingTb />}>
+        {/* <Suspense fallback={<LoadingTb />}> */}
           <Box className="bg-white pb-8">
             <Box className="
             
@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
               {children}
             </Box>
           </Box>
-        </Suspense>
+        {/* </Suspense> */}
         {/* </StyledEngineProvider> */}
       </body>
     </html>

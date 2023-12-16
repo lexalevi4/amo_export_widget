@@ -12,7 +12,7 @@ export async function GET(request, response) {
     const { searchParams } = new URL(request.url);
     const lat = searchParams.get('lat');
     const lng = searchParams.get('lng');
-    var query = { lat: lat, lon: lng, count: 1 };
+    var query = { lat: lat, lon: lng, count: 1 , division: "municipal",};
 
     const dadata = await fetch("https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address", {
         method: "POST",

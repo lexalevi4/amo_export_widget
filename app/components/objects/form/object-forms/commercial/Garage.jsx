@@ -8,7 +8,7 @@ import MultipleSwitch from "../../MultipleSwitch";
 import MultipleSwitchGroup from "../../MultipleSwitchGroup";
 
 
-function Garage({  form_data }) {
+function Garage({ form_data }) {
 
 
     const garageInfrastructure = form_data.infrastructure.filter((item) => { return item.garage === 1 });
@@ -27,8 +27,8 @@ function Garage({  form_data }) {
                 items={form_data.garage_type}
                 name={'garageType'}
                 title={"Тип"}
-                
-            
+
+
                 required={true}
             />
 
@@ -36,7 +36,7 @@ function Garage({  form_data }) {
                 items={form_data.garage_garage_type}
                 name={'garageGarageType'}
                 title={"Тип гаража"}
-             
+
                 required={true}
             />
 
@@ -48,20 +48,20 @@ function Garage({  form_data }) {
             name={'material'}
             title={"Материал"}
             required={true}
-        
+
         />
 
         <MySelect
             items={form_data.garage_status}
             name={'garageStatus'}
             title={"Статус"}
-         
+
         />
 
         <MyTextInput
             type="number"
             name={'totalArea'}
-         
+
             title={"Общая площадь"}
             required={true}
         />
@@ -74,30 +74,31 @@ function Garage({  form_data }) {
             spacing={2}
         >
             <MySwitch
-             
+
                 name={'hasLight'}
                 title={'Свет'}
             />
             <MySwitch
-            
+
                 name={'hasElectricity'}
                 title={'Электричество'}
             />
             <MySwitch
-           
+
                 name={'hasHeating'}
                 title={'Отопление'}
             />
             <MySwitch
-            
+
                 name={'hasWater'}
                 title={'Вода'}
             />
             <MySwitch
-             
+
                 name={'hasExtinguishingSystem'}
                 title={'Пожаротушение'}
             />
+
 
         </Stack>
         <MyDivider
@@ -105,7 +106,7 @@ function Garage({  form_data }) {
         />
         <MyTextInput
             name={'buildingName'}
-         
+
             title={'Название'}
             width={500}
 
@@ -115,19 +116,32 @@ function Garage({  form_data }) {
             items={form_data.parking}
             name={'parking'}
             title={"Парковка"}
-          
+            required={true}
+            requiredMessage="Для машиномест на авито"
+
         />
+        <Stack
+            direction={"row"}
+            spacing={2}
+        >
+            <MySwitch
+
+                name={'hasSecurity'}
+                title={'Охрана'}
+            />
+        </Stack>
+
         <MyDivider
             title={'Инфраструктура'}
         />
         <MultipleSwitchGroup
-          
+
             items={chunkedInfrastructure}
             name={'infrastructure'}
-          
+
             maxCount={0}
         />
-       
+
 
 
     </>);

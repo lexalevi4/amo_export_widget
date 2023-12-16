@@ -99,6 +99,9 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                 <Stack
 
                 >
+                    <Typography>
+                        {flat.id}
+                    </Typography>
                     <IconButton
                         className="mb-3"
                         aria-label="expand row"

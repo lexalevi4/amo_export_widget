@@ -97,6 +97,7 @@ function LeadsTableRow({ item, index }) {
                                     item.calls.map(function (event, index) {
                                         // console.log(event.created_at)
                                         // console.log(Date(Number(event.created_at)))
+                                        // var s =dayjs(endDate * 1000).format('DD/MM/YYYY HH:mm')}
                                         var s = new Date(Number(event.created_at * 1000)).toLocaleDateString("ru-RU")
                                         // console.log(s)
                                         return (

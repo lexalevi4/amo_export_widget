@@ -1,5 +1,6 @@
 // 'use client'
 import { redirect } from "next/navigation";
+// import { useEffect } from "react";
 
 export default async function Home({ searchParams }) {
   // const page = searchParams?.page || '/error';
@@ -10,10 +11,22 @@ export default async function Home({ searchParams }) {
   // }).then(
   redirect(searchParams?.page || '/error')
   // )
-  console.log(res);
+  // console.log(res);
+
+  // useEffect(() => {
+    // document.TheForm.submit()
+  // }, [])
 
 
   return (
-    <></>
+    <>
+      {/* <form name="TheForm" id='first_form' action={searchParams?.page || '/error'}
+        method="get"
+      >
+        <input type="hidden" name="lead_id" value={searchParams?.lead_id || ''} />
+        <input type="hidden" name="session" value={searchParams?.session || ''} />
+
+      </form> */}
+    </>
   )
 }

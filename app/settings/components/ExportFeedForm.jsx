@@ -192,18 +192,20 @@ function ExportFeedForm({ feed, }) {
                     spacing={2}
                 >
 
-                    <FormControl
-                        style={
-                            {
-                                width: 350
-                            }}
-                    >
-                        < TextField
-                            label={'api ключ'}
-                            value={api_key}
-                            onChange={(e) => setKey(e.target.value)}
-                        />
-                    </FormControl>
+                    {format !== 2 && (
+                        <FormControl
+                            style={
+                                {
+                                    width: 350
+                                }}
+                        >
+                            < TextField
+                                label={'api ключ'}
+                                value={api_key}
+                                onChange={(e) => setKey(e.target.value)}
+                            />
+                        </FormControl>
+                    )}
                     {format === 2 && (
                         <>
                             <FormControl

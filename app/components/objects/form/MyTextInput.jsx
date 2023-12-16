@@ -10,8 +10,8 @@ function MyTextInput({ title, name,
     type = 'text', width = null }) {
 
 
-    const value = useObjectFormState((state) => state.flat[name]);
-    const updateFlat = useObjectFormState((state) => state.updateFlat);
+    const value = useObjectFormState((state) => state.flat[name]) || '';
+    const updateFlat = useObjectFormState((state) => state.updateFlat) || '';
 
     const handler = (e) => {
         updateFlat(name, e.target.value)

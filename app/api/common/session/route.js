@@ -1,6 +1,6 @@
-import {  destroy, setAll,  getSessionIdAndCreateIfMissing } from "@/app/heplers/session";
+import { destroy, setAll, getSessionIdAndCreateIfMissing } from "@/app/heplers/session";
 import { NextResponse } from "next/server";
-import {  headers } from 'next/headers'
+import { headers } from 'next/headers'
 
 
 const check_token = async (token, acc_id) => {
@@ -35,7 +35,8 @@ export async function POST(req, response) {
     const { searchParams } = new URL(req.url)
     console.log(searchParams);
     const token = headers().get('x-auth-token');
-   
+    const card_id = searchParams.get('card_id') || 0;
+
     let result = [];
     let page = '/error';
 
@@ -46,44 +47,48 @@ export async function POST(req, response) {
             await setAll(result.data);
             console.log(searchParams.get('page'));
 
+
             if (searchParams.get('page') === 'card') {
                 console.log(searchParams.get('card_id'));
-                page = '/lead-card?lead_id=' + searchParams.get('card_id')
+                page = '/lead-card?lead_id=' + searchParams.get('card_id') + "&session=" + session_id
 
             }
             if (searchParams.get('page') === 'settings') {
-                page = '/settings'
+                page = '/settings?session=' + session_id
             }
             if (searchParams.get('page') === 'left') {
                 console.log(searchParams.get('subitem'));
                 if (searchParams.get('subitem') === 'sub_item_code_1') {
-                    page = '/objects'
+                    page = '/objects?session=' + session_id
 
                 }
                 if (searchParams.get('subitem') === 'sub_item_code_2') {
-                    page = '/clients'
+                    page = '/clients?session=' + session_id
 
                 }
                 if (searchParams.get('subitem') === 'sub_item_code_3') {
-                    page = '/ad'
+                    page = '/export?session=' + session_id
 
                 }
 
             }
 
         } else {
+
             destroy();
         }
 
     } catch (e) {
+
         console.log(e);
         destroy();
     }
 
-    const response_data = { data: result?.data, html: '<html><body><script>window.location="https://amo-widget.turbobroker.ru/?session=' + session_id + '&page=' + encodeURIComponent(page) + '"</script></body></html>' }
+    // const response_data = { data: result?.data, html: '<html><body><script>window.location="https://amo-widget.turbobroker.ru/?lead_id=' + card_id + '&session=' + session_id + '&page=' + encodeURIComponent(page) + '"</script></body></html>' }
+    const response_data = { url: 'https://amo-widget.turbobroker.ru' + page, data: result?.data, html: '<html><body><script>window.location="https://amo-widget.turbobroker.ru/?lead_id=' + card_id + '&session=' + session_id + '&page=' + encodeURIComponent(page) + '"</script></body></html>' }
 
 
     return NextResponse.json(response_data)
-   
+
 
 }

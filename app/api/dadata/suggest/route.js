@@ -13,21 +13,23 @@ export async function POST(req, response) {
 
 
     const body = await req.json();
-    const encoded = (base64encode(body.query))
+    
     var query = {
         query: body.query,
+        division: "municipal",
         count: 10,
         locations: [
             { fias_id: '29251dcf-00a1-4e34-98d4-5c47484a36d4' },
             { fias_id: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5' }
         ]
     };
+    const encoded = (base64encode(JSON.stringify(query)))
     const client = await getRedisClient();
     try {
 
 
-        // const cached = await client.get(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded)
-        const cached = false
+        const cached = await client.get(process.env.REDIS_DADATA_SUGGEST_PREFIX + encoded)
+        // const cached = false
         if (cached) {
             try {
                 await client.quit();

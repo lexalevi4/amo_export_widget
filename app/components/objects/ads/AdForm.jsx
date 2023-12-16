@@ -103,7 +103,7 @@ function AdForm({ feeds, object, formData, ad, handleShowForm, updateData = () =
         data.append('data', JSON.stringify(request));
         try {
             // if (currentValue.id > 0) {
-            await fetch('/api/ad/save-ad', {
+            await fetch('/api/export/save', {
                 method: 'POST',
                 body: data,
             }).then(res => res.json())

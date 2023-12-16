@@ -109,6 +109,8 @@ function FlatSale({
                 // setter={setter}
                 // value={flat.livingArea}
                 title={'Жилая площадь'}
+                required={true}
+                requiredMessage={"для Яндекса"}
             />
             <MyTextInput
                 type='number'

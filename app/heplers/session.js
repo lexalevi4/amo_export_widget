@@ -1,5 +1,6 @@
 import { Redis } from 'ioredis';
 import { cookies, headers } from 'next/headers'
+
 import sha256 from 'sha256';
 var crypto = require('crypto');
 // import { createClient } from 'redis'
@@ -36,7 +37,10 @@ async function getRedisClient() {
 
 export function getSessionId() {
     const cookieStore = cookies();
-    // console.log(headerStore.forEach((v, k) => { console.log({ [k]: v }) }))
+    // const headersStore = headers();
+    // console.log(headersStore)
+    // console.log('cookies')
+    // console.log(cookieStore.getAll())
     return cookieStore.get('session_id')?.value;
 }
 

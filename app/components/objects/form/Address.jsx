@@ -100,12 +100,17 @@ function Address({
         setDadataAddress(suggestion)
     }
     useEffect(() => {
-        // console.log(dadata_response)
+        console.log(dadata_response)
         if (dadata_response?.value) {
             updateFlat('address', dadata_response?.value)
-            updateFlat('lat', dadata_response?.data?.geo_lat)
-            updateFlat('lng', dadata_response?.data?.geo_lon)
 
+            if (dadata_response?.data?.geo_lat) {
+                updateFlat('lat', dadata_response?.data?.geo_lat)
+            }
+            if (dadata_response?.data?.geo_lon) {
+                updateFlat('lng', dadata_response?.data?.geo_lon)
+            }
+            // updateFlat('lng', dadata_response?.data?.geo_lon)
         }
 
     }, [dadata_response])
@@ -179,14 +184,14 @@ function Address({
             </div>
             <MyTextInput
                 type='number'
-                value={lat}
+                // value={lat}
                 // setter={setter}
                 title='Широта'
                 name={'lat'}
             />
             <MyTextInput
                 type='number'
-                value={lng}
+                // value={lng}
                 // setter={setter}
                 title='Долгота'
                 name={'lng'}

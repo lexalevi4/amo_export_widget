@@ -113,6 +113,17 @@ function ExportTab({ }) {
                         </Link>
                     </Typography>
 
+                    <Typography>
+                        <Link
+                            target="_blank"
+                            href={"https://webmaster.yandex.ru/tools/xml-validator/"}
+                            
+                        >
+                            Яндекс
+                        </Link>
+                    </Typography>
+                    
+
                 </Paper>
                 {feeds.map((feed) => {
 

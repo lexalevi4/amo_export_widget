@@ -207,7 +207,22 @@ export const new_object = () => {
         prepayMonths: '',
         // includedOptionsOperationalCosts:false,
         includedOptionsUtilityCharges: false,
-        minLeaseTerm: ''
+        minLeaseTerm: '',
+        cplModerationPersonType: '',
+        cplModerationLastName: '',
+        cplModerationFirstName: '',
+        cplModerationSecondName: '',
+        cplModerationInn: '',
+        cplModerationRosreestrRegistrationNumber: '',
+        title: '',
+        avitoBussinessType: '',
+        // yandex_building: null,
+        // yandex_house: null,
+        // avito_building: null,
+        // avito_house: null,
+        // cian_building: null,
+        // cian_house: null,
+
         // agentFee:''
 
 
