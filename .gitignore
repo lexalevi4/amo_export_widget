@@ -36,3 +36,5 @@ next-env.d.ts
 .env
 #archives
 *.zip
+
+/api/google-docs/*.json
