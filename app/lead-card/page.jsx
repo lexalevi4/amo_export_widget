@@ -19,7 +19,13 @@ async function Page({ searchParams }) {
     const current_session = await session.getAll();
     // console.log('lead_card ' + id)
 
-
+    if (!current_session?.account_id) {
+        return (<>
+            <Typography>
+                Сессия устарела. Откройте виджет заново.
+            </Typography>
+        </>)
+    }
 
     const leadId = Number(searchParams?.lead_id) || 0;
 
@@ -33,13 +39,7 @@ async function Page({ searchParams }) {
     }
     const data = await getLeadData(leadId);
     // console.log(data);
-    if (!current_session?.account_id) {
-        return (<>
-            <Typography>
-                Сессия устарела. Откройте виджет заново.
-            </Typography>
-        </>)
-    }
+  
     const formData = await getFormData();
 
 

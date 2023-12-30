@@ -72,17 +72,19 @@ export async function POST(req, response) {
     for (const formDataEntryValue of formDataEntryValues) {
         if (typeof formDataEntryValue === "object" && "arrayBuffer" in formDataEntryValue) {
             let file = formDataEntryValue;
+            // console.log(file);
 
 
-            let ext = file.name
-                .split('.')
-                .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
-                .slice(1)
-                .join('.');
-            if (exts.includes(ext.toLowerCase())) {
-                filesCount++;
-                filesSize += file.size;
-            }
+            // let ext = file.name
+            //     .split('.')
+            //     .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
+            //     .slice(1)
+            //     .join('.');
+            // console.log(ext);
+            // if (exts.includes(ext.toLowerCase())) {
+            filesCount++;
+            filesSize += file.size;
+            // }
 
             // console.log(ext)
 
@@ -120,27 +122,27 @@ export async function POST(req, response) {
                 .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
                 .slice(1)
                 .join('.')
-            if (exts.includes(ext.toLowerCase())) {
-                // console.log('filter');
-                const newFilename = randomUUID() + '.' + ext;
+            // if (exts.includes(ext.toLowerCase())) {
+            // console.log('filter');
+            const newFilename = randomUUID() + '.' + ext;
 
-                const buffer = Buffer.from(await file.arrayBuffer());
+            const buffer = Buffer.from(await file.arrayBuffer());
 
 
-                const mid = await resize(buffer, newFilename, ext, 'mid', 400, 400, s3);
-                console.log(mid)
-                const thumb = await resize(buffer, newFilename, ext, 'thumb', 200, 200, s3);
-                console.log(thumb)
-                const upload = await s3.Upload(
-                    {
-                        buffer: buffer,
-                        name: newFilename,
-                    },
-                    '/full/'
-                )
-                await upload.Location;
-                result.push(newFilename)
-            }
+            const mid = await resize(buffer, newFilename, ext, 'mid', 400, 400, s3);
+            console.log(mid)
+            const thumb = await resize(buffer, newFilename, ext, 'thumb', 200, 200, s3);
+            console.log(thumb)
+            const upload = await s3.Upload(
+                {
+                    buffer: buffer,
+                    name: newFilename,
+                },
+                '/full/'
+            )
+            await upload.Location;
+            result.push(newFilename)
+            // }
 
             // mid.then(console.log);
 

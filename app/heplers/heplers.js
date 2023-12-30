@@ -216,12 +216,22 @@ export const new_object = () => {
         cplModerationRosreestrRegistrationNumber: '',
         title: '',
         avitoBussinessType: '',
-        // yandex_building: null,
-        // yandex_house: null,
-        // avito_building: null,
-        // avito_house: null,
-        // cian_building: null,
-        // cian_house: null,
+        newBuildings: [],
+        newBuildingHouses: [],
+
+        // yandexBuilding: null,
+        // yandexHouse: null,
+        // avitoBuilding: null,
+        // avitoHouse: null,
+        // cianBuilding: null,
+        // cianHouse: null,
+        locationRegion: '',
+        locationDistrict: '',
+        locationLocality: '',
+        locationStreet: '',
+        locationHouse: '',
+        metroDistances: [],
+        highwayDistances: [],
 
         // agentFee:''
 

@@ -1,6 +1,6 @@
 'use client'
-import { Box, Button, Chip, Collapse, Grid, IconButton, Rating, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Chip, Collapse, Grid, IconButton, ImageList, ImageListItem, Rating, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -11,10 +11,25 @@ import PriceAnalizeTabs from "./PriceAnalizeTabs";
 import Link from "next/link";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+// import Cookie from "js-cookie"
+// import { getCookies,  getCookie } from 'cookies-next';
+// import { useCookies } from 'next-client-cookies';
 function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStatus, isLeadCard }) {
     const [open, setOpen] = useState(false);
     const [visible, setVisible] = useState(true);
+    // const [session,setSession]=useState(null);
+    // const cookies = useCookies();
+    // console.log(cookies.get('session_id'))
+    // const session = getCookie('session_id')
+    // console.log(getCookies())
+    // useEffect(()=>{
+    //     setSession(getSession);
+    // })
+    // const getSession = async()=>{
+    //     const session =  await Cookie.get('session_id');
+    //     console.log(session);
+    //     return session;
+    // }
     // console.log(flat.images)
     // console.log(flat.description)
 
@@ -91,25 +106,60 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
             return 1
         }
     }
+    // const session = Cookie.get('session_id');
+    // console.log(Cookie.get)
 
     return (<>
 
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-            <TableCell>
+            <TableCell
+                className="m-0"
+            >
                 <Stack
+                    className="p-0 m-0"
 
                 >
                     <Typography>
                         {flat.id}
                     </Typography>
-                    <IconButton
+                    <ImageList sx={
+                        {
+                            width: 150,
+                            height: 150,
+                            // overflow: 'hidden'
+                        }
+                    }
+                        cols={1}
+                    //  rowHeight={164}
+                    >
+                        {flat.list_images.map((item) => (
+                            <ImageListItem
+                                // sx={
+                                //     {
+
+                                //         overflow: 'scroll'
+                                //     }
+                                // }
+                                key={item.thumb} >
+                                <img
+                                    onClick={() => setOpen(!open)}
+                                    srcSet={`${item.thumb}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                    src={`${item.thumb}?w=164&h=164&fit=crop&auto=format`}
+                                    alt={item.thumb}
+                                    loading="lazy"
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
+
+                    {/* <IconButton
                         className="mb-3"
                         aria-label="expand row"
                         size="small"
                     // onClick={() => setOpen(!open)}
                     >
                         <FavoriteBorderIcon />
-                    </IconButton>
+                    </IconButton> */}
 
                     <IconButton
                         aria-label="expand row"
@@ -350,7 +400,7 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                 )}
 
             </TableCell>
-        </TableRow>
+        </TableRow >
         {isFilter && (
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -395,7 +445,8 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                 </TableCell>
             </TableRow>
 
-        )}
+        )
+        }
 
         <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

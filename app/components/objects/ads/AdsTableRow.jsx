@@ -5,6 +5,16 @@ import AdForm from "./AdForm";
 import { useState } from "react";
 import dayjs from "dayjs";
 import Link from "next/link";
+import ErrorIcon from '@mui/icons-material/Error';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckIcon from '@mui/icons-material/Check';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import { LineChart } from "@mui/x-charts";
+import AdFeedStatusRow from "./adFeedStatusRow";
+
+
 function AdsTableRow({ ad, formData, object, feeds, setAds, updateActive }) {
 
     const [showForm, setShowForm] = useState(false)
@@ -20,7 +30,10 @@ function AdsTableRow({ ad, formData, object, feeds, setAds, updateActive }) {
         setShowFull(!showFull)
     }
 
-    // console.log(ad);
+
+    console.log(ad);
+
+
 
     const handleShowForm = () => {
         setShowForm(!showForm)
@@ -135,6 +148,9 @@ function AdsTableRow({ ad, formData, object, feeds, setAds, updateActive }) {
                         })[0]
                         const feedActive = activeFeeds.includes(feed.id);
                         let color = 'primary'
+                        if (!feedActive) {
+                            color = 'primary'
+                        }
                         if (feed_status.status == 1) {
                             color = 'success'
                         }
@@ -142,32 +158,60 @@ function AdsTableRow({ ad, formData, object, feeds, setAds, updateActive }) {
                             color = 'error'
                         }
 
-                        return (
-                            <FormControlLabel
-                                key={'feed__short_grid_item_' + ad.id + '_' + object.id + '_' + feed.id}
-                                labelPlacement="start"
 
-                                control={
-                                    <Switch
-                                        value={feed.id}
-                                        color={color}
-                                        onClick={handleShowFull}
-                                        // name={name}
-                                        // id={name + "switch"}
-                                        checked={feedActive}
-                                    // onClick={handler}
-                                    // onChange={handleFeedActive}
-                                    />
-                                } label={feed.name} />
+
+
+
+
+
+                        return (
+                            <Button
+                                style={{ textTransform: 'none' }}
+                                // disabled={!feedActive}
+                                onClick={handleShowFull}
+                                color={color}
+                                key={'feed__short_grid_item_' + ad.id + '_' + object.id + '_' + feed.id}
+                            >
+                                {(feed_status.status == 0 && !feedActive) && (
+                                    <CheckBoxOutlineBlankIcon />
+                                )}
+                                {(feed_status.status == 0 && feedActive) && (
+                                    <CheckIcon />
+                                )}
+                                {(feed_status.status == 1 && feedActive) && (
+                                    <DoneAllIcon />
+                                )}
+                                {feed_status.status > 1 && (
+                                    <ErrorIcon />
+                                )}
+                                {feed.name}
+
+                            </Button>
+                            // <FormControlLabel
+                            //     key={'feed__short_grid_item_' + ad.id + '_' + object.id + '_' + feed.id}
+                            //     labelPlacement="start"
+
+                            //     control={
+                            //         <Switch
+                            //             value={feed.id}
+                            //             color={color}
+                            //             onClick={handleShowFull}
+                            //             // name={name}
+                            //             // id={name + "switch"}
+                            //             checked={feedActive}
+                            //         // onClick={handler}
+                            //         // onChange={handleFeedActive}
+                            //         />
+                            //     } label={feed.name} />
                         )
                     })}
 
                 </Grid>
-                <Button
+                {/* <Button
                     onClick={handleShowFull}
                 >
                     {showFull ? "Свернуть" : 'Подробнее'}
-                </Button>
+                </Button> */}
                 {/*                 
                 <Grid
                     container
@@ -199,86 +243,18 @@ function AdsTableRow({ ad, formData, object, feeds, setAds, updateActive }) {
 
 
                             {feeds.map((feed, feed_index) => {
-                                const feed_status = ad.statuses.filter(status => {
-                                    return status.id === feed.id
-                                })[0]
-                                const feedActive = activeFeeds.includes(feed.id);
                                 return (
-                                    <TableRow
+                                    <AdFeedStatusRow
+                                        activeFeeds={activeFeeds}
                                         key={'feed_grid_item_' + ad.id + '_' + object.id + '_' + feed.id}
-                                    >
-                                        <TableCell>
-                                            <FormControlLabel
-                                                labelPlacement="start"
-                                                control={
-                                                    <Switch
-                                                        value={feed.id}
+                                        ad={ad}
+                                        feed={feed}
 
-                                                        // name={name}
-                                                        // id={name + "switch"}
-                                                        checked={feedActive}
-                                                    // onClick={handler}
-                                                    // onChange={handleFeedActive}
-                                                    />
-                                                } label={feed.name} />
-                                        </TableCell>
-                                        <TableCell>
-                                            {feedActive && (
-                                                <>
-                                                    {/* {feed_status.status === 0 && (
-                                                        "Нет"
-                                                    )} */}
-                                                    {feed_status.status === 1 && (
-                                                        <Typography
-                                                            color={'green'}
-                                                        >
-                                                            Опубликовано
-
-                                                        </Typography>
-
-                                                    )}
-                                                    {feed_status.status > 1 && (
-                                                        <Typography
-                                                            color={'error'}
-                                                        >
-                                                            Ошибка/Предупреждение
-                                                        </Typography>
-                                                    )}
-                                                </>
-                                            )}
-
-                                        </TableCell>
-                                        <TableCell
-                                            className="whitespace-pre-line"
-                                        >
-                                            {feed_status.message}
-                                        </TableCell>
-                                        <TableCell>
-                                            {(feedActive && feed_status.url && feed_status.url !== '') && (
-                                                <Link
-                                                    href={feed_status.url}
-                                                    target="_blank"
-                                                >
-                                                    Ссылка
-                                                </Link>
-
-                                            )}
-
-                                        </TableCell>
-
-
-
-                                        {/* <Grid
-                                            key={'feed_grid_item_' + ad.id + '_' + object.id + '_' + feed.id}
-                                            item
-                                        >
-
-
-
-
-                                        </Grid> */}
-                                    </TableRow>
+                                    />
                                 )
+
+
+
                             })}
                         </TableBody>
                     </TableContainer>

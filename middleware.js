@@ -9,12 +9,13 @@ export async function middleware(request) {
   // const  cookieStore = cookies();
   // console.log('middleware')
   // console.log(cookieStore.getAll);
-  console.log('middleware_headers')
-  console.log(request.url)
+  // console.log('middleware_headers')
+  // console.log(request.url)
   // request.headers.getAll()
-  const requestHeaders = new Headers(request.headers);
+  // const requestHeaders = new Headers(request.headers);
   // console.log(requestHeaders);
   // console.log('middleware_end')
+  // res.headers.append('Location', 'http://localhost:3000/' + request.url)
   res.headers.append('P3P', 'CP="ALL DSP COR CUR ADM PSA CONi OUR SAM OTR UNR LEG"');
   res.headers.append('Access-Control-Allow-Credentials', "true")
   res.headers.append('Access-Control-Allow-Origin', '*') // replace this your actual origin
@@ -36,6 +37,7 @@ export async function middleware(request) {
   const { searchParams } = new URL(request.url)
   const session = searchParams.get('session')
   const page = searchParams.get('page')
+  // searchParams.g
   // const cookieStore = cookies()
   // if (request.nextUrl.pathname === '/') {
   // localStorage.set()
@@ -47,13 +49,14 @@ export async function middleware(request) {
       name: 'session_id',
       value: session,
       sameSite: 'none',
+
       // sameSite: 'lax',
       secure: true,
       httpOnly: true,
       expires: ((Date.now() / 1000) + 86400) * 1000,
       // domain:""
     }
-    
+
     );
 
 
@@ -71,10 +74,11 @@ export async function middleware(request) {
     // console.log(res.cookies.getAll);
     // return NextResponse.redirect(new URL(page, request.url))
     // redirect(page)
+    // return NextResponse.rewrite(new URL(request.url, request.url))
   }
   // }
   // NextResponse.rewrite(request.url+'&asdfasdf')
-  
+
   if (request.nextUrl.pathname === '/api/common/session') {
     // retrieve the current response
 
@@ -89,7 +93,8 @@ export async function middleware(request) {
     // )
   }
 
-  // return NextResponse.rewrite(new URL(request.url+'?dddsdf', request.url))
+  // res.re
+
   return res
 }
 

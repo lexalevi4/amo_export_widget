@@ -19,6 +19,7 @@ function ExportFeedForm({ feed, }) {
     const [api_key, setKey] = useState(feed.api_key || '');
     const [secret, setSecret] = useState(feed.secret || '');
     const [accId, setAccId] = useState(feed.acc_id || '');
+    const [client_id, setClient_id] = useState(feed.client_id || '');
     const [expanded, setExpanded] = useState(false)
     const updateSettings = useSettingsState((state) => state.updateSettings)
     const [alert, setAlert] = useState('Скопировано');
@@ -69,7 +70,8 @@ function ExportFeedForm({ feed, }) {
                 format: format,
                 api_key: api_key,
                 secret: secret,
-                acc_id: accId
+                acc_id: accId,
+                client_id:client_id
             }
         ))
         try {
@@ -208,7 +210,7 @@ function ExportFeedForm({ feed, }) {
                     )}
                     {format === 2 && (
                         <>
-                            <FormControl
+                         <FormControl
                                 style={
                                     {
                                         width: 350
@@ -218,6 +220,18 @@ function ExportFeedForm({ feed, }) {
                                     label={'client secret'}
                                     value={secret}
                                     onChange={(e) => setSecret(e.target.value)}
+                                />
+                            </FormControl>
+                            <FormControl
+                                style={
+                                    {
+                                        width: 350
+                                    }}
+                            >
+                                < TextField
+                                    label={'client id'}
+                                    value={client_id}
+                                    onChange={(e) => setClient_id(e.target.value)}
                                 />
                             </FormControl>
                         </>
