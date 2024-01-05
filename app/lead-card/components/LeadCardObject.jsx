@@ -6,6 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { ru } from 'date-fns/locale'
 import "dayjs/locale/ru";
+import Presentations from "@/app/components/objects/presentation/Presentations";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 function LeadCardObject({ object, formData, feeds }) {
@@ -25,6 +26,11 @@ function LeadCardObject({ object, formData, feeds }) {
                 feeds={feeds}
                 object={object}
                 formData={formData}
+            />
+            <Presentations
+                object={object}
+                formData={formData}
+
             />
         </LocalizationProvider>
     </>);

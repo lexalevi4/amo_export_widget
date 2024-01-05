@@ -151,10 +151,10 @@ function AdsTableRow({ ad, formData, object, feeds, setAds, updateActive }) {
                         if (!feedActive) {
                             color = 'primary'
                         }
-                        if (feed_status.status == 1) {
+                        if (feed_status.status == 1 && active) {
                             color = 'success'
                         }
-                        if (feed_status.status > 1) {
+                        if (feed_status.status > 1 && active) {
                             color = 'error'
                         }
 
@@ -171,17 +171,24 @@ function AdsTableRow({ ad, formData, object, feeds, setAds, updateActive }) {
                                 onClick={handleShowFull}
                                 color={color}
                                 key={'feed__short_grid_item_' + ad.id + '_' + object.id + '_' + feed.id}
+
                             >
-                                {(feed_status.status == 0 && !feedActive) && (
+
+
+                                {!active && (
                                     <CheckBoxOutlineBlankIcon />
                                 )}
-                                {(feed_status.status == 0 && feedActive) && (
+
+                                {(feed_status.status == 0 && !feedActive && active) && (
+                                    <CheckBoxOutlineBlankIcon />
+                                )}
+                                {(feed_status.status == 0 && feedActive && active) && (
                                     <CheckIcon />
                                 )}
-                                {(feed_status.status == 1 && feedActive) && (
+                                {(feed_status.status == 1 && feedActive && active) && (
                                     <DoneAllIcon />
                                 )}
-                                {feed_status.status > 1 && (
+                                {(feed_status.status > 1 && active) && (
                                     <ErrorIcon />
                                 )}
                                 {feed.name}

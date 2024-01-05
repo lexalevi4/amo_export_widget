@@ -270,12 +270,14 @@ function AdsTable({ object, feeds, formData }) {
 
         {!showForm && (
             <Button
-                
+
                 onClick={handleCreate}
                 className="my-2"
                 variant="contained"
                 color="secondary"
-            >Создать новое объявление</Button>
+            >
+                Опубликовать как новое
+            </Button>
         )}
 
         <Divider
