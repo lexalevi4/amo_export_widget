@@ -3,13 +3,11 @@ import { SortableContext, arrayMove, sortableKeyboardCoordinates } from "@dnd-ki
 import { Box, Button, Divider, MenuItem, Select, Typography, Stack, Grid, ImageListItem, ImageListItemBar, IconButton, ImageList, TextField, FormControl, InputLabel, OutlinedInput } from "@mui/material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import { CSS } from '@dnd-kit/utilities';
 import Image from "next/image";
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import SortableImagesItem from "./SortableImagesItem";
 import { Textarea } from "@mui/joy";
+import { sendApiRequest } from "@/app/services/actions";
 function Presentations({ object }) {
 
     const [showForm, setShowForm] = useState(false);
@@ -112,16 +110,30 @@ function Presentations({ object }) {
         try {
             setTemplatesIsLoading(true);
             // if (currentValue.id > 0) {
-            await fetch('/api/presentation/get-templates', {
-                method: 'GET',
-                // body: data,
-            }).then(res => res.json())
-                .then(data => {
-                    setTemplates(data.templates);
-                    setTemplatesUpdated(true);
-                    setTemplatesIsLoading(false);
-                    // console.log(data)
-                })
+            const data = await sendApiRequest('get', 'api/get-presentation-templates', {})
+            console.log(data);
+            if (data?.status === 'ok') {
+                setTemplates(data.templates);
+                setTemplatesUpdated(true);
+                setTemplatesIsLoading(false);
+                setTemplatesError(null);
+            } else {
+                console.log('Не удалось получить шаблоны');
+                setTemplatesError('Не удалось получить шаблоны');
+                setTemplatesIsLoading(false);
+                setTemplatesUpdated(false);
+            }
+            // await fetch('/api/presentation/get-templates', {
+            //     method: 'GET',
+            //     // body: data,
+            // }).then(res => res.json())
+            //     .then(data => {
+            //         console.log(data);
+            //         setTemplates(data.templates);
+            //         setTemplatesUpdated(true);
+            //         setTemplatesIsLoading(false);
+            //         // console.log(data)
+            //     })
             // }
         } catch (e) {
             console.log(e);
@@ -181,6 +193,13 @@ function Presentations({ object }) {
             <>
                 {templatesIsLoading && (
                     <Typography>Шаблоны загружаются... </Typography>
+                )}
+                {templatesError && (
+                    <Typography
+                        color={'error'}
+                    >
+                        Не удалось получить шаблоны
+                    </Typography>
                 )}
                 {!templatesIsLoading && (
                     <>
@@ -356,34 +375,35 @@ function Presentations({ object }) {
                             <Typography>Выбранные:</Typography>
 
 
-                            <DndContext
-                                onDragEnd={HandleDragEnd}
-                                sensors={sensors}
-                            >
+                            <Box className='mb-2'>
+                                <DndContext
+                                    onDragEnd={HandleDragEnd}
+                                    sensors={sensors}
+                                >
 
-                                <SortableContext items={activeImages.map(item => item.thumb)}>
-                                    <Grid
-                                        // ref={setNodeRef}
-                                        container
-                                        spacing={2}
-                                    >
-                                        {activeImages.map((image, index) => {
-                                            return (
-                                                <SortableImagesItem
-                                                    // icon={icon}
-                                                    // color={color}
-                                                    key={'images' + index}
-                                                    image={image}
-                                                    handleDel={handleUnselectImage}
-                                                />
-                                            )
+                                    <SortableContext items={activeImages.map(item => item.thumb)}>
+                                        <Grid
+                                            // ref={setNodeRef}
+                                            container
+                                            spacing={2}
+                                        >
+                                            {activeImages.map((image, index) => {
+                                                return (
+                                                    <SortableImagesItem
+                                                        // icon={icon}
+                                                        // color={color}
+                                                        key={'images' + index}
+                                                        image={image}
+                                                        handleDel={handleUnselectImage}
+                                                    />
+                                                )
 
-                                        })}
-                                    </Grid>
-                                </SortableContext>
+                                            })}
+                                        </Grid>
+                                    </SortableContext>
 
-                            </DndContext>
-
+                                </DndContext>
+                            </Box>
                             <Box
                                 className='my-2'
                             >

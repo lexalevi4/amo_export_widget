@@ -1,7 +1,7 @@
 
 'use client'
 import FIltersTable from "@/app/clients/components/FIltersTable";
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 // import { useState } from "react";
 import Objects from "./Objects";
 import Tabs from '@mui/joy/Tabs';
@@ -12,13 +12,22 @@ import { YMaps } from "@pbe/react-yandex-maps";
 import LeadsTable from "./LeadsTable";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import SummaryLeadsTable from "./SummaryLeadsTable";
+import ActivityForm from "./ActivityForm";
+import Report from "./Report";
+import { useState } from "react";
 
-function CardTabs({ objects, clients, formData, leadId, feeds, leads }) {
+function CardTabs({ objects, clients, formData, leadId, feeds, leads, activities, reportData }) {
     // const [activeTab, setActiveTab] = useState(1);
 
     // const handleChange = (event, newValue) => {
     // setActiveTab(newValue);
     // };
+    const [activeActivities, setActiveActivities] = useState(activities);
+
+    const addActivity = (newActivity) => {
+        setActiveActivities([...activeActivities, newActivity])
+    }
 
     return (<>
         <YMaps
@@ -81,15 +90,21 @@ function CardTabs({ objects, clients, formData, leadId, feeds, leads }) {
                         <Tab
                             label="Объекты"
                             value={1}
-                        >Объекты</Tab>
+                        >
+                            Объекты
+                        </Tab>
                         <Tab
                             label="Заявки"
                             value={2}
-                        >Заявки</Tab>
+                        >
+                            Подборки
+                        </Tab>
                         <Tab
                             label="Звонки"
                             value={3}
-                        >Звонки</Tab>
+                        >
+                            Отчёт
+                        </Tab>
                     </TabList>
 
 
@@ -114,11 +129,45 @@ function CardTabs({ objects, clients, formData, leadId, feeds, leads }) {
 
                     </TabPanel>
                     <TabPanel value={3}>
-                        <LeadsTable
+                        <Report
+                            leadId={leadId}
+                            objects={objects}
+                            formData={formData}
+                            feeds={feeds}
+                            activities={activeActivities}
+                            addActivity={addActivity}
+                            reportData={reportData}
+                        />
+                        {/* <LeadsTable
                             formData={formData}
                             leadId={leadId}
                             leads={leads}
                         />
+                        <Divider
+                            className="my-10"
+                        />
+                        <Typography
+                            className="my-10"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+
+                            variant='h5'
+                        >
+                            
+                            Сводная таблица
+                        </Typography>
+                        <SummaryLeadsTable
+                            clients={leads}
+                        />
+
+                        <ActivityForm
+                            leadId={leadId}
+                        /> */}
+
+
                     </TabPanel>
                 </Tabs>
             </LocalizationProvider>

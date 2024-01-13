@@ -39,7 +39,7 @@ async function Page({ searchParams }) {
     }
     const data = await getLeadData(leadId);
     // console.log(data);
-  
+
     const formData = await getFormData();
 
 
@@ -71,6 +71,8 @@ async function Page({ searchParams }) {
             leads={data.leads}
             leadId={leadId}
             formData={formData}
+            activities={data.activities}
+            reportData={data.reportData}
         />
 
 

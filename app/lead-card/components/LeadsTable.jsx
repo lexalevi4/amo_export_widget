@@ -1,9 +1,28 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import LeadsTableRow from "./LeadsTableRow";
 
 function LeadsTable({ formData, leadId, leads }) {
-    console.log(leads);
+    // console.log(leads);
+    if (leads.length === 0) {
+        return <></>
+    }
     return (<>
+        <Divider
+            className="my-10"
+        />
+        <Typography
+            className="my-10"
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+
+            variant='h5'
+        >
+
+            Список звонков
+        </Typography>
 
         <TableContainer>
             <Table>

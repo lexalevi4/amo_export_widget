@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { sendApiRequest } from '../services/actions';
 
 
 export const useObjectSearchFormState = create((set, get) => ({
@@ -35,7 +36,10 @@ export const useObjectSearchFormState = create((set, get) => ({
         to_metro: '',
         to_metro_by: 1,
         to_mkad: '',
-        price_type: []
+        price_type: [],
+        id: '',
+        users: [],
+        status: []
 
     },
     activeSearch: {
@@ -71,7 +75,10 @@ export const useObjectSearchFormState = create((set, get) => ({
         to_metro: '',
         to_metro_by: 1,
         to_mkad: '',
-        price_type: []
+        price_type: [],
+        id: '',
+        users: [],
+        status: []
 
 
     },
@@ -108,9 +115,10 @@ export const useObjectSearchFormState = create((set, get) => ({
         to_metro: '',
         to_metro_by: 1,
         to_mkad: '',
-        price_type: []
-
-
+        price_type: [],
+        id: '',
+        users: [],
+        status: []
     },
     params: {
         strings: [],
@@ -129,6 +137,7 @@ export const useObjectSearchFormState = create((set, get) => ({
         ],
     },
     objects: [],
+    objectsCount: 0,
     setObjects: (data) => set((state) => {
         return ({
             objects: data
@@ -137,7 +146,6 @@ export const useObjectSearchFormState = create((set, get) => ({
     setSearch: (data) => set((state) => {
         return ({
             search: data
-
         })
     }),
 
@@ -229,6 +237,17 @@ export const useObjectSearchFormState = create((set, get) => ({
             pageType: pageType
         })
 
+    }),
+
+    setListObjects: (data) => set((state) => {
+        if (data.status === 'ok') {
+            return ({
+                objects: data.objects,
+                objectsCount: data.count,
+                objectsIsLoading: false,
+                search_updated: 0
+            })
+        }
     }),
 
 

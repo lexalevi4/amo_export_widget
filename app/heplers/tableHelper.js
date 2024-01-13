@@ -38,3 +38,28 @@ export const printMetro = (station) => {
     }
     { station.metro }
 }
+
+export const printObject = (object, formData) => {
+    if (object.category === 1) {
+        if (Number(object.object) === 1) {
+            if (Number(object.rooms) === 200) {
+                return 'Студия';
+            }
+            if (Number(object.rooms) === 100) {
+                return 'Св. планировка'
+            }
+            return object.rooms + "-комн."
+
+        }
+    }
+    let current_obj = formData.object.filter(item => {
+        return Number(item.id) === Number(flat.object)
+    })
+
+    try {
+        return current_obj[0].name
+    } catch (e) {
+        return "";
+    }
+
+}

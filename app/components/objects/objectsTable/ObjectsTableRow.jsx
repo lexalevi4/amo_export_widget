@@ -1,19 +1,17 @@
 'use client'
-import { Box, Button, Chip, Collapse, Grid, IconButton, ImageList, ImageListItem, Rating, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Button,  Collapse, Grid, IconButton, ImageList, ImageListItem, Rating, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import {  useState } from "react";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import Images from "./Images";
 import { Map, Placemark, RulerControl, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
-import { printMetro, secToStr } from "@/app/heplers/tableHelper";
+import {  secToStr } from "@/app/heplers/tableHelper";
 import PriceAnalizeTabs from "./PriceAnalizeTabs";
-import Link from "next/link";
+
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import Cookie from "js-cookie"
-// import { getCookies,  getCookie } from 'cookies-next';
-// import { useCookies } from 'next-client-cookies';
+
 function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStatus, isLeadCard }) {
     const [open, setOpen] = useState(false);
     const [visible, setVisible] = useState(true);

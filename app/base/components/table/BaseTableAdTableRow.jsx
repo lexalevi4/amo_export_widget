@@ -1,10 +1,11 @@
-import { IconButton, TableCell, TableRow, Typography } from "@mui/material";
-import { LineChart } from "@mui/x-charts";
-import Link from "next/link";
+import { Button, IconButton, Link, Typography } from "@mui/joy";
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckIcon from '@mui/icons-material/Check';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { useState } from "react";
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
-
-function AdFeedStatusRow({ ad, feed, activeFeeds }) {
+import { LineChart } from "@mui/x-charts";
+function BaseTableAdTableRow({ ad, feed, objectId }) {
 
     const [showChart, setShowChart] = useState(false);
     const handleShowChart = () => setShowChart(!showChart);
@@ -22,8 +23,7 @@ function AdFeedStatusRow({ ad, feed, activeFeeds }) {
     const feed_status = ad.statuses.filter(status => {
         return status.id === feed.id
     })[0]
-    const feedActive = activeFeeds.includes(feed.id);
-    // const stats = [];
+
     const dates = [];
     const series = [];
     const testX = [];
@@ -49,56 +49,83 @@ function AdFeedStatusRow({ ad, feed, activeFeeds }) {
         }
 
     }
-    // console.log(dates);
-    // console.log(series);
+
+
+
+
+    const feedActive = ad.activeFeeds.includes(feed.id);
+    let color = 'primary'
+    if (!feedActive) {
+        color = 'primary'
+    }
+    if (feed_status.status == 1 && Boolean(ad.active)) {
+        color = 'success'
+    }
+    if (feed_status.status > 1 && Boolean(ad.active)) {
+        color = 'error'
+    }
+
 
 
     return (
         <>
-            <TableRow
+            <tr
 
             >
-                <TableCell>
-                    <Typography>
-                        {feed.name}
-                        {dates.length > 0 && (
-                            <IconButton
-                                color={showChart ? "error" : "success"}
-                                onClick={handleShowChart}
+                <td
 
-                            >
-                                <QueryStatsIcon />
-                            </IconButton>
+                >
+                    <Button
+                        style={{ textTransform: 'none' }}
+                        variant="plain"
+                        // disabled={!feedActive}
+                        // onClick={handleShowFull}
+                        color={color}
+
+
+                    >
+
+
+                        {!Boolean(ad.active) && (
+                            <CheckBoxOutlineBlankIcon />
                         )}
-                    </Typography>
-                    {/* <FormControlLabel
-                                                labelPlacement="start"
-                                                control={
-                                                    <Switch
-                                                        value={feed.id}
 
-                                                        // name={name}
-                                                        // id={name + "switch"}
-                                                        checked={feedActive}
-                                                    // onClick={handler}
-                                                    // onChange={handleFeedActive}
-                                                    />
-                                                } label={feed.name} /> */}
-                </TableCell>
-                <TableCell>
+                        {(feed_status.status == 0 && !feedActive && Boolean(ad.active)) && (
+                            <CheckBoxOutlineBlankIcon />
+                        )}
+                        {(feed_status.status == 0 && feedActive && Boolean(ad.active)) && (
+                            <CheckIcon />
+                        )}
+                        {(feed_status.status == 1 && feedActive && Boolean(ad.active)) && (
+                            <DoneAllIcon />
+                        )}
+                        {(feed_status.status > 1 && Boolean(ad.active)) && (
+                            <ErrorIcon />
+                        )}
+                        {feed.name}
+
+
+                    </Button>
+
+                    {dates.length > 0 && (
+                        <IconButton
+                            color={showChart ? "danger" : "success"}
+                            onClick={handleShowChart}
+
+                        >
+                            <QueryStatsIcon />
+                        </IconButton>
+                    )}
+                </td>
+                <td>
+
                     {feedActive && (
                         <>
-                            {/* {(feed_status.status === 0 && feedActive )&& (
-                                                          <Typography
-                                                        //   color={'green'}
-                                                      >
-                                                          Ожидает публикации
 
-                                                      </Typography>
-                                                    )} */}
                             {feed_status.status === 1 && (
                                 <Typography
-                                    color={'green'}
+                                    component={'div'}
+                                    color={'success'}
                                 >
                                     Опубликовано
 
@@ -107,6 +134,7 @@ function AdFeedStatusRow({ ad, feed, activeFeeds }) {
                             )}
                             {feed_status.status > 1 && (
                                 <Typography
+                                    component={'div'}
                                     color={'error'}
                                 >
                                     Ошибка/Предупреждение
@@ -114,14 +142,13 @@ function AdFeedStatusRow({ ad, feed, activeFeeds }) {
                             )}
                         </>
                     )}
-
-                </TableCell>
-                <TableCell
+                </td>
+                <td
                     className="whitespace-pre-line"
                 >
                     {feed_status.message}
-                </TableCell>
-                <TableCell>
+                </td>
+                <td>
                     {(feedActive && feed_status.url && feed_status.url !== '') && (
                         <Link
                             href={feed_status.url}
@@ -131,24 +158,12 @@ function AdFeedStatusRow({ ad, feed, activeFeeds }) {
                         </Link>
 
                     )}
+                </td>
+            </tr>
 
-                </TableCell>
-
-
-
-                {/* <Grid
-                                            key={'feed_grid_item_' + ad.id + '_' + object.id + '_' + feed.id}
-                                            item
-                                        >
-
-
-
-
-                                        </Grid> */}
-            </TableRow>
             {(dates.length > 0 && showChart) && (
-                <TableRow>
-                    <TableCell
+                <tr>
+                    <td
                         colSpan={4}
                     >
                         <LineChart
@@ -165,13 +180,12 @@ function AdFeedStatusRow({ ad, feed, activeFeeds }) {
                         />
 
 
-                    </TableCell>
-                </TableRow>
+                    </td>
+                </tr>
             )}
         </>
-
 
     )
 }
 
-export default AdFeedStatusRow;
+export default BaseTableAdTableRow;

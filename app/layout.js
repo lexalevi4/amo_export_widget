@@ -6,8 +6,8 @@ import './globals.css'
 // import '../dist/output.css'
 
 import { Inter } from 'next/font/google'
-import { Suspense } from 'react'
-import LoadingTb from './components/Loading'
+// import { Suspense } from 'react'
+// import LoadingTb from './components/Loading'
 import './../dist/style.css'
 
 const inter = Inter({ subsets: ['latin'] })
