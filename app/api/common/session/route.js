@@ -59,7 +59,8 @@ export async function POST(req, response) {
             if (searchParams.get('page') === 'left') {
                 console.log(searchParams.get('subitem'));
                 if (searchParams.get('subitem') === 'sub_item_code_1') {
-                    page = '/objects?session=' + session_id
+                    // page = '/objects?session=' + session_id
+                    page = '/base?session=' + session_id
 
                 }
                 if (searchParams.get('subitem') === 'sub_item_code_2') {

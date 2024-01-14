@@ -39,7 +39,8 @@ export const useObjectSearchFormState = create((set, get) => ({
         price_type: [],
         id: '',
         users: [],
-        status: []
+        status: [],
+        material: []
 
     },
     activeSearch: {
@@ -78,7 +79,8 @@ export const useObjectSearchFormState = create((set, get) => ({
         price_type: [],
         id: '',
         users: [],
-        status: []
+        status: [],
+        material: []
 
 
     },
@@ -118,7 +120,8 @@ export const useObjectSearchFormState = create((set, get) => ({
         price_type: [],
         id: '',
         users: [],
-        status: []
+        status: [],
+        material: []
     },
     params: {
         strings: [],
@@ -129,7 +132,8 @@ export const useObjectSearchFormState = create((set, get) => ({
             'metro',
             'brunches',
             'rooms',
-            'object'
+            'object',
+            'material'
         ],
         arrays: [
             'polygons',
@@ -140,7 +144,8 @@ export const useObjectSearchFormState = create((set, get) => ({
     objectsCount: 0,
     setObjects: (data) => set((state) => {
         return ({
-            objects: data
+            objects: data,
+            // objectsIsLoading: false
         })
     }),
     setSearch: (data) => set((state) => {
@@ -194,31 +199,29 @@ export const useObjectSearchFormState = create((set, get) => ({
     loading: true,
     setLoading: (value) => set((state) => ({ loading: value })),
     page: 1,
+    perPage: 20,
     search_updated: 0,
     pageType: 'list',
     setState: (name, value) => set((state) => ({ [name]: value })),
 
     setActiveSearch: (value) => set((state) => {
-        console.log(value)
-        // const search_updated = get().search_updated;
-        // console.log(search_updated)/
-        // const search = get().search;
-        // let okrugs = search.okrugs.slice(0);
-        // if (okrugs.includes(okrug)) {
-        //     okrugs = okrugs.filter((item) => { return item !== okrug })
-        // }
-        // const new_search = { ...search, okrugs: okrugs }
+        // console.log(value)
+
         return ({
             activeSearch: value,
             page: 1,
-            search_updated: 1
+            search_updated: 1,
+            // objectsIsLoading: true,
         })
 
     }),
 
 
     // setActiveSearch: (value) => set((state) => ({ activeSearch: value, page: 1, search_updated: 1 })),
+    sort: 'date',
+    setSort: (value) => set((state) => ({ sort: value, search_updated: 1 })),
     setPage: (value) => set((state) => ({ page: value, search_updated: 1 })),
+    setPerPage: (value) => set((state) => ({ perPage: value, page: 1, search_updated: 1 })),
     changePageType: () => set((state) => {
         const currentPageType = get().pageType;
         const currentSearch = get().search;
@@ -239,6 +242,27 @@ export const useObjectSearchFormState = create((set, get) => ({
 
     }),
 
+    refreshObjects:  () => set(async (state) => {
+        // this.setObjectsIsLoading(true)
+        // const setObjectsIsLoading = get().setObjectsIsLoading;
+        // setObjectsIsLoading(true);
+        const page = get().page;
+        const perPage = get().perPage;
+        const activeSearch = get().activeSearch;
+        const sort = get().sort;
+        const data = await sendApiRequest('post', 'api/refresh-objects', { filter: JSON.stringify(activeSearch), page: page, perPage: perPage, sort: sort })
+        console.log(data);
+        // if (data.status === 'ok') {
+        return ({
+            objects: data.objects,
+            objectsCount: data.count,
+            objectsIsLoading: false,
+            search_updated: 0
+        })
+        // }
+        // this.setListObjects(data)
+
+    }),
     setListObjects: (data) => set((state) => {
         if (data.status === 'ok') {
             return ({
@@ -249,6 +273,24 @@ export const useObjectSearchFormState = create((set, get) => ({
             })
         }
     }),
+    updateActiveSearch: () => set((state) => {
+        // console.log(value)
+        const search = get().search;
+        return ({
+            activeSearch: search,
+            page: 1,
+            search_updated: 1,
+            // objectsIsLoading: true,
+        })
 
+    }),
+    resetSearch: () => set((state) => {
+        // console.log(value)
+        const defaultSearch = get().defaultSearch;
+        return ({
+            search: defaultSearch,
+        })
+
+    }),
 
 }))

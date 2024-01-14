@@ -126,13 +126,15 @@ function BaseObjectsTableRow({ object }) {
             </td>
             <td>{object.id}
 
-                <ImageList sx={
-                    {
-                        width: 100,
-                        height: 100,
-                        // overflow: 'hidden'
+                <ImageList
+                    className='my-0 py-0'
+                    sx={
+                        {
+                            width: 120,
+                            height: 120,
+                            // overflow: 'hidden'
+                        }
                     }
-                }
                     cols={1}
                 //  rowHeight={164}
                 >

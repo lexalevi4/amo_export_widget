@@ -19,7 +19,7 @@ async function Flats(searchParams) {
     if (accData?.status === 'error') {
         return (
             <h1>
-                {data.error}
+                {accData.error}
 
             </h1>
         )

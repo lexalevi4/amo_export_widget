@@ -2,6 +2,8 @@ import { Button, IconButton, Link, Typography } from "@mui/joy";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckIcon from '@mui/icons-material/Check';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import ErrorIcon from '@mui/icons-material/Error';
+
 import { useState } from "react";
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { LineChart } from "@mui/x-charts";
@@ -62,7 +64,7 @@ function BaseTableAdTableRow({ ad, feed, objectId }) {
         color = 'success'
     }
     if (feed_status.status > 1 && Boolean(ad.active)) {
-        color = 'error'
+        color = 'danger'
     }
 
 

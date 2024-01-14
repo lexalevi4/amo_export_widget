@@ -53,7 +53,7 @@ export const printObject = (object, formData) => {
         }
     }
     let current_obj = formData.object.filter(item => {
-        return Number(item.id) === Number(flat.object)
+        return Number(item.id) === Number(object.object)
     })
 
     try {

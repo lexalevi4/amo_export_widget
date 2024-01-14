@@ -9,18 +9,29 @@ import { CloseRounded } from "@mui/icons-material";
 import { useObjectSearchFormState } from "@/app/objects/store";
 import BaseFormSelect from "./FormComponents/BaseFormSelect";
 import BaseFormModal from "./FormComponents/BaseFormModal";
+import BaseFormTextInput from "./FormComponents/BaseFormTextInput";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 function BaseSearchForm({ }) {
 
+    const [object_menu_items, setObject_menu_items] = useState([]);
     const users = useAccountState((state) => state.users);
     const groups = useAccountState((state) => state.groups);
     const pipelines = useAccountState((state) => state.pipelines);
     const statuses = useAccountState((state) => state.statuses);
     const session = useAccountState((state) => state.session);
     const setSearchParam = useObjectSearchFormState((state) => state.setSearchParam);
-
+    const category = useObjectSearchFormState((state) => state.search.category);
+    const object = useObjectSearchFormState((state) => state.search.object);
     const selectedUsers = useObjectSearchFormState((state) => state.search.users);
     const cluster = useObjectSearchFormState((state) => state.search.cluster);
+    const setActiveSearch = useObjectSearchFormState((state) => state.setActiveSearch);
+    const resetSearch = useObjectSearchFormState((state) => state.resetSearch);
+    const search = useObjectSearchFormState((state) => state.search);
+    const formData = useObjectSearchFormState((state) => state.formData);
+
     // console.log(selectedUsers);
+    const objectsIsLoading = useObjectSearchFormState((state) => state.objectsIsLoading);
+    // setActiveSearch({ ...defaultSearch, cluster: 2, status: 'active' })
 
     const [formIsOpen, setFormIsOpen] = useState(false);
 
@@ -31,7 +42,41 @@ function BaseSearchForm({ }) {
     const action = useRef(null);
     console.log(cluster)
     // console.log(statuses)
+    useEffect(() => {
 
+        if (Number(category) > 0) {
+
+
+            const new_menu = formData.object.filter((item) => {
+                return Number(item.category) === Number(category)
+            });
+
+
+
+            const new_object = object.filter(item => {
+                var result = false;
+                new_menu.map(menu_item => {
+                    if (item === menu_item.id) {
+                        result = true;
+                    }
+                    return true;
+                })
+            })
+            setSearchParam('object', new_object)
+
+
+
+            setObject_menu_items(new_menu)
+        } else {
+            setObject_menu_items([])
+
+            // setSearchParam('object', [])
+            // setSearchParam('rooms', [])
+        }
+        if (category !== 1) {
+            // setSearchParam('rooms', [])
+        }
+    }, [category])
 
     // useEffect(() => {
     //     console.log(value);
@@ -67,11 +112,15 @@ function BaseSearchForm({ }) {
         // if (value.includes())
     }
 
+    const searchHandler = () => {
+        setActiveSearch(search);
+    }
+
     return (<>
 
         <Stack
             direction={'row'}
-            className='my-5'
+            className='mt-5'
             spacing={2}
             container
         // className='align-middle'
@@ -79,14 +128,12 @@ function BaseSearchForm({ }) {
             <Grid
 
             >
-                <FormControl>
-                    <FormLabel>ID</FormLabel>
-                    <Input
-                        type="number"
 
-                    />
-                </FormControl>
-
+                <BaseFormTextInput
+                    type="number"
+                    name={'id'}
+                    label="ID"
+                />
 
                 {/* <MyTextInput
                     name={'id'}
@@ -240,7 +287,91 @@ function BaseSearchForm({ }) {
                 label="Статус"
             />
         </Stack>
+        <Stack
+            direction={'row'}
+            spacing={2}
+            className='mt-2 mb-5'
+        >
 
+            <BaseFormSelect
+                width={150}
+                dropable={true}
+                name={'deal_type'}
+                label="Тип сделки"
+            />
+
+            <BaseFormSelect
+                width={200}
+                dropable={true}
+                name={'category'}
+                label="Категория"
+            />
+
+            {Number(category) === 1 && (
+                <BaseFormSelect
+                    dropable={true}
+                    // width={250}
+                    name={'rooms'}
+                    label="Объект"
+                    items={formData.rooms_search}
+                    multiple={true}
+                />
+            )}
+
+            {Number(category) > 1 && (
+                <>
+
+
+                    <BaseFormSelect
+                        dropable={true}
+                        name={'object'}
+                        label="Объект"
+                        items={object_menu_items}
+                        multiple={true}
+                    />
+
+
+                </>
+            )}
+            <BaseFormTextInput
+                width={150}
+                type="number"
+                name={'minPrice'}
+                label="Цена от"
+            />
+
+            <BaseFormTextInput
+                width={150}
+                type="number"
+                name={'maxPrice'}
+                label="До"
+            />
+        </Stack >
+
+        <Stack
+            direction={'row'}
+            className="mb-4"
+        >
+
+            <Button
+
+                variant="outlined"
+                color="neutral"
+                startDecorator={<FilterAltOutlined />}
+                onClick={() => setFormIsOpen(true)}
+            >
+                Ещё фильтры
+            </Button>
+            <Button
+                // startDecorator={<RestartAltIcon />}
+                className="ml-2"
+                variant="plain" color="danger"
+                onClick={resetSearch}
+            >
+                Сбросить
+            </Button>
+
+        </Stack>
 
         <Stack
             className='my-2'
@@ -252,14 +383,13 @@ function BaseSearchForm({ }) {
             sx={{ minWidth: 0 }}
         >
             <Button
-                variant="outlined"
-                color="neutral"
-                startDecorator={<FilterAltOutlined />}
-                onClick={() => setFormIsOpen(true)}
+
+                disabled={objectsIsLoading}
+                onClick={searchHandler}
             >
-                Ещё фильтры
+                Искать
             </Button>
-            <OrderSelector />
+            {/* <OrderSelector /> */}
 
         </Stack>
         <BaseFormModal

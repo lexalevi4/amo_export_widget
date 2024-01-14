@@ -19,6 +19,8 @@ function BasePage({ accData, formData }) {
     const setObjects = useObjectSearchFormState((state) => state.setObjects);
     const activeSearch = useObjectSearchFormState((state) => state.activeSearch);
     const page = useObjectSearchFormState((state) => state.page);
+    const perPage = useObjectSearchFormState((state) => state.perPage);
+    const sort = useObjectSearchFormState((state) => state.sort);
     const setState = useObjectSearchFormState((state) => state.setState);
 
     const searchUpdated = useObjectSearchFormState((state) => state.search_updated);
@@ -28,16 +30,21 @@ function BasePage({ accData, formData }) {
     const setActiveSearch = useObjectSearchFormState((state) => state.setActiveSearch);
     const setSearch = useObjectSearchFormState((state) => state.setSearch);
     const defaultSearch = useObjectSearchFormState((state) => state.defaultSearch);
+    const refreshObjects = useObjectSearchFormState((state) => state.refreshObjects);
 
 
     const getListObjects = async () => {
-        const res = await sendApiRequest('post', 'api/refresh-objects', { filter: JSON.stringify(activeSearch), page: page })
+        setState('objectsIsLoading', true)
+        const res = await sendApiRequest('post', 'api/refresh-objects', { filter: JSON.stringify(activeSearch), page: page, perPage: perPage, sort: sort })
         setListObjects(res);
+        setState('objectsIsLoading', false)
     }
 
 
     useEffect(() => {
         if (searchUpdated > 0) {
+            setState('objectsIsLoading', true)
+            // refreshObjects();
             getListObjects()
         }
     }, [searchUpdated])
@@ -45,8 +52,9 @@ function BasePage({ accData, formData }) {
     useEffect(() => {
         setAccData(accData)
         setFormData(formData)
-        setActiveSearch({ ...defaultSearch, cluster: 2, status: 'active' })
-        setSearch({ ...defaultSearch, cluster: 2, status: 'active' })
+        setActiveSearch({ ...defaultSearch, cluster: 2, status: 'active', category: '', deal_type: '' })
+        setSearch({ ...defaultSearch, cluster: 2, status: 'active', category: '', deal_type: '' })
+        setState('defaultSearch', { ...defaultSearch, cluster: 2, status: 'active', category: '', deal_type: '' })
 
     }, [])
 
@@ -69,8 +77,10 @@ function BasePage({ accData, formData }) {
                 objects={objects}
                 loading={objectsIsLoading}
             />
-            <BaseObjectsPagination
-            />
+            {!objectsIsLoading && (
+                <BaseObjectsPagination />
+            )}
+
         </YMaps>
         {/* </CssVarsProvider> */}
 

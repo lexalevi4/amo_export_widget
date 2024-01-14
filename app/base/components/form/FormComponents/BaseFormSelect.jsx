@@ -118,7 +118,7 @@ function BaseFormSelect({ name, label = '', multiple = false, dropable = false, 
                     </Select>
                 </FormControl >
             </>
-        ), [value]))
+        ), [value, items]))
 }
 
 export default BaseFormSelect;
