@@ -13,7 +13,7 @@ import SearchButtonsGroup from "./formComponents/SearchButtonsGroup";
 import DualTextField from "./formComponents/DualTextField";
 import MetroModal from "./formComponents/MetroModal";
 import MapSearchModal from "./formComponents/MapSearchModal";
-import { YMaps } from "@pbe/react-yandex-maps";
+// import { YMaps } from "@pbe/react-yandex-maps";
 import DistrictsModal from "./formComponents/DistrictsModal";
 import HighwaysModal from "./formComponents/HighwaysModal";
 import SearchTextField from "./formComponents/SearchTextField";

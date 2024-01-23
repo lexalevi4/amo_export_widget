@@ -63,6 +63,11 @@ export async function POST(req, response) {
                     page = '/base?session=' + session_id
 
                 }
+                if (searchParams.get('subitem') === 'sub_item_code_4') {
+                    page = '/parser?session=' + session_id
+                    // page = '/base?session=' + session_id
+
+                }
                 if (searchParams.get('subitem') === 'sub_item_code_2') {
                     page = '/clients?session=' + session_id
 

@@ -1,4 +1,5 @@
-import { Typography } from "@mui/material";
+
+import { Typography } from "@mui/joy";
 import { useMemo } from "react";
 
 function MetroLink({
@@ -95,6 +96,7 @@ function MetroLink({
                         }}
                     >
                         <Typography
+                        component={'div'}
                             key={station.id + "link"}
                             className={checked ? 'station_link_active' : "station_link"}
                             onClick={handleStationClick}

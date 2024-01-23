@@ -18,7 +18,7 @@ function Address({
 
     const flat = useObjectFormState((state) => state.flat);
 
-    // console.log(flat);
+    console.log(flat);
 
 
     const ymaps = useYMaps();
@@ -50,6 +50,7 @@ function Address({
 
     const [metroUpdating, setMetroUpdating] = useState(false);
     const [metroDisabled, setMetroDisabled] = useState(false);
+    console.log(address);
 
     // const [startMetroUpdating, setStartMetroUpdating] = useState(false);
 
@@ -105,11 +106,11 @@ function Address({
         return dadata.suggestions[0];
     }
 
-    useEffect(() => {
-        console.log(newBuildings)
-        console.log(newBuildingHouses)
-    
-    }, [newBuildings, newBuildingHouses])
+    // useEffect(() => {
+    //     console.log(newBuildings)
+    //     console.log(newBuildingHouses)
+
+    // }, [newBuildings, newBuildingHouses])
 
     useEffect(() => {
 
@@ -284,6 +285,7 @@ function Address({
                     width: 500
                 }}>
                 <AddressSuggestions token={"asdfasdfasdf"}
+                    key={Math.random()}
                     uid='dadata-input-qq'
                     url="/api/dadata/suggest"
                     // height={56}
@@ -300,6 +302,7 @@ function Address({
 
                     httpCache
 
+                    // query={address}
                     value={dadata_address}
                     defaultQuery={address}
                     onChange={onAddrChange}
@@ -406,6 +409,7 @@ function Address({
                     Циан
                 </Typography>
                 <NewBuilding
+                    key={Math.random()}
                     src={1}
                     zhk={newBuildings.filter((item) => { return item.src === 1 })[0] ? newBuildings.filter((item) => { return item.src === 1 })[0] : null}
                     house={newBuildingHouses.filter((item) => { return item.src === 1 })[0] ? newBuildingHouses.filter((item) => { return item.src === 1 })[0] : null}

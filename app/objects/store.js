@@ -215,8 +215,9 @@ export const useObjectSearchFormState = create((set, get) => ({
         })
 
     }),
-
-
+    metro:[],
+    districts:[],
+    brunches:[],
     // setActiveSearch: (value) => set((state) => ({ activeSearch: value, page: 1, search_updated: 1 })),
     sort: 'date',
     setSort: (value) => set((state) => ({ sort: value, search_updated: 1 })),

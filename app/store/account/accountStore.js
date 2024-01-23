@@ -1,12 +1,12 @@
 import { create } from 'zustand'
 
 export const useAccountState = create((set, get) => ({
-    session:{},
-    users:{},
-    groups:{},
-    pipelines:{},
-    statuses:{},
-    feeds:{},
+    session: {},
+    users: {},
+    groups: {},
+    pipelines: {},
+    statuses: {},
+    feeds: {},
 
     setState: (data) => set((state) => {
         return ({
@@ -15,7 +15,8 @@ export const useAccountState = create((set, get) => ({
             groups: data.groups,
             pipelines: data.pipelines,
             statuses: data.statuses,
-            feeds: data.feeds
+            feeds: data.feeds,
+            currentUser: data.current_user
         })
     }),
 

@@ -4,6 +4,9 @@ import { Autocomplete, Box, Stack, TextField, Typography } from "@mui/material";
 import { useObjectFormState } from "@/app/objects/create/store";
 function NewBuilding({ src, zhk, house }) {
 
+
+    // const isMounted = useRef(false);
+
     const [zhkOptions, setZhkOptions] = useState(zhk ? [zhk] : []);
     const [zhkHouseOptions, setZhkHouseOptions] = useState(house ? [house] : []);
     const [zhkInputValue, setZhkInputValue] = useState('');

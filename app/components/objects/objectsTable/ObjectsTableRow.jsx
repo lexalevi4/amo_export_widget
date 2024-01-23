@@ -1,12 +1,12 @@
 'use client'
-import { Box, Button,  Collapse, Grid, IconButton, ImageList, ImageListItem, Rating, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import {  useState } from "react";
+import { Box, Button, Collapse, Grid, IconButton, ImageList, ImageListItem, Rating, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { useState } from "react";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import Images from "./Images";
 import { Map, Placemark, RulerControl, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
-import {  secToStr } from "@/app/heplers/tableHelper";
+import { secToStr } from "@/app/heplers/tableHelper";
 import PriceAnalizeTabs from "./PriceAnalizeTabs";
 
 import EditIcon from '@mui/icons-material/Edit';
@@ -140,6 +140,9 @@ function ObjectsTableRow({ flat, formData, isFilter, filterId = 0, setObjectStat
                                 // }
                                 key={item.thumb} >
                                 <img
+                                    style={{
+                                        maxWidth: 150
+                                    }}
                                     onClick={() => setOpen(!open)}
                                     srcSet={`${item.thumb}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                                     src={`${item.thumb}?w=164&h=164&fit=crop&auto=format`}

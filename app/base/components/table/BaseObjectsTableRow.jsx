@@ -13,13 +13,32 @@ import BaseObjectsImages from "./BaseObjectsImages";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Ads from "./Ads";
 import EditIcon from '@mui/icons-material/Edit';
-function BaseObjectsTableRow({ object }) {
+import { checkRights } from "@/app/heplers/acl";
+function BaseObjectsTableRow({ object, setObjectForEdit }) {
     const formData = useObjectSearchFormState((state) => state.formData);
     const users = useAccountState((state) => state.users)
+    const groups = useAccountState((state) => state.groups)
     const statuses = useAccountState((state) => state.statuses)
     const session = useAccountState((state) => state.session)
+    const currentUser = useAccountState((state) => state.currentUser)
 
     const [isOpen, setIsOpen] = useState(false)
+
+
+
+
+    const checkAccess = (access) => {
+        return checkRights(access, currentUser, object.lead, groups, session)
+    }
+
+    if (object.amo_account_id > 0) {
+        if (!checkAccess('access_read')) {
+            return (<>
+
+            </>)
+        }
+    }
+
 
 
     const printStatus = (lead) => {
@@ -148,6 +167,10 @@ function BaseObjectsTableRow({ object }) {
                             // }
                             key={item.thumb} >
                             <img
+                                style={{
+                                    maxHeight: 120,
+                                    maxWidth: 100
+                                }}
                                 onClick={() => setIsOpen(!isOpen)}
                                 srcSet={`${item.thumb}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                                 src={`${item.thumb}?w=164&h=164&fit=crop&auto=format`}
@@ -263,24 +286,36 @@ function BaseObjectsTableRow({ object }) {
                             direction={'row'}
                             spacing={2}
                         >
-                            <Tooltip title="Редактировать" variant="solid">
-                                {/* <Button variant="plain"> */}
-                                <IconButton
-                                    color="primary"
-                                >
-                                    <EditIcon />
-                                </IconButton>
-                                {/* </Button> */}
-                            </Tooltip>
-                            <Tooltip title="Удалить" variant="solid">
-                                {/* <Button variant="plain"> */}
-                                <IconButton
-                                    color="danger"
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                                {/* </Button> */}
-                            </Tooltip>
+                            {object.amo_account_id > 0 && (
+                                <>
+                                    <Tooltip
+                                        title="Редактировать"
+
+                                        variant="solid">
+                                        {/* <Button variant="plain"> */}
+                                        <IconButton
+                                            onClick={setObjectForEdit}
+                                            disabled={!checkAccess('access_update')}
+                                            color="primary"
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                        {/* </Button> */}
+                                    </Tooltip>
+                                    <Tooltip title="Удалить" variant="solid">
+                                        {/* <Button variant="plain"> */}
+                                        <IconButton
+                                            disabled={!checkAccess('access_delete')}
+                                            color="danger"
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                        {/* </Button> */}
+                                    </Tooltip>
+                                </>
+
+                            )}
+
                         </Stack>
 
 

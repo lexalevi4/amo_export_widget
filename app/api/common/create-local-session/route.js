@@ -47,28 +47,13 @@ export async function GET(req, response) {
     // );
     const session_id = getSessionIdAndCreateIfMissing();
     let cookieStore = cookies();
-    // console.log('_______________')
-    // console.log(cookieStore.getAll());
-    // console.log('_______________')
-    // console.log(session_id);
+   
+    const account = 26530375;  //credit-center
+    // const account = 30995858; //glendels
+    // const account = 31165334; //tech
 
-    // const formData = await req.formData()
-    // console.log(formData);
-    // const account = formData.get('account')
-    const account = 26530375;
-    // const account = 31165334;
-    // const area = formData.get('system[area]')
-    // const card_id = formData.get('page[code]')
-    // console.log(area)
-    // console.log(card_id)
-    // const { searchParams } = new URL(req.url)
-    // console.log(searchParams);
-    // const session = searchParams.get('session')
-
-    // const token = headers().get('x-auth-token');
-    // console.log(token);
-
-    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvNzk3MDk5My5hbW9jcm0ucnUiLCJhdWQiOiJodHRwczpcL1wvdHVyYm9icm9rZXIucnUiLCJqdGkiOiIxNDY2MmMxYi1iOTM4LTRkZDQtYWYwYi05YWQ4NTgwZGZhNGYiLCJpYXQiOjE3MDQ1Mjg5NTksIm5iZiI6MTcwNDUyODk1OSwiZXhwIjoxNzA0NTMwNzU5LCJhY2NvdW50X2lkIjoyNjUzMDM3NSwic3ViZG9tYWluIjoiNzk3MDk5MyIsImNsaWVudF91dWlkIjoiNzU4OWJmMzAtYWEyZi00YjU3LTgwMjQtZDlkYjRiZmE0MzI1IiwidXNlcl9pZCI6MzQyMTcwMiwiaXNfYWRtaW4iOnRydWV9.aZQU9ldjimt9oSCzBupf3KCoyHW-RrjEkxxGfEZx3MY';
+  
+    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvNzk3MDk5My5hbW9jcm0ucnUiLCJhdWQiOiJodHRwczpcL1wvdHVyYm9icm9rZXIucnUiLCJqdGkiOiJhNjcyZDA4Ny05MzQ1LTQ2NjktYTg5ZC1mZWMwNDhiMzlhYTIiLCJpYXQiOjE3MDYwMTc3MDUsIm5iZiI6MTcwNjAxNzcwNSwiZXhwIjoxNzA2MDE5NTA1LCJhY2NvdW50X2lkIjoyNjUzMDM3NSwic3ViZG9tYWluIjoiNzk3MDk5MyIsImNsaWVudF91dWlkIjoiNzU4OWJmMzAtYWEyZi00YjU3LTgwMjQtZDlkYjRiZmE0MzI1IiwidXNlcl9pZCI6MzQyMTcwMiwiaXNfYWRtaW4iOnRydWV9.cYH3WR5BxYbWxoFRasMuLWHXeZIxsfdZAekqHPkVym4';
     let result = [];
     let page = '/error';
 

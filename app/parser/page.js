@@ -1,10 +1,9 @@
 
-import { getFormData, sendGetRequest, sendPostRequest } from "../heplers/backendApiHandler";
+import BasePage from "../base/components/BasePage";
+import { getFormData, sendGetRequest } from "../heplers/backendApiHandler";
 
 import 'react-dadata/dist/react-dadata.css';
-import Objects from "../components/objects/Objects";
-import MapProvidedObjectSearchForm from "../components/objects/searchForm/MapProvidedObjectsSearchForm";
-import BasePage from "./components/BasePage";
+
 
 
 async function Flats(searchParams) {
@@ -32,9 +31,10 @@ async function Flats(searchParams) {
         <BasePage
             accData={accData}
             formData={formData}
+            isParser={true}
         />
 
-   
+
 
 
     </>);

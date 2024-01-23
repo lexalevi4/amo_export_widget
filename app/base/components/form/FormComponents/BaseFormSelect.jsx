@@ -76,6 +76,7 @@ function BaseFormSelect({ name, label = '', multiple = false, dropable = false, 
                         <FormLabel>{label}</FormLabel>
                     )}
                     <Select
+                        size="sm"
                         value={value}
                         onChange={setter}
                         multiple={multiple}

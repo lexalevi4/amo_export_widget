@@ -6,7 +6,7 @@ import MyRadioGroup from "./form/RadioGroup";
 import MySelect from "./form/MySelect";
 import 'react-dadata/dist/react-dadata.css';
 import Address from "./form/Address";
-import { YMaps } from "@pbe/react-yandex-maps";
+// import { YMaps } from "@pbe/react-yandex-maps";
 import MyTextInput from "./form/MyTextInput";
 import FlatSale from "./form/object-forms/FlatSale";
 import Suburban from "./form/object-forms/Suburban";
@@ -19,10 +19,11 @@ import { useObjectFormState } from "@/app/objects/create/store";
 import { useRouter } from "next/navigation";
 import Price from "./form/object-forms/Price";
 import dynamic from "next/dynamic";
+import { YMaps } from "@pbe/react-yandex-maps";
 // import { headers } from "next/server";
 
 
-function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0 }) {
+function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0, isModal = false }) {
     const router = useRouter();
     // Call this function whenever you want to
     // refresh props!
@@ -41,6 +42,7 @@ function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0 }) {
     const object = useObjectFormState((state) => state.flat.object);
     const flat_data = useObjectFormState((state) => state.flat)
     const deal_type = useObjectFormState((state) => state.flat.deal_type)
+    const flat_id = useObjectFormState((state) => state.flat.id)
 
 
 
@@ -169,54 +171,61 @@ function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0 }) {
     }
 
     return (<>
-        <Stack spacing={2}>
+        <YMaps
+            query={{
+                load: "package.full",
+                lang: "ru_RU",
+                apikey: "d75321b0-ad40-4b10-9d56-3fb3a34883a1"
+            }}
+        >
+            <Stack spacing={2}>
 
-            <MyRadioGroup
+                <MyRadioGroup
 
-                items={formData.deal_type}
-                title={"Тип сделки"}
-                name={"deal_type"}
-                value={flat.deal_type}
-            // getter={getter}
-            // setter={updateFlat}
+                    items={formData.deal_type}
+                    title={"Тип сделки"}
+                    name={"deal_type"}
+                    value={flat.deal_type}
+                // getter={getter}
+                // setter={updateFlat}
 
-            />
+                />
 
-            {flat.deal_type !== null && (
-                <>
-                    <MyRadioGroup
+                {flat.deal_type !== null && (
+                    <>
+                        <MyRadioGroup
 
-                        items={formData.category}
-                        title={"Категория"}
-                        name={"category"}
-                    // value={flat.category}
-                    // getter={getter}
-                    // setter={updateFlat}
-
-                    />
-                    {flat.category !== null && (
-
-                        <MySelect
-                            items={object_menu_items}
-                            // value={object}
-                            title={"Объект"}
-                            name={'object'}
-                        // setter={updateFlat}
+                            items={formData.category}
+                            title={"Категория"}
+                            name={"category"}
+                        // value={flat.category}
                         // getter={getter}
+                        // setter={updateFlat}
+
                         />
-                    )}
-                </>
-            )}
+                        {flat.category !== null && (
 
-            <Divider
-                className="my-5"
-            />
+                            <MySelect
+                                items={object_menu_items}
+                                // value={object}
+                                title={"Объект"}
+                                name={'object'}
+                            // setter={updateFlat}
+                            // getter={getter}
+                            />
+                        )}
+                    </>
+                )}
 
-            <YMaps query={{
+                <Divider
+                    className="my-5"
+                />
+
+                {/* <YMaps query={{
                 load: "package.full",
                 lang: "ru_RU",
 
-            }}>
+            }}> */}
 
 
                 <Address
@@ -224,32 +233,32 @@ function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0 }) {
                     flat={flat}
                 // address={flat.address }
                 />
-            </YMaps >
+                {/* </YMaps > */}
 
 
 
-            {Number(category) === 2 && (
-                <MyTextInput
-                    name={'kpName'}
-                    // value={flat.kpName}
-                    // setter={updateFlat}
-                    title={'Название коттеджного посёлка'}
-                    width={500}
-                />
-            )}
+                {Number(category) === 2 && (
+                    <MyTextInput
+                        name={'kpName'}
+                        // value={flat.kpName}
+                        // setter={updateFlat}
+                        title={'Название коттеджного посёлка'}
+                        width={500}
+                    />
+                )}
 
 
-            {Number(category) === 3 && (
-                <MyTextInput
-                    name={'buildingName'}
-                    // value={flat.buildingName}
-                    // setter={updateFlat}
-                    title={'Название здания'}
-                    width={500}
-                />
-            )}
-            <Divider />
-            {/* 
+                {Number(category) === 3 && (
+                    <MyTextInput
+                        name={'buildingName'}
+                        // value={flat.buildingName}
+                        // setter={updateFlat}
+                        title={'Название здания'}
+                        width={500}
+                    />
+                )}
+                <Divider />
+                {/* 
             <Metro
                 flat={flat}
                 form_data={form_data}
@@ -265,115 +274,118 @@ function ObjectFormZustand({ form_data, flat_for_update = null, leadId = 0 }) {
                 setter={updateFlat}
             /> */}
 
-            {Number(category) === 1 && (
-                <FlatSale
-                    flat={flat}
+                {Number(category) === 1 && (
+                    <FlatSale
+                        flat={flat}
+                        // getter={getter}
+                        // setter={updateFlat}
+                        form_data={formData}
+                        object={object}
+                    // deal_type={deal_type}
+
+                    />
+                )}
+
+                {Number(category) === 2 && (
+                    <Suburban
+                        flat_object={object}
+                        flat={flat}
+                        form_data={formData}
                     // getter={getter}
                     // setter={updateFlat}
-                    form_data={formData}
-                    object={object}
-                // deal_type={deal_type}
+                    />
+                )}
 
-                />
-            )}
+                {Number(category) === 3 && (
+                    <Commercial
+                        flat_object={object}
+                        flat={flat}
+                        form_data={formData}
+                    // getter={getter}
+                    // setter={updateFlat}
+                    // deal_type={deal_type}
+                    />
+                )}
 
-            {Number(category) === 2 && (
-                <Suburban
-                    flat_object={object}
-                    flat={flat}
-                    form_data={formData}
-                // getter={getter}
-                // setter={updateFlat}
-                />
-            )}
-
-            {Number(category) === 3 && (
-                <Commercial
-                    flat_object={object}
-                    flat={flat}
-                    form_data={formData}
-                // getter={getter}
-                // setter={updateFlat}
-                // deal_type={deal_type}
-                />
-            )}
-
-            {/* <Price
+                {/* <Price
                 flat={flat}
                 deal_type={deal_type}
                 form_data={form_data}
             /> */}
 
 
-            <MyDivider
-                title={"Описание"}
+                <MyDivider
+                    title={"Описание"}
 
-            />
+                />
 
-            {window !== undefined && (
-                <Description
-                    flat={flat}
-                // setter={updateFlat}
+                {window !== undefined && (
+                    <Description
+                        key={flat_id}
+                        // qq={Math.random()}
+                        flat={flat_id}
+                    // setter={updateFlat}
+                    // getter={getter}
+                    />
+                )}
+
+
+
+                <MyDivider
+                    title={"Фото/Видео"}
+
+                />
+                <MyTextInput
+                    name={'video'}
+                    // value={flat.buildingName}
+                    // setter={updateFlat}
+                    title={'Видео'}
+                    width={500}
+                />
+
+                <Images
+                    // className="mb-10"
+                    setter={addImages}
                 // getter={getter}
                 />
-            )}
+                <MyDivider
+                    title={"Условия"}
+
+                />
+                <Price
+                    deal_type={deal_type}
+                    form_data={formData}
+                />
 
 
-
-            <MyDivider
-                title={"Фото/Видео"}
-
-            />
-            <MyTextInput
-                name={'video'}
-                // value={flat.buildingName}
-                // setter={updateFlat}
-                title={'Видео'}
-                width={500}
-            />
-
-            <Images
-                // className="mb-10"
-                setter={addImages}
-            // getter={getter}
-            />
-            <MyDivider
-                title={"Условия"}
-
-            />
-            <Price
-                deal_type={deal_type}
-                form_data={formData}
-            />
-
-
-            <Stack
-                className="mt-10"
-                direction={'row'}
-                spacing={3}
-            >
-                <Button
-                    onClick={save}
-                    variant="contained"
-                // color="success"
+                <Stack
+                    className="mt-10"
+                    direction={'row'}
+                    spacing={3}
                 >
-                    Сохранить
+                    <Button
+                        onClick={save}
+                        variant="contained"
+                    // color="success"
+                    >
+                        Сохранить
 
-                </Button>
+                    </Button>
 
-                <Button
-                    onClick={
-                        goBack
-                    }
-                    variant="contained"
-                    color="error"
-                >
-                    Отмена
+                    <Button
+                        onClick={
+                            goBack
+                        }
+                        variant="contained"
+                        color="error"
+                    >
+                        Отмена
 
-                </Button>
-            </Stack>
+                    </Button>
+                </Stack>
 
-        </Stack >
+            </Stack >
+        </YMaps>
     </>);
 }
 

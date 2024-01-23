@@ -21,7 +21,7 @@ const Editor = dynamic(
 )
 // import debounce from "lodash.debounce";
 
-function Description({ }) {
+function Description({ flat }) {
 
     // const [editor, setEditor] = useState(false)
     const [editorState, setEditorState] = useState(null)
@@ -33,6 +33,7 @@ function Description({ }) {
     //     console.log(editor)
     // }, [editor])
 
+    console.log(flat);
 
     // const value = getter('description');
     const setter = useObjectFormState((state) => state.updateFlat);
@@ -46,21 +47,38 @@ function Description({ }) {
             let contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
             setEditorState(EditorState.createWithContent(contentState))
         }
-    }, [window])
+    }, [window, flat])
     const handleDebounceFn = (state) => {
         setter('description', draftToHtml(convertToRaw(state.getCurrentContent())))
     };
     const debounceFn = useCallback(_.debounce(handleDebounceFn, 500), []);
 
     let htmlToDraft = null;
+
+    if (window === undefined) {
+        return <>
+        </>
+    }
+
+    if (!window) {
+        return (<>
+        </>)
+    }
+
+    // if (editor) {
+
+
+
+    // };
+
     if (typeof window === 'object') {
         htmlToDraft = require('html-to-draftjs').default;
 
 
-    
 
 
-      
+
+
         const onEditorStateChange = (editorState) => {
             setEditorState(editorState);
             debounceFn(editorState)
@@ -68,8 +86,6 @@ function Description({ }) {
 
         if (editorState) {
             return (<>
-
-
 
                 <Editor
 
@@ -97,29 +113,13 @@ function Description({ }) {
 
 
 
-
-
-
-
-
-
-    if (window === undefined) {
-        return <>
-        </>
-    }
-
-    if (!window) {
-        return (<>
-        </>)
-    }
-
-    // if (editor) {
-
-
-
-    // };
     return (<>
     </>)
+
+
+
+
+
 }
 export default dynamic(() => Promise.resolve(Description), { ssr: false })
 // export default Description;

@@ -1,8 +1,8 @@
 // import MyTextInput from "@/app/components/objects/form/MyTextInput";
 import { sortByName } from "@/app/heplers/heplers";
 import { useAccountState } from "@/app/store/account/accountStore";
-import { Avatar, Box, Button, ButtonGroup, Chip, FormControl, FormLabel, Grid, IconButton, Input, List, ListDivider, ListItem, ListItemDecorator, Option, Select, Stack, Typography } from "@mui/joy";
-import React, { useEffect, useRef, useState } from "react";
+import { Autocomplete, Avatar, Box, Button, ButtonGroup, Chip, CircularProgress, FormControl, FormLabel, Grid, IconButton, Input, List, ListDivider, ListItem, ListItemDecorator, Option, Select, Stack, Typography } from "@mui/joy";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import FilterAltOutlined from '@mui/icons-material/FilterAltOutlined';
 import OrderSelector from "./OrderSelector";
 import { CloseRounded } from "@mui/icons-material";
@@ -11,7 +11,13 @@ import BaseFormSelect from "./FormComponents/BaseFormSelect";
 import BaseFormModal from "./FormComponents/BaseFormModal";
 import BaseFormTextInput from "./FormComponents/BaseFormTextInput";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-function BaseSearchForm({ }) {
+import { addressSuggest } from "@/app/services/actions";
+import { debounce } from '@mui/material/utils';
+import Addrobjs from "@/app/components/objects/searchForm/formComponents/Addrobjs";
+import BaseMetroModal from "./FormComponents/BaseMetroModal";
+
+
+function BaseSearchForm({ isParser }) {
 
     const [object_menu_items, setObject_menu_items] = useState([]);
     const users = useAccountState((state) => state.users);
@@ -22,6 +28,7 @@ function BaseSearchForm({ }) {
     const setSearchParam = useObjectSearchFormState((state) => state.setSearchParam);
     const category = useObjectSearchFormState((state) => state.search.category);
     const object = useObjectSearchFormState((state) => state.search.object);
+    const addrobjs = useObjectSearchFormState((state) => state.search.addrobjs);
     const selectedUsers = useObjectSearchFormState((state) => state.search.users);
     const cluster = useObjectSearchFormState((state) => state.search.cluster);
     const setActiveSearch = useObjectSearchFormState((state) => state.setActiveSearch);
@@ -29,19 +36,62 @@ function BaseSearchForm({ }) {
     const search = useObjectSearchFormState((state) => state.search);
     const formData = useObjectSearchFormState((state) => state.formData);
 
-    // console.log(selectedUsers);
-    const objectsIsLoading = useObjectSearchFormState((state) => state.objectsIsLoading);
-    // setActiveSearch({ ...defaultSearch, cluster: 2, status: 'active' })
+    const setSearchState = useObjectSearchFormState((state) => state.setState);
+
+    const region = useObjectSearchFormState((state) => state.search.region);
+
+    const formMetro = useObjectSearchFormState((state) => state.metro);
+    const formDistricts = useObjectSearchFormState((state) => state.districts);
 
     const [formIsOpen, setFormIsOpen] = useState(false);
+    const [districtsIsOpen, setDistrictsIsOpen] = useState(false);
+    const [metroIsOpen, setMetroIsOpen] = useState(false);
+
+    const objectsIsLoading = useObjectSearchFormState((state) => state.objectsIsLoading);
+    const updateMultyField = useObjectSearchFormState((state) => state.updateMultyField);
+
+    const [addrOptions, setAddrOptions] = useState([]);
+    const [addrValue, setAddrValue] = useState([]);
+    const [addrQuery, setAddrQuery] = useState('');
+    const [locations, setLocations] = useState([]);
+    const [addrIsLoading, setAddrIsLoading] = useState(false);
 
 
-    // const [my, setMy] = useState(true)
-    // const [value, setValue] = useState([]);
-    const groupsForSelect = [];
+
     const action = useRef(null);
-    console.log(cluster)
-    // console.log(statuses)
+
+
+
+    useEffect(() => {
+        setAddrIsLoading(false);
+    }, [addrOptions])
+
+    useEffect(() => {
+        if (Number(region) > 0) {
+            let new_metro = formData.metro.filter(item => Number(item.region) === Number(region));
+            let newDistrits = formData.districts.filter(item => Number(item.region) === Number(region))
+            let newLocations = formData.region_value.filter(item => Number(item.id) === Number(region))[0]?.value || []
+            console.log(formData.districts);
+            setSearchState('metro', new_metro);
+            setSearchState('districts', newDistrits);
+            setLocations(newLocations)
+        }else{
+            setSearchState('metro', []);
+            setSearchState('districts', []);
+            setLocations([])
+        }
+    }, [region])
+
+    useEffect(() => {
+        console.log(formMetro)
+        console.log(formDistricts)
+
+    }, [formMetro, formDistricts])
+
+
+    const groupsForSelect = [];
+
+
     useEffect(() => {
 
         if (Number(category) > 0) {
@@ -116,177 +166,288 @@ function BaseSearchForm({ }) {
         setActiveSearch(search);
     }
 
+
+    // const getAddressSuggest = async ()=>{
+    //     const res = await addressSuggest(addrQuery, locations);
+    //     console.log(res)
+    //     return res;
+
+    // }
+
+    const getAddressSuggest = useMemo(
+        () =>
+            debounce(async (q, request_locations) => {
+                setAddrIsLoading(true);
+                const res = await addressSuggest(q, request_locations);
+                setAddrOptions(res)
+
+            }, 400),
+        [],
+    );
+
+    useEffect(() => {
+        // console.log(addrQuery)
+        if (addrQuery.length > 3) {
+            getAddressSuggest(addrQuery, locations)
+        }
+        if (addrQuery === '') {
+            setAddrOptions([]);
+        }
+
+    }, [addrQuery])
+
+    const addressHandler = (event, newInputValue) => {
+        setAddrQuery(newInputValue);
+
+    }
+    const addressChangeHandler = (event, newValue) => {
+        // console.log(newValue);
+        // setAddrValue(newValue);
+        const new_value = newValue[0].value + ':' + newValue[0].label;
+        // console.log(newValue);
+        updateMultyField('addrobjs', new_value);
+
+    }
+
     return (<>
 
-        <Stack
-            direction={'row'}
-            className='mt-5'
-            spacing={2}
-            container
-        // className='align-middle'
-        >
-            <Grid
+        {isParser && (
+            <>
+                <Stack
+                    // sx={{
+                    //     width: '100%'
+                    // }}
+                    direction={'row'}
+                    className='mt-5'
+                    spacing={2}
+                    container
+                // className='align-middle'
+                >
+                    <BaseFormSelect
+                        width={200}
+                        name={'region'}
+                        label="Регион"
 
-            >
 
-                <BaseFormTextInput
-                    type="number"
-                    name={'id'}
-                    label="ID"
+                    />
+
+                    <FormControl
+                    // sx={{
+                    //     width: '100%'
+                    // }}
+                    >
+                        <FormLabel>Адрес</FormLabel>
+                        <Autocomplete
+                            loading={addrIsLoading}
+                            loadingText={'Загрузка...'}
+                            value={addrValue}
+                            clearOnBlur
+                            disabledItemsFocusable
+                            blurOnSelect={false}
+                            // clearText=""
+                            multiple={true}
+                            onInputChange={addressHandler}
+                            onChange={addressChangeHandler}
+
+                            disableClearable={true}
+                            options={addrOptions}
+                            sx={{
+                                width: 650
+                            }}
+                            freeSolo={true}
+                            size="sm"
+                            endDecorator={<>
+                                {/* {addrIsLoading && ( <CircularProgress size="sm" sx={{ bgcolor: 'background.surface' }} />)} */}
+                                <Button variant="plain" size="sm"
+                                    onClick={() => { setMetroIsOpen(true) }}
+                                >
+                                    Метро
+                                </Button>
+                                <Button size="sm" variant="plain">Район</Button>
+                                <Button size="sm" variant="plain">Регион</Button>
+                            </>}
+
+                        />
+                    </FormControl>
+
+                </Stack>
+                <Addrobjs
                 />
 
-                {/* <MyTextInput
+            </>
+        )}
+        {!isParser && (
+            <Stack
+                direction={'row'}
+                className='mt-5'
+                spacing={2}
+                container
+            // className='align-middle'
+            >
+                <Grid
+
+                >
+
+                    <BaseFormTextInput
+                        type="number"
+                        name={'id'}
+                        label="ID"
+                    />
+
+                    {/* <MyTextInput
                     name={'id'}
                     title={"ID"}
                     type="number"
                 /> */}
 
-            </Grid>
+                </Grid>
 
 
-            <FormControl>
-                <FormLabel>Пользователь</FormLabel>
-                <Stack
-                    spacing={2}
-                    direction={'row'}
-                >
-                    <ButtonGroup
-                        color="primary"
-                        orientation="horizontal"
-                    // size="sm"
+                <FormControl>
+                    <FormLabel>Пользователь</FormLabel>
+                    <Stack
+                        spacing={2}
+                        direction={'row'}
                     >
-                        <Button
-                            variant={Number(cluster) === 1 ? 'solid' : 'outlined'}
-                            onClick={() => setSearchParam('cluster', 1)}
+                        <ButtonGroup
+                            color="primary"
+                            orientation="horizontal"
+                        // size="sm"
                         >
-                            Мои
-                        </Button>
-                        <Button
-                            variant={Number(cluster) === 2 ? 'solid' : 'outlined'}
-                            onClick={() => setSearchParam('cluster', 2)}
-                        >
-                            Все
-                        </Button>
+                            <Button
+                                variant={Number(cluster) === 1 ? 'solid' : 'outlined'}
+                                onClick={() => setSearchParam('cluster', 1)}
+                            >
+                                Мои
+                            </Button>
+                            <Button
+                                variant={Number(cluster) === 2 ? 'solid' : 'outlined'}
+                                onClick={() => setSearchParam('cluster', 2)}
+                            >
+                                Все
+                            </Button>
 
-                        {/* <IconButton /> */}
-                    </ButtonGroup>
+                            {/* <IconButton /> */}
+                        </ButtonGroup>
 
 
 
-                </Stack>
-            </FormControl>
-            {Number(cluster) === 2 && (
-                <>
-                    <FormControl>
-                        <FormLabel>Выбрать</FormLabel>
-                        <Select
-                            value={selectedUsers}
-                            onChange={(e, newValue) => setSearchParam('users', newValue)}
-                            multiple
-                            slotProps={{
-                                listbox: {
-                                    sx: {
-                                        '--ListItemDecorator-size': '44px',
+                    </Stack>
+                </FormControl>
+                {Number(cluster) === 2 && (
+                    <>
+                        <FormControl>
+                            <FormLabel>Выбрать</FormLabel>
+                            <Select
+                                value={selectedUsers}
+                                onChange={(e, newValue) => setSearchParam('users', newValue)}
+                                multiple
+                                slotProps={{
+                                    listbox: {
+                                        sx: {
+                                            '--ListItemDecorator-size': '44px',
+                                        },
                                     },
-                                },
-                            }}
-                            sx={{
-                                '--ListItemDecorator-size': '44px',
-                                minWidth: 350,
-                                maxWidth: 350,
-                                // height: 30
+                                }}
+                                sx={{
+                                    '--ListItemDecorator-size': '44px',
+                                    minWidth: 350,
+                                    maxWidth: 350,
+                                    // height: 30
 
-                            }}
-
+                                }}
 
 
-                            renderValue={(selected) => (
-                                <Box sx={{ display: 'flex', gap: '0.25rem' }}>
-                                    <Grid container>
-                                        {selected.map((selectedOption) => (
-                                            <Grid
-                                                key={'chip_' + selectedOption.value}
-                                            >
-                                                <Chip variant="soft"
-                                                    color="primary"
 
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', gap: '0.25rem' }}>
+                                        <Grid container>
+                                            {selected.map((selectedOption) => (
+                                                <Grid
+                                                    key={'chip_' + selectedOption.value}
                                                 >
-                                                    {selectedOption.label}
-                                                </Chip>
-                                            </Grid>
-                                        ))}
-                                    </Grid>
-                                </Box>
-                            )}
-                            {...(selectedUsers.length > 0 && {
-                                endDecorator: (
-                                    <IconButton
-                                        size="sm"
-                                        variant="plain"
-                                        color="neutral"
-                                        onMouseDown={(event) => {
-                                            event.stopPropagation();
-                                        }}
-                                        onClick={() => {
-                                            setSearchParam('users', [])
+                                                    <Chip variant="soft"
+                                                        color="primary"
 
-                                            action.current?.focusVisible();
-                                        }}
-                                    >
-                                        <CloseRounded />
-                                    </IconButton>
-                                ),
-                                indicator: null,
-                            })}
-                        >
-                            {groupsForSelect.map((group, index) => {
-                                return (
-                                    <React.Fragment key={'group_' + group.id}>
-                                        {index !== 0 && <ListDivider role="none" />}
-                                        <List
-                                            aria-labelledby={`select-group-${group.name}`}
-                                            sx={{ '--ListItemDecorator-size': '28px' }}
+                                                    >
+                                                        {selectedOption.label}
+                                                    </Chip>
+                                                </Grid>
+                                            ))}
+                                        </Grid>
+                                    </Box>
+                                )}
+                                {...(selectedUsers.length > 0 && {
+                                    endDecorator: (
+                                        <IconButton
+                                            size="sm"
+                                            variant="plain"
+                                            color="neutral"
+                                            onMouseDown={(event) => {
+                                                event.stopPropagation();
+                                            }}
+                                            onClick={() => {
+                                                setSearchParam('users', [])
+
+                                                action.current?.focusVisible();
+                                            }}
                                         >
-                                            <ListItem id={`select-group-${group.name}`}
-
-                                                sticky
+                                            <CloseRounded />
+                                        </IconButton>
+                                    ),
+                                    indicator: null,
+                                })}
+                            >
+                                {groupsForSelect.map((group, index) => {
+                                    return (
+                                        <React.Fragment key={'group_' + group.id}>
+                                            {index !== 0 && <ListDivider role="none" />}
+                                            <List
+                                                aria-labelledby={`select-group-${group.name}`}
+                                                sx={{ '--ListItemDecorator-size': '28px' }}
                                             >
-                                                <Typography level="body-xs"
-                                                    onClick={() => selectGroup(group)}
+                                                <ListItem id={`select-group-${group.name}`}
+
+                                                    sticky
                                                 >
-                                                    {group.name} ({group.users.length})
-                                                </Typography>
-                                            </ListItem>
-                                            {group.users.map((user, userIndex) => {
-                                                return (
-                                                    <Option
-                                                        key={'user_option_' + user.amo_user_id}
-                                                        value={user.amo_user_id} label={user.name}>
-                                                        <ListItemDecorator
-                                                            className='mr-1'
-                                                        >
-                                                            <Avatar size="sm" src={"https://tb-widget-images.storage.yandexcloud.net/thumb/" + user.image} />
-                                                        </ListItemDecorator>
-                                                        {user.name}
-                                                    </Option>
-                                                )
-                                            })}
-                                        </List>
+                                                    <Typography level="body-xs"
+                                                        onClick={() => selectGroup(group)}
+                                                    >
+                                                        {group.name} ({group.users.length})
+                                                    </Typography>
+                                                </ListItem>
+                                                {group.users.map((user, userIndex) => {
+                                                    return (
+                                                        <Option
+                                                            key={'user_option_' + user.amo_user_id}
+                                                            value={user.amo_user_id} label={user.name}>
+                                                            <ListItemDecorator
+                                                                className='mr-1'
+                                                            >
+                                                                <Avatar size="sm" src={"https://tb-widget-images.storage.yandexcloud.net/thumb/" + user.image} />
+                                                            </ListItemDecorator>
+                                                            {user.name}
+                                                        </Option>
+                                                    )
+                                                })}
+                                            </List>
 
-                                    </React.Fragment>
-                                )
-                            })}
+                                        </React.Fragment>
+                                    )
+                                })}
 
-                        </Select>
-                    </FormControl>
-                </>
-            )}
-            <BaseFormSelect
-                name={'status'}
-                multiple={false}
-                label="Статус"
-            />
-        </Stack>
+                            </Select>
+                        </FormControl>
+                    </>
+                )}
+                <BaseFormSelect
+                    name={'status'}
+                    multiple={false}
+                    label="Статус"
+                />
+            </Stack>
+        )}
+
         <Stack
             direction={'row'}
             spacing={2}
@@ -295,14 +456,14 @@ function BaseSearchForm({ }) {
 
             <BaseFormSelect
                 width={150}
-                dropable={true}
+                dropable={!isParser}
                 name={'deal_type'}
                 label="Тип сделки"
             />
 
             <BaseFormSelect
                 width={200}
-                dropable={true}
+                dropable={!isParser}
                 name={'category'}
                 label="Категория"
             />
@@ -396,6 +557,11 @@ function BaseSearchForm({ }) {
             isOpen={formIsOpen}
             setIsOpen={setFormIsOpen}
         />
+        <BaseMetroModal
+            isOpen={metroIsOpen}
+            setIsOpen={setMetroIsOpen}
+        />
+
 
 
     </>);

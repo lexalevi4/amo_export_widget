@@ -1,21 +1,23 @@
 import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { Box, Button, Divider, MenuItem, Select, Typography, Stack, Grid, ImageListItem, ImageListItemBar, IconButton, ImageList, TextField, FormControl, InputLabel, OutlinedInput } from "@mui/material";
+import { Box, Button, Divider, MenuItem, Select, Typography, Stack, Grid, ImageListItem, ImageListItemBar, IconButton, ImageList, TextField, FormControl, InputLabel, OutlinedInput, CircularProgress } from "@mui/material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import SortableImagesItem from "./SortableImagesItem";
-import { Textarea } from "@mui/joy";
+import { Table, Textarea } from "@mui/joy";
 import { sendApiRequest } from "@/app/services/actions";
 function Presentations({ object }) {
 
+    const [creating, setCreating] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [templates, setTemplates] = useState([]);
     const [templatesUpdated, setTemplatesUpdated] = useState(false);
 
     const [currentTemplate, setCurrentTemplate] = useState('');
     const [currentTemplateLink, setCurrentTemplateLink] = useState(null);
+    const [currentTemplateName, setCurrentTemplateName] = useState(null);
     const [templatesIsLoading, setTemplatesIsLoading] = useState(false);
     const [templatesError, setTemplatesError] = useState(null)
 
@@ -25,6 +27,10 @@ function Presentations({ object }) {
     const [activeImages, setActiveImages] = useState([]);
     const [desc, setDesc] = useState(object.clean_desc);
     const [title, setTitle] = useState('');
+
+
+    const [presentations, setPresentations] = useState(object?.presentations || [])
+
     // console.log(inactiveImages);
 
     // const sortImages =  (new_arr, active = true) => set((state) => {
@@ -90,8 +96,9 @@ function Presentations({ object }) {
         } else {
             let filtered = templates.filter(item => item.id === currentTemplate)
             try {
-                console.log(filtered[0])
+                // console.log(filtered[0])
                 setCurrentTemplateLink(filtered[0].link)
+                setCurrentTemplateName(filtered[0].name)
             } catch (e) {
                 setCurrentTemplateLink(null)
             }
@@ -142,16 +149,27 @@ function Presentations({ object }) {
         }
     }
 
-    const createPresentation = () => {
+    const createPresentation = async () => {
 
+        setCreating(true);
+        let filtered = templates.filter(item => item.id === currentTemplate);
         let data = {
             objectId: object.id,
             template: currentTemplate,
             images: activeImages.map(item => item.full),
             desc: desc,
-            title: title
+            title: title,
+            templateName: currentTemplateName
         };
         console.log(data)
+
+        let res = await sendApiRequest('post', 'api/create-presentation', data);
+        console.log(res);
+        if (res.status === 'ok') {
+            setPresentations([...presentations, res.presentation])
+        }
+        setCreating(false);
+        setShowForm(false);
 
     }
     // const style = {
@@ -181,7 +199,25 @@ function Presentations({ object }) {
             Презентации
 
         </Typography>
+        {presentations.map(presentation => {
+            return (
+                <Box
+                    key={'presentation_' + presentation.id}
+                    className='my-3'
+
+                >
+                    <Link
+                        href={presentation.link}
+                        target="_blank"
+
+                    >
+                        {presentation.name}
+                    </Link>
+                </Box>
+            )
+        })}
         <Button
+            disabled={creating}
             onClick={handleShowForm}
         >
             Добавить презентацию
@@ -408,12 +444,16 @@ function Presentations({ object }) {
                                 className='my-2'
                             >
                                 <Button
+                                    disabled={creating}
                                     variant="contained"
                                     onClick={createPresentation}
 
                                 >
                                     Создать
                                 </Button>
+                                {creating && (
+                                    <CircularProgress />
+                                )}
                             </Box>
                         </Stack>
 
